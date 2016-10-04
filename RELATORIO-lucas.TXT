@@ -1,0 +1,11 @@
+21/09/2016;3h30;Projetar;Reunião com integrantes para nos organizarmos e construirmos nosso modelo
+23/09/2016;2h30;Projetar;Continuar planejando como nosso jogo vai funcionar e separar o que cada integrante deve fazer
+24/09/2016;1h30;Codificar;Começar a implementar o módulo LISTA.C
+26/09/2016;1h30;Codificar;Fazer mudanças no TESTELIS.C para se adequar às mudanças feitas
+25/09/2016;1h;Codificar; Continuar implementação da LISTA.C  
+27/09/2016;2h;Codificar; Acabar modificações no LISTA.C e TESTELIS.C
+28/09/2016;1h;Testar/Codificar; Fazer script de teste para LISTA.C e consertar erros existentes
+03/10/2016;1h;Codificar;modificar teste das funções novas do módulo do tabuleiro
+04/10/2016;4h30;Codificar/Revisar Código/Testar; Reunião com integrantes para fazer script de teste do módulo tabuleiro e tentar consertar bugs
+05/10/2016;4h;Codificar;Reunião para tentar consertar bugs restantes
+05/10/2016;15min;Projetar; Fazer leia-me

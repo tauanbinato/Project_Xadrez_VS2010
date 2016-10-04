@@ -1,0 +1,10 @@
+21/09/2016;3h30;Projetar;Reunião com integrantes para nos organizarmos e construirmos nosso modelo
+22/09/2016;30min;Estudar;Aprender as regras de Xadrez
+23/09/2016;2h30;Projetar;Continuar planejando como nosso jogo vai funcionar e separar o que cada integrante deve fazer
+26/09/2016;2h;Revisar código;Tentar achar erros nas funções que até agora foram desenvolvidas
+27/09/2016;3h;Especificar funções;planejar como funções do TABULEIRO.C devem ser feitas
+29/09/2016;1h;Revisar Código; corrigir erros da função para criar tabuleiro
+30/09/2016;45min;Codificar;Fazer função para destruir o tabuleiro
+02/10/2016;1h30;Codificar;Fazer funções obterListaAmeacantes e obterListaAmeacados no módulo TABULEIRO.C 
+04/10/2016;4h30;Codificar/Revisar Código/Testar; Reunião com integrantes para fazer script de teste do módulo tabuleiro e tentar consertar bugs 
+05/10/2016;4h;Codificar;Reunião para tentar consertar bugs restantes 
