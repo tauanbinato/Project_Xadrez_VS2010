@@ -123,7 +123,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/*Strings*/
 	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR] , CharObtido;
 	char * pDado;
-	char CharDado ;
+	char  CharDado ;
 	char* pCharDado;
 	char *CharDado_2;
 	StringDado[0] = 0;
@@ -254,7 +254,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		strcpy(pDado, StringDado);
 
-		CondRet_LIS = LIS_ObterId(vtListas[inxLista], pDado);
+		CondRet_LIS = LIS_ObterId(&vtListas[inxLista], pDado);
 
 		return TST_CompararString(pDado, StringDado,
 			"Id obtida pela função diferente da esperada");
@@ -304,7 +304,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		pDado = pCharDado;
 
-		CondRet_LIS = LIS_InserirNo(&vtListas[inxLista], pDado);
+		CondRet_LIS = LIS_InserirNo(vtListas[inxLista], pDado);
 
 		if (CondRet_LIS != LIS_CondRetOK)
 		{
@@ -331,7 +331,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		return TST_CompararInt(0,
-			LIS_ExcluirNoCorrente(&vtListas[inxLista]),
+			LIS_ExcluirNoCorrente(vtListas[inxLista]),
 			"Condição de retorno errada ao excluir.");
 
 	} /* fim ativa: Testar excluir simbolo */
@@ -348,8 +348,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_LIS = LIS_ObterNo(&vtListas[inxLista], (void**)&CharObtido);
-
+		CondRet_LIS = LIS_ObterNo(vtListas[inxLista], (void**)&CharObtido);
+		
 		if (CondRet_LIS == 2)
 		{		
 			return  TST_CompararPonteiroNulo(1, &CharObtido,
@@ -376,7 +376,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		return TST_CompararInt(CondRetEsp,
-			LIS_AvancarElementoCorrente(&vtListas[inxLista]),
+			LIS_AvancarElementoCorrente(vtListas[inxLista]),
 			"Condicao de retorno errada ao avancar");
 
 	} /* fim ativa: LIS  &Avançar elemento */
@@ -396,7 +396,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		return TST_CompararInt(CondRetEsp,
-			LIS_VoltarElementoCorrente(&vtListas[inxLista]),
+			LIS_VoltarElementoCorrente(vtListas[inxLista]),
 			"Condicao de retorno errada ao avancar");
 
 	} /* fim ativa: LIS  &Voltar elemento */
@@ -413,7 +413,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		return TST_CompararInt(CondRetEsp,
-			LIS_AlterarElementoCorrente(&vtListas[inxLista], pCharDado),
+			LIS_AlterarElementoCorrente(vtListas[inxLista], pCharDado),
 			"Condicao de retorno errada ao avancar");
 
 	} /* fim ativa: LIS  &Voltar elemento */

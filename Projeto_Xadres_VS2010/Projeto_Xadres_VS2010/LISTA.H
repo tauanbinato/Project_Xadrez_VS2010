@@ -197,7 +197,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_InserirNo( LIS_tppLista* pLista ,
+   LIS_tpCondRet LIS_InserirNo( LIS_tppLista pLista ,
                                           void * pValor        )
        ;
 
@@ -221,7 +221,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ExcluirNoCorrente(LIS_tppLista* pLista);
+   LIS_tpCondRet LIS_ExcluirNoCorrente(LIS_tppLista pLista);
 
 
 /***********************************************************************
@@ -241,7 +241,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ObterNo(LIS_tppLista* pLista, void** CharObtido);
+   LIS_tpCondRet LIS_ObterNo(LIS_tppLista pLista, void** pValor);
 
 /***********************************************************************
 *
@@ -260,7 +260,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_AvancarElementoCorrente(LIS_tppLista* pLista);
+   LIS_tpCondRet LIS_AvancarElementoCorrente(LIS_tppLista pLista);
 
 
 /***********************************************************************
@@ -280,7 +280,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_VoltarElementoCorrente(LIS_tppLista* pLista);
+   LIS_tpCondRet LIS_VoltarElementoCorrente(LIS_tppLista pLista);
 
 /***********************************************************************
 *
