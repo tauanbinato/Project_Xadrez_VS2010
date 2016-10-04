@@ -3,6 +3,6 @@
 27/09/2016;3h;Especificar funções;planejar como funções do TABULEIRO.C devem ser feitas
 28/09/2016;1h;Codificar;Fazer funçao que cria tabuleiro
 30/09/2016;1h30;Codificar; Fazer função de inserir peça no módulo TABULEIRO.C e as alterações necessarias no módulo de teste
-03/10/2016;3h45;Codificar; Acabar funções do módulo TABULEIRO.C
+03/10/2016;3h45;Codificar; Acabar funções do módulo TABULEIRO.C e criar PECA.C
 04/10/2016;4h30;Codificar/Revisar Código/Testar; Reunião com integrantes para fazer script de teste do módulo tabuleiro e tentar consertar bugs
 05/10/2016;4h;Codificar;Reunião para tentar consertar bugs restantes
