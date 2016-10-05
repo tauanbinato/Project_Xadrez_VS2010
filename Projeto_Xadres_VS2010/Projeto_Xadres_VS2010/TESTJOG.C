@@ -124,10 +124,12 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	/*Strings*/
 	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR] , CharObtido;
-	char * pDado;
+	char* pDado;
 	char  CharDado ;
 	char* pCharDado;
-	char *CharDado_2;
+	char* CharDado_2;
+	//char* id_peca;
+	//char* id_cor;
 	StringDado[0] = 0;
 
 	/* Efetuar reset de teste de lista */
@@ -180,26 +182,26 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	else if (strcmp(ComandoTeste, INSERIR_PECA_CMD) == 0)
 	{
+
 		char *id_peca , *id_cor;
-		id_peca = (char *)malloc(sizeof(char));
+		id_peca = (char *)malloc( sizeof(char));
 		if (id_peca == NULL) return TST_CondRetMemoria;
-		id_cor = (char *)malloc(sizeof(char));
+
+		id_cor = (char *)malloc( sizeof(char));
 		if (id_cor == NULL) return TST_CondRetMemoria;
-
-
-		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,id_peca,id_cor,&CondRetEsp);
-
 		
+		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
+
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
-			
+			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
 
-		CondRet_TAB = inserirPeca(&vtMatrizes[inxMatriz] , &cord_linha , &cord_coluna , id_peca , id_cor );
+		printf(" recebe do script: %d %d %d %c %c %d\n",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
+		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &id_peca , &id_cor );
 		
-
 		if (CondRet_TAB == 6) {
 			printf("Entrou");
 			return TST_CondRetMemoria;

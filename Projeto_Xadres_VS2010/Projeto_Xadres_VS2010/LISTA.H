@@ -303,6 +303,21 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* CharDado);
 
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o elemento inicial
+*
+*  $ED Descrição da função
+*     Torna corrente o primeiro elemento da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+***********************************************************************/
+
+   LIS_tpCondRet IrInicioLista (LIS_tppLista pLista );
+
 #undef LISTA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/                 

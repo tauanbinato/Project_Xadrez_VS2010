@@ -76,16 +76,19 @@ typedef enum {
 
 -Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor.
  Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente.
+
 -Função MoverPeca –a coordenada de origem e a coordenada de destino. Esta função deverá verificar se a peça poderá executar este movimento e se capturará uma peça de outra cor.
  Caso isso aconteça, a peça oponente será retirada do tabuleiro.  Crie os retornos necessários.
+
 -Função RetirarPeca – Receberá uma coordenada linha-coluna e a peça contida nesta casa será retirada. Crie os retornos necessários. 
+
 -Função ObterPeca – Receberá uma coordenada linha-coluna e retornará a identificação da peça <Nome , Cor>.
 
 */
 
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro *cabeca_TAB, int *cord_linha, int *cord_coluna, char *id_peca, char *cor);
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
 TAB_tpCondRet moverPeca();
-TAB_tpCondRet retirarPeca();
+TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
 TAB_tpCondRet obterPeca();
 
 

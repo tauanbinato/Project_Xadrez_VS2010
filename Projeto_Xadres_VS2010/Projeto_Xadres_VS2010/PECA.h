@@ -83,7 +83,7 @@ typedef struct PEC_tagPeca * PEC_tppPeca;
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca *peca, char *nome_peca);
+PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca, char nome_peca);
 
 
 /***********************************************************************
@@ -101,7 +101,7 @@ PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca *peca, char *nome_peca);
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca *peca, char *cor_peca);
+PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char cor_peca);
 
 /***********************************************************************
 *
@@ -118,7 +118,7 @@ PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca *peca, char *cor_peca);
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca *peca, char *nome_peca);
+PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca peca, char *nome_peca);
 
 /***********************************************************************
 *
@@ -136,7 +136,7 @@ PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca *peca, char *nome_peca);
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca *peca, char *cor_peca);
+PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca);
 
 /***********************************************************************
 *
@@ -154,7 +154,24 @@ PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca *peca, char *cor_peca);
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, char *nome_peca, char *cor_peca);
+
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, char nome_peca, char cor_peca);
+
+/***********************************************************************
+*
+*  $FC Função: PEC  &EsvaziaPeca
+*
+*  $ED Descrição da função
+*     Esvazia a Peça
+*
+*  $EP Parâmetros
+*     peca  - ponteiro para a estrutura a ser manipulada
+*
+*  $FV Valor retornado
+*     CondRetOK            - se um elemento tiver sido esvaziado
+*
+***********************************************************************/
+PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca *peca) ;
 
 #undef PECA_EXT
 
