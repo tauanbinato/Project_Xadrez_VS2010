@@ -165,7 +165,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		printf("\nentrou");
-		CondRet_TAB = destruirTabuleiro(&vtMatrizes[inxMatriz]);
+		CondRet_TAB = destruirTabuleiro(vtMatrizes[inxMatriz]);
 		printf("\nsaiu");
 
 		if (CondRet_TAB == 6) {

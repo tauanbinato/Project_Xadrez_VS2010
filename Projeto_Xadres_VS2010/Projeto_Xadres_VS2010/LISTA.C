@@ -165,13 +165,16 @@
       #ifdef _DEBUG
          assert( pLista != NULL ) ;
       #endif
-
+	printf("dentro esvaziar\n");
       pElem = pLista->pOrigemLista ;
-
+	  printf("atribuiu\n");
       while ( pElem != NULL )
       {
+		 printf("entrou while");
          pProx = pElem->pProx ;
+		 printf("depois p prox\n");
          LiberarElemento( pLista , pElem ) ;
+		 printf("libereou elem\n");
          pElem = pProx ;
       } /* while */
 

@@ -104,7 +104,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	LIS_tppLista  caminho_matriz;
 	LIS_tppLista  colunas_matriz ;
 
-	TAB_ppAncoraCasa cabeca_casa;
+	TAB_ppAncoraCasa *cabeca_casa;
 
 	char idObtido[5];
 	char idEnviado[5] = "Cami";
@@ -168,7 +168,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 				return TAB_CondRetFaltouMemoria;
 			}
 
-			cabeca_casa = aux_cabecaCasa;
+			cabeca_casa = &aux_cabecaCasa;
 
 			LIS_InserirNo(colunas_matriz, cabeca_casa);
 
@@ -474,8 +474,8 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 {
 	int numLinhas, numColunas;
-	LIS_tppLista listacolunas, aux;
-	TAB_ppAncoraCasa aux_Casa;
+	LIS_tppLista listacolunas, aux, *listaameacantes,*listaameacados;
+	TAB_ppAncoraCasa *aux_Casa;
 	PEC_tppPeca aux_Peca;
 	
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
@@ -492,22 +492,44 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 			printf("\nentrou for2");
 			LIS_ObterNo(listacolunas, (void**)&aux_Casa);
 			printf("\npassou");
+			//LIS_EsvaziarLista(listacolunas);
+			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaameacantes);
+			LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
+			while (listaameacantes != NULL)
+			{
+				PEC_DestroiPeca(aux_Peca); //destroi a peca na posicao 
+				LIS_ExcluirNoCorrente(*listaameacantes); //exclui o no onde se encontrava a peca
+				printf ("printf passou 3\n");
+				LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
+			}
+			
+			printf("esvaziou");
+			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaameacados);
+			LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
+			while (listaameacados != NULL)
+			{
+				PEC_DestroiPeca(aux_Peca);
+				LIS_ExcluirNoCorrente(*listaameacados);
+				printf ("printf passou 3\n");
+				LIS_ObterNo(*listaameacados, (void**)&aux_Peca);
+			}
+		
+			LIS_DestroiLista(*listaameacantes);
+			LIS_DestroiLista(*listaameacados);
 			//PEC_DestroiPeca(aux_Casa->pCasaMatriz->pPeca);
 			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacados);
 			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacantes);
-
-			free(aux_Casa->pCasaMatriz);
-			printf("\nA");
+	
 			free(aux_Casa);
 			printf("\nB");
-
-			LIS_AvancarElementoCorrente(listacolunas);	
+	
+			LIS_AvancarElementoCorrente(listacolunas);
 			printf("\n%d", numColunas);
 		}
-
+		
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
 	}
-
+	LIS_EsvaziarLista(cabeca_TAB->pCabecaLista);
 	LIS_DestroiLista(cabeca_TAB->pCabecaLista);
 
 	free(cabeca_TAB);
