@@ -190,7 +190,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 *Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor. 
 *Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente
 *  *************************************************************************/
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int **cord_linha , int **cord_coluna , char **id_peca , char **id_cor)
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor)
 {
 
 	int corrente;
@@ -201,14 +201,14 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int **cord_linha , i
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
 	//Testa se esta OUT of RANGE
-	if ((**cord_linha > tamanho_matriz || **cord_coluna > tamanho_matriz ) || (**cord_linha == 0 || **cord_coluna == 0)) {
+	if ((cord_linha > tamanho_matriz || cord_coluna > tamanho_matriz ) || (cord_linha == 0 || cord_coluna == 0)) {
 		return TAB_CondRetNaoAchou;
 	}
 
 
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 1; corrente == **cord_linha; corrente++) {
-		if (corrente == **cord_linha) {
+	for (corrente = 1; corrente == cord_linha; corrente++) {
+		if (corrente == cord_linha) {
 			break;
 		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
@@ -216,7 +216,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int **cord_linha , i
 	printf("Corrente : %d || Linha : %d\n", corrente, cord_linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	for (corrente = 1; corrente == **cord_coluna; corrente++) {
+	for (corrente = 1; corrente == cord_coluna; corrente++) {
 	
 		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa);
 
