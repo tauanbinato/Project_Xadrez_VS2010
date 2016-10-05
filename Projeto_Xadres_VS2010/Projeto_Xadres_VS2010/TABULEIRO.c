@@ -80,6 +80,8 @@ typedef struct TAB_tagCasa {
 
 typedef struct TAB_tagAncoraCasa {
 
+
+
 	TAB_casaMatriz * pCasaMatriz;
 	/* Ponteiro para uma casa */
 
@@ -131,12 +133,12 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	}
 
 	// - Aloca a lista que a cabeca tabuleiro aponta
-
+	
 	printf("Id enviado: %s\n" , idEnviado);
 	LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
 	caminho_matriz = cabeca_TAB->pCabecaLista;
 
-	LIS_ObterId(&caminho_matriz ,idObtido );
+	LIS_ObterId(caminho_matriz ,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
 
 
@@ -192,12 +194,12 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	PEC_tppPeca *aux_Peca;
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho = NULL;
+	LIS_tppLista aux_listaCaminho , aux_listaColuna;
 	printf("1");
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	IrInicioLista(aux_listaCaminho);
+	LIS_IrInicioLista(aux_listaCaminho);
 
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
@@ -212,31 +214,31 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		if (corrente == cord_linha) {
 			break;
 		}
-		
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		LIS_AvancarElementoCorrente(aux_listaCaminho);
 	}
+
+	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
+	LIS_IrInicioLista(aux_listaColuna);
 
 	printf("Corrente : %d || Linha : %d\n", corrente, cord_linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 1; corrente == cord_coluna; corrente++) {
-	
-			printf("2");
-		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa);
-
+		if (corrente == cord_coluna) {
+			break;
+		}
+		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
 
-	printf("Corrente : %d || Coluna : %d\n", corrente, cord_coluna);
+	LIS_ObterNo(aux_listaColuna, (void**)&aux_Peca);
 
-	aux_Peca = (*aux_Casa)->pCasaMatriz->pPeca;
 
 	//Utiliza funcoes de acesso do modulo peca
-	printf("id_peca: %c   id_cor: %c \n", *id_peca, *id_cor);
 	/*Crio a peca que sera inserida no tabuleiro*/
 	PEC_criaPeca(aux_Peca, *id_peca, *id_cor);
 	PEC_insereNomeDePeca(aux_Peca, *id_peca);
 	PEC_insereCorDePeca(aux_Peca, *id_cor);
-	
+
 	PEC_obtemNomeDePeca(aux_Peca, *nomePeca);
 	PEC_obtemCorDePeca(aux_Peca, *corPeca);
 
@@ -346,19 +348,19 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 			LIS_ObterNo(aux, (void**)&listacolunas);
 			printf("obteve no-lista colunas\n");
 			LIS_ObterNo(listacolunas,(void**)&aux_Casa);
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			LIS_ObterNo((aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente((aux_Casa->pCasaMatriz->pListaAmeacados));
+				LIS_ObterNo((aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
 			}
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacantes),(void**)&aux_Peca);
+			LIS_ObterNo((aux_Casa->pCasaMatriz->pListaAmeacantes),(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente((aux_Casa->pCasaMatriz->pListaAmeacados));
+				LIS_ObterNo((aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
 			}
 			free(aux_Casa);
 			LIS_ExcluirNoCorrente(listacolunas);
