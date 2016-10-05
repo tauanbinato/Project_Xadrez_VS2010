@@ -17,7 +17,7 @@
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
-*     1       tbf   26/set/2016 início desenvolvimento.
+*     1       tbf,ja,lp   26/set/2016 início desenvolvimento.
 *
 *  $ED Descrição do módulo
 *

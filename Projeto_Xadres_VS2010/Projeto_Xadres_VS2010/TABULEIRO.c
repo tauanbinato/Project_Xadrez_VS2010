@@ -45,7 +45,7 @@
 
 typedef struct TAB_tagTabuleiro {
 
-	LIS_tppLista  pCabecaLista;
+	LIS_tppLista pCabecaLista;
 	/* Ponteiro para um ponteiro de uma cabeça da lista que representa o caminho das linhas */
 
 	int num_de_linhas;
@@ -325,8 +325,45 @@ TAB_tpCondRet obterListaAmeacados( int linha, int coluna, LIS_tppLista * pListaA
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet destruirTabuleiro()
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 {
+	int numLinhas, numColunas;
+	LIS_tppLista listacolunas, aux;
+	TAB_ancoraCasa *aux_Casa;
+	PEC_tppPeca aux_Peca;
+	
+
+	aux = cabeca_TAB->pCabecaLista;
+	printf("atribuiu ao aux p cabeca tab\n");
+	for(numLinhas = 0; numLinhas < tamanho_matriz; numLinhas++)
+	{
+		printf("entrou prim for\n");
+		for (numColunas = 0; numColunas < tamanho_matriz; numColunas++)
+		{
+			printf("entrou seg for\n");
+			
+			LIS_ObterNo(aux, (void**)&listacolunas);
+			printf("obteve no-lista colunas\n");
+			LIS_ObterNo(listacolunas,(void**)&aux_Casa);
+			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			while(aux_Peca != NULL)
+			{
+				free(aux_Peca);
+				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
+				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			}
+			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacantes),(void**)&aux_Peca);
+			while(aux_Peca != NULL)
+			{
+				free(aux_Peca);
+				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
+				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			}
+			free(aux_Casa);
+			LIS_ExcluirNoCorrente(listacolunas);
+		}
+		LIS_ExcluirNoCorrente(aux);
+	}
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB Destruir Tabuleiro*/
 // FIM AREA DA JULIA-----------------

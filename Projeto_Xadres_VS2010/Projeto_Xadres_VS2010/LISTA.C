@@ -276,14 +276,15 @@
 *  ****/
 
 LIS_tpCondRet LIS_ObterNo( LIS_tppLista pLista, void** pValor ) {
-	   
+	   printf("entrou obt no for\n");
 	if (pLista->pElemCorr == NULL)
 	   {
+		   printf("entrou null for\n");
 		   return LIS_CondRetListaVazia;
 	   } /* if */
-
+	  printf("antes de atribuir for\n");
 	  *pValor = pLista->pElemCorr->pValor;
-	  
+	   printf("atribuiu valor pvalor\n");
 	   return LIS_CondRetOK;
 
    } /* Fim fun��o: LIS  &Obter refer�ncia para o valor contido no elemento */

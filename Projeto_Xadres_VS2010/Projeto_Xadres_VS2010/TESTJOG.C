@@ -38,6 +38,7 @@
 /**************************COMANDOS SCRIPT**************************/
 
 static const char CRIAR_TABULEIRO_CMD[]	    =				"=criartabuleiro";
+static const char DESTRUIR_TABULEIRO_CMD[]  =				"=destruirtabuleiro";
 static const char INSERIR_PECA_CMD[]		=				"=inserirpeca";
 static const char RESET_LISTA_CMD[]			=				"=resetteste";
 static const char CRIAR_LISTA_CMD[]			=				"=criarlista";
@@ -97,6 +98,7 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *     =obterno                      inxLista  char         CondRetEsp
 *     =excluirelem                  inxLista  CondRetEsp
 *	  =criartabuleiro				inxLista  inxLista_2   CondRetEsp
+*	  =destruirtabuleiro			inxLista			   CondRetEsp
 *
 ***********************************************************************/
 
@@ -142,6 +144,36 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Efetuar reset de teste de lista */
 
+	/* Testar DestruirTabuleiro */
+
+
+	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
+	{
+
+	
+		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
+
+		if ((numLidos != 2)
+			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
+		{
+			printf("Entrou");
+			return TST_CondRetParm;
+		} /* if */
+
+
+		CondRet_TAB = destruirTabuleiro(&vtMatrizes[inxMatriz]);
+		
+
+		if (CondRet_TAB == 6) {
+
+			return TST_CondRetMemoria;
+
+		}
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao destruir tabuleiro");
+
+	} /* fim ativa: Testar DestruirTabuleiro */
 
 	  /* Testar InserirPeca */
 
