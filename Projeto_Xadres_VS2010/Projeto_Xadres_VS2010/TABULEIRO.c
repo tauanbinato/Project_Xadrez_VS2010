@@ -135,8 +135,16 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	// - Aloca a lista que a cabeca tabuleiro aponta
 	
 	printf("Id enviado: %s\n" , idEnviado);
-	LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
-	caminho_matriz = cabeca_TAB->pCabecaLista;
+
+	// Init Edit: Brandao 05/10 20:16 ####
+	//LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
+	LIS_CriarLista(&aux_ancoraTAB->pCabecaLista, idEnviado);
+	
+	//caminho_matriz = cabeca_TAB->pCabecaLista;
+	caminho_matriz = aux_ancoraTAB->pCabecaLista;
+	// Fim Edit ###
+
+	
 
 	LIS_ObterId(caminho_matriz ,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
@@ -174,7 +182,8 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 
 			free(aux_cabecaCasa);    
  
-			cabeca_TAB->num_de_colunas++;
+			//cabeca_TAB->num_de_colunas++;
+			aux_ancoraTAB->num_de_colunas++;
 
 			printf("(%d,%d) - %d\n", numDoCaminho, numColunas, cabeca_casa);
 		
