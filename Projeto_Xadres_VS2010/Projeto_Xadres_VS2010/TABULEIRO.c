@@ -197,7 +197,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	IrInicioLista(aux_listaCaminho);
+	LIS_IrInicioLista(aux_listaCaminho);
 
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
@@ -346,19 +346,19 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 			LIS_ObterNo(aux, (void**)&listacolunas);
 			printf("obteve no-lista colunas\n");
 			LIS_ObterNo(listacolunas,(void**)&aux_Casa);
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
+				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			}
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacantes),(void**)&aux_Peca);
+			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacantes,(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
+				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			}
 			free(aux_Casa);
 			LIS_ExcluirNoCorrente(listacolunas);
