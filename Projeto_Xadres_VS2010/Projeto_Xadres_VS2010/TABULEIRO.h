@@ -123,7 +123,7 @@ TAB_tpCondRet obterListaAmeacados();
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
 ***********************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 
 
 /***********************************************************************
