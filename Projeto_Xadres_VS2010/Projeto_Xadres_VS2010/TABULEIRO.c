@@ -256,8 +256,26 @@ TAB_tpCondRet moverPeca()
 *  Funcao: TAB  &Retirar Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet retirarPeca()
+TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna)
 {
+	int corrente = 1;
+	TAB_ppAncoraCasa *aux_Casa;
+	PEC_tppPeca *aux_Peca;
+	//Volta o elemento corrente até o 1º elemento
+	IrInicioLista(cabeca_TAB->pCabecaLista);
+
+	//Busca a linha certa
+	for(corrente = 1; corrente == cord_linha; corrente++)
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+
+	//Busca coluna certa
+	for(corrente = 1; corrente == cord_coluna; corrente++)
+		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa) ;
+
+	aux_Peca = (*aux_Casa)->pCasaMatriz->pPeca;
+
+	PEC_EsvaziaPeca(aux_Peca);
+
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
 

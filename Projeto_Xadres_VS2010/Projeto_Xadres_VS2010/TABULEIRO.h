@@ -88,7 +88,7 @@ typedef enum {
 
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro *cabeca_TAB, int *cord_linha, int *cord_coluna, char *id_peca, char *cor);
 TAB_tpCondRet moverPeca();
-TAB_tpCondRet retirarPeca();
+TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
 TAB_tpCondRet obterPeca();
 
 
