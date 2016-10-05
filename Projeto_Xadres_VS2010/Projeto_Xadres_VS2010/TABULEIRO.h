@@ -70,43 +70,133 @@ typedef enum {
 
 } TAB_tpCondRet;
 
-
-/* 
-------FUNÇÕES NÃO PRONTAS DO TAUAN--------
-
--Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor.
- Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente.
-
--Função MoverPeca –a coordenada de origem e a coordenada de destino. Esta função deverá verificar se a peça poderá executar este movimento e se capturará uma peça de outra cor.
- Caso isso aconteça, a peça oponente será retirada do tabuleiro.  Crie os retornos necessários.
-
--Função RetirarPeca – Receberá uma coordenada linha-coluna e a peça contida nesta casa será retirada. Crie os retornos necessários. 
-
--Função ObterPeca – Receberá uma coordenada linha-coluna e retornará a identificação da peça <Nome , Cor>.
-
-*/
+/***********************************************************************
+*
+*  $FC Função: TAB  &inserir Peça
+*
+*  $ED Descrição da função
+*     insere Peça na casa passada
+*
+*  $EP Parâmetros
+*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*	  cord_linha		- coordenada para a linha
+*	  cord_coluna		- coordenada para a coluna
+*     id_Peca		    - ponteiro parao tipo de peca a ser inserida
+*     id_cor		    - ponteiro parao a cor da peca a ser inserida
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
 
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
+
+/***********************************************************************
+
+-Função MoverPeca –a coordenada de origem e a coordenada de destino. Esta função deverá verificar se a peça poderá executar este movimento e se capturará uma peça de outra cor.
+Caso isso aconteça, a peça oponente será retirada do tabuleiro.  Crie os retornos necessários.
+
+***********************************************************************/
+
 TAB_tpCondRet moverPeca();
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Retirar Peça
+*
+*  $ED Descrição da função
+*     Retira a peca que ocupa a coordenada passada
+*
+*  $EP Parâmetros
+*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*	  cord_linha		- coordenada para a linha
+*	  cord_coluna		- coordenada para a coluna
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
+
 TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
-TAB_tpCondRet obterPeca (TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor) ;
 
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter Peça
+*
+*  $ED Descrição da função
+*     Obtem a peca que ocupa a coordenada passada
+*
+*  $EP Parâmetros
+*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*	  cord_linha		- coordenada para a linha
+*	  cord_coluna		- coordenada para a coluna
+*     id_Peca		    - ponteiro parao tipo de peca a ser obtida
+*     id_cor		    - ponteiro parao a cor da peca a ser obtida
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
 
+TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor) ;
 
-/*
-------FUNÇÕES NÃO PRONTAS DA JULIA--------
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter Lista Ameacantes
+*
+*  $ED Descrição da função
+*     Obtem a Lista de Ameaçantes àquela casa
+*
+*  $EP Parâmetros
+*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*	  linha				- coordenada para a linha
+*	  coluna			- coordenada para a coluna
+*     pListaAmeacantes  - ponteiro para a lista ameacantes a ser obtida
+*
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
 
--Função ObterListaAmeacantes – Receberá uma coordenada linha-coluna e retornará o ponteiro para a correspondente cabeça de lista.
- Não se esqueça de projetar uma forma de operar sobre esta lista no módulo de teste.
+TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes);
 
--Função ObterListaAmeacados – Receberá uma coordenada linha-coluna e retornará o ponteiro para a correspondente cabeça de lista.
+/***********************************************************************
+*
+*  $FC Função: TAB  &Obter Lista Ameacados
+*
+*  $ED Descrição da função
+*     Obtem a Lista de elementos que ameacam aquela casa
+*
+*  $EP Parâmetros
+*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*	  linha				- coordenada para a linha
+*	  coluna			- coordenada para a coluna
+*     pListaAmeacados   - ponteiro para a lista de ameacados a ser obtida
+*
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
 
--Função DestruirTabuleiro – destrói o conteúdo de cada casa do tabuleiro e o próprio tabuleiro, caso este tenha sido alocado em memória dinâmica.
- Obs. no 4º. trabalho será examinado se ocorre vazamento de memória. 
-*/
+TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados);
 
-TAB_tpCondRet obterListaAmeacantes();
-TAB_tpCondRet obterListaAmeacados();
 /***********************************************************************
 *
 *  $FC Função: TAB  &Destruir Tabuleiro
@@ -125,8 +215,8 @@ TAB_tpCondRet obterListaAmeacados();
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
 ***********************************************************************/
-//TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
 
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 
 /***********************************************************************
 *
@@ -152,7 +242,7 @@ TAB_tpCondRet obterListaAmeacados();
 *
 ***********************************************************************/
 
-TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
+TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 
 
 
