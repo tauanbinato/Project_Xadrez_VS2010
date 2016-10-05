@@ -349,19 +349,19 @@ TAB_tpCondRet obterListaAmeacados( int linha, int coluna, LIS_tppLista * pListaA
 			LIS_ObterNo(aux, (void**)&listacolunas);
 			printf("obteve no-lista colunas\n");
 			LIS_ObterNo(listacolunas,(void**)&aux_Casa);
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
+				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			}
-			LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacantes),(void**)&aux_Peca);
+			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacantes,(void**)&aux_Peca);
 			while(aux_Peca != NULL)
 			{
 				free(aux_Peca);
-				LIS_ExcluirNoCorrente(*(aux_Casa->pCasaMatriz->pListaAmeacados));
-				LIS_ObterNo(*(aux_Casa->pCasaMatriz->pListaAmeacados),(void**)&aux_Peca);
+				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
+				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
 			}
 			free(aux_Casa);
 			LIS_ExcluirNoCorrente(listacolunas);

@@ -15,11 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="ArcaboucoTeste.lib">
-      <Filter>Header Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="GENERICO.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -55,5 +50,10 @@
     <ClCompile Include="..\..\Arcabouco\arcabouc\Fontes\GENERICO.C">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ArcaboucoTeste.lib">
+      <Filter>Header Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>
