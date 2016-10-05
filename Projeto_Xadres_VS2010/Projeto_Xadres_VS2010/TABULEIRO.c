@@ -197,7 +197,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	IrInicioLista(aux_listaCaminho);
+	LIS_IrInicioLista(aux_listaCaminho);
 
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
@@ -291,8 +291,11 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *  Funcao: TAB  &Obter Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet obterPeca()
+TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor)
 {
+
+
+
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/
 // FIM AREA DO TAUAN----------------
@@ -326,7 +329,7 @@ TAB_tpCondRet obterListaAmeacados( int linha, int coluna, LIS_tppLista * pListaA
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
+/*TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 {
 	int numLinhas, numColunas;
 	LIS_tppLista listacolunas, aux;

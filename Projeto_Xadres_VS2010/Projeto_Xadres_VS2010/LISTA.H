@@ -158,7 +158,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_ObterId(LIS_tppLista *pLista, char *idLista);
+   LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char *idLista) ;
 
 /***********************************************************************
 *
@@ -316,7 +316,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_IrInicioLista (LIS_tppLista pLista );
+   LIS_tpCondRet LIS_IrInicioLista(LIS_tppLista pLista) ;
 
 #undef LISTA_EXT
 

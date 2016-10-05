@@ -85,8 +85,7 @@
    static void LiberarElemento( LIS_tppLista   pLista ,
                                 tpElemLista  * pElem   ) ;
 
-   static tpElemLista * CriarElemento( LIS_tppLista* pLista ,
-                                       void *       pValor  ) ;
+   static  tpElemLista * CriarElemento(LIS_tppLista pLista, void * pValor);
 
    static void LimparCabeca( LIS_tppLista pLista ) ;
 
@@ -146,6 +145,7 @@
    LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char *idLista) {
 
 	   strcpy(idLista, pLista->idLista);
+
 	   return LIS_CondRetOK;
    
    } /* Fim Fun��o: LIS  &ObterId */
