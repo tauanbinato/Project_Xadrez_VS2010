@@ -401,6 +401,24 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 
 /***********************************************************************
 *
+*  Função: LIS  &Ir para o elemento inicial
+*  ****/
+
+   LIS_tpCondRet IrInicioLista (LIS_tppLista pLista )
+   {
+      if ( pLista->pElemCorr == NULL )
+      {
+         return LIS_CondRetListaVazia ;
+      } /* if */
+
+      pLista->pElemCorr = pLista->pOrigemLista ;
+      
+      return LIS_CondRetOK ;
+
+   } /* Fim função: LIS  &Ir para o elemento inicial */
+
+/***************************************************************************
+*
 *  $FC Fun��o: LIS  -Liberar elemento da lista (ESTATICA)
 *
 *  $ED Descri��o da fun��o
