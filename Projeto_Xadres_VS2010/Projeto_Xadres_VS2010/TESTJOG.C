@@ -160,14 +160,14 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
 
-		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
+		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
 
-		printf("O que recebe: %d %d %d %c %c %d\n",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
+		printf(" recebe do script: %d %d %d %c %c %d\n",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
 		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &id_peca , &id_cor );
 		
 		if (CondRet_TAB == 6) {

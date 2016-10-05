@@ -115,22 +115,14 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 
 	/* Fazendo as alocacaos necessarias */
 
-	
-    // - Alocando cabeça da ancora.
-	aux_ancoraTAB = (TAB_ppAncoraTabuleiro)malloc(sizeof(TAB_ancoraTabuleiro));
-	if (aux_ancoraTAB == NULL) {
-	
-		return TAB_CondRetFaltouMemoria;
-	}
 
-	// - Alocando cabeça da ancora.
+	// - Alocando cabeça da Tabuleiro.
 	aux_ancoraTAB = (TAB_ancoraTabuleiro *)malloc(sizeof(TAB_ancoraTabuleiro));
 	if (aux_ancoraTAB == NULL) {
 	
 		return TAB_CondRetFaltouMemoria;
 	}
 
-	cabeca_TAB = aux_ancoraTAB;
 
 	// - Alocando cabeca da casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
@@ -138,14 +130,15 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-	// - Aloca as listas
-	
-	LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
-	caminho_matriz = aux_ancoraTAB->pCabecaLista;
+	// - Aloca a lista que a cabeca tabuleiro aponta
 
-	/* --------------------------------- */
+	printf("Id enviado: %s\n" , idEnviado);
+	LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
+	caminho_matriz = cabeca_TAB->pCabecaLista;
 
 	LIS_ObterId(&caminho_matriz ,idObtido );
+	printf("Id obtido: %s\n" , idObtido);
+
 
 	//Inicializando estrutura.
 	aux_ancoraTAB->num_de_linhas = 0;
@@ -197,6 +190,14 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	char **nomePeca , **corPeca;
 	TAB_ppAncoraCasa *aux_Casa;
 	PEC_tppPeca *aux_Peca;
+	
+	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
+	LIS_tppLista aux_listaCaminho = NULL;
+	printf("1");
+	aux_listaCaminho = cabeca_TAB->pCabecaLista;
+
+	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
+	IrInicioLista(aux_listaCaminho);
 
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
@@ -205,22 +206,26 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		return TAB_CondRetNaoAchou;
 	}
 
-
+	printf("1");
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
 	for (corrente = 1; corrente == cord_linha; corrente++) {
 		if (corrente == cord_linha) {
 			break;
 		}
+		
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
 	}
+
 	printf("Corrente : %d || Linha : %d\n", corrente, cord_linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 1; corrente == cord_coluna; corrente++) {
 	
+			printf("2");
 		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa);
 
 	}
+
 	printf("Corrente : %d || Coluna : %d\n", corrente, cord_coluna);
 
 
