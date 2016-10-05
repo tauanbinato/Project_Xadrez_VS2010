@@ -47,27 +47,35 @@ typedef struct PEC_tagPeca {
 
 } PEC_Peca;
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca , char nome_peca , char cor_peca) {
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 
 	PEC_Peca *aux_peca;
 	aux_peca = (PEC_Peca *)malloc(sizeof(PEC_Peca));
 	if (aux_peca == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_peca->nome_peca = nome_peca;
-	aux_peca->cor_peca = cor_peca;
-	
+	aux_peca->cor_peca = 'V';
+	aux_peca->nome_peca = 'V';
+
+
 	*peca = aux_peca;
 	
 	return PEC_CondRetOK;
 }
 
-PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca , char nome_peca) {
+PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca , char **nome_peca) {
 
-	peca->nome_peca= nome_peca;
+	char* aux_nome;
+	aux_nome = (char *)malloc( sizeof(char));
+	if (aux_nome == NULL) return PEC_CondRetFaltouMemoria;
+
+	aux_nome = *nome_peca;
+
+	printf("\naux nome %s\n", aux_nome);
+	peca->nome_peca = aux_nome;
 	return PEC_CondRetOK;
 }
 
-PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char cor_peca) {
+PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char **cor_peca) {
 
 
 	peca->cor_peca = cor_peca;
@@ -76,24 +84,27 @@ PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char cor_peca) {
 
 PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca peca, char *nome_peca) {
 
-	char aux;
-	aux = (char )malloc(1 + sizeof(char));
+	char *aux;
+	aux = (char *)malloc( sizeof(char));
 	if (aux == NULL) return PEC_CondRetFaltouMemoria;
-	
-	aux = peca->nome_peca;
-	*nome_peca= aux;
+
+	*aux = peca->nome_peca;
+	printf("obtendo peca : %c \n", *aux);
+	nome_peca = *aux;
+
+	printf("obtendo peca : %c \n", nome_peca);
 
 	return PEC_CondRetOK;
 }
 
 PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca) {
 
-	char aux;
-	aux = (char )malloc(1 + sizeof(char));
+	char *aux;
+	aux = (char* )malloc( sizeof(char));
 	if (aux == NULL) return PEC_CondRetFaltouMemoria;
 	
-	aux = peca->cor_peca;
-	*cor_peca = aux;
+	*aux = peca->cor_peca;
+	cor_peca = *aux;
 	
 
 	return PEC_CondRetOK;

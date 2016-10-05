@@ -126,7 +126,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	}
 
 
-	// - Alocando cabeca da casa
+	// - Alocando cabeca de uma casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
@@ -189,13 +189,12 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 {
 
 	int corrente;
-	char **nomePeca , **corPeca;
+	char *nomePeca , *corPeca;
 	TAB_ppAncoraCasa *aux_Casa;
-	PEC_tppPeca *aux_Peca;
+	PEC_tppPeca aux_Peca;
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho , aux_listaColuna;
-	printf("1");
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
@@ -208,7 +207,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		return TAB_CondRetNaoAchou;
 	}
 
-	printf("1");
+
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
 	for (corrente = 1; corrente == cord_linha; corrente++) {
 		if (corrente == cord_linha) {
@@ -227,22 +226,31 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		if (corrente == cord_coluna) {
 			break;
 		}
+		
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Peca);
 
+	printf("nomePeca antes adicionar : %c\n", nomePeca);
+
+	printf("nomeCor antes adicionar : %c\n", corPeca);
 
 	//Utiliza funcoes de acesso do modulo peca
 	/*Crio a peca que sera inserida no tabuleiro*/
-	PEC_criaPeca(aux_Peca, *id_peca, *id_cor);
-	PEC_insereNomeDePeca(aux_Peca, *id_peca);
-	PEC_insereCorDePeca(aux_Peca, *id_cor);
 
-	PEC_obtemNomeDePeca(aux_Peca, *nomePeca);
-	PEC_obtemCorDePeca(aux_Peca, *corPeca);
-
+	PEC_criaPeca(&aux_Peca);
+	printf("1");
+	PEC_insereNomeDePeca(aux_Peca, &id_peca);
+	printf("2");
+	PEC_insereCorDePeca(aux_Peca, &id_cor);
+	printf("3");
+	PEC_obtemNomeDePeca(aux_Peca, nomePeca);
+	printf("4");
+	PEC_obtemCorDePeca(aux_Peca, corPeca);
+	printf("5");
 	printf("Peca adicionda : %c\n",nomePeca);
+	printf("6");
 	printf("Cor da peca adicionda : %c\n", corPeca);
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Inserir Peça*/

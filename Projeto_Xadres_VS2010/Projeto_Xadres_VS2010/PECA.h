@@ -83,7 +83,7 @@ typedef struct PEC_tagPeca * PEC_tppPeca;
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca, char nome_peca);
+PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca, char **nome_peca);
 
 
 /***********************************************************************
@@ -101,7 +101,7 @@ PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca, char nome_peca);
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char cor_peca);
+PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char **cor_peca);
 
 /***********************************************************************
 *
@@ -155,7 +155,7 @@ PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca);
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, char nome_peca, char cor_peca);
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca);
 
 /***********************************************************************
 *
