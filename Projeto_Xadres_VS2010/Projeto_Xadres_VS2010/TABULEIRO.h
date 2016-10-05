@@ -33,8 +33,10 @@
 #endif
 
 //Estruturas-----------------------------------------
+
 typedef struct TAB_tagTabuleiro *TAB_ppAncoraTabuleiro;
 typedef struct TAB_tagAncoraCasa *TAB_ppAncoraCasa;
+
 //FIM Estruturas-----------------------------------------
 
 

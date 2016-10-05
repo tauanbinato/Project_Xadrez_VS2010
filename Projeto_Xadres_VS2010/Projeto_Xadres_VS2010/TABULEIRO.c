@@ -45,7 +45,7 @@
 
 typedef struct TAB_tagTabuleiro {
 
-	LIS_tppLista  *pCabecaLista;
+	LIS_tppLista  pCabecaLista;
 	/* Ponteiro para um ponteiro de uma cabeça da lista que representa o caminho das linhas */
 
 	int num_de_linhas;
@@ -146,14 +146,16 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		return TAB_CondRetFaltouMemoria;
 	}
 	
-
 	printf("\noi");
+
 	// - Aloca as listas
-	LIS_CriarLista(cabeca_TAB->pCabecaLista, "show");
+	
+	LIS_CriarLista(&cabeca_TAB->pCabecaLista, "show");
 	printf("1");
-	caminho_matriz = *aux_ancoraTAB->pCabecaLista;
+	caminho_matriz = aux_ancoraTAB->pCabecaLista;
 
 	/* --------------------------------- */
+
 	LIS_ObterId(&caminho_matriz ,idObtido );
 
 	printf("ID obtido :%s\n",idObtido);
@@ -233,14 +235,14 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int **cord_linha , i
 		if (corrente == **cord_linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(*cabeca_TAB->pCabecaLista);
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
 	}
 	printf("Corrente : %d || Linha : %d\n", corrente, cord_linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 1; corrente == **cord_coluna; corrente++) {
 	
-		LIS_ObterNo(*cabeca_TAB->pCabecaLista, (void**)&aux_Casa);
+		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa);
 
 	}
 	printf("Corrente : %d || Coluna : %d\n", corrente, cord_coluna);
