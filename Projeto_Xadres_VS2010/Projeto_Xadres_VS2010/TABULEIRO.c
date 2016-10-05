@@ -97,7 +97,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 
 	/* Declaracoes necessarias */
 	int numDoCaminho, numColunas;
-	char* vetor_IDS[tamanho_matriz] = { "um" , "dois" , "tres" , "quatro" , "cinco" , "seis" , "sete" , "oito" };
+	char* vetor_IDS[tamanho_matriz] = { "um" , "dois" , "tres" , "quat" , "cinc" , "seis" , "sete" , "oito" };
 
 	LIS_tppLista  caminho_matriz;
 	LIS_tppLista  colunas_matriz ;
@@ -113,9 +113,6 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	TAB_ancoraCasa *aux_cabecaCasa;
 	TAB_ppAncoraTabuleiro aux_ancoraTAB;
 
-	/* --------------------------------- */
-
-	printf("\ndeclarou");
 	/* Fazendo as alocacaos necessarias */
 
 	
@@ -126,72 +123,52 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-	printf("\nalocou cabeca casa");
 	// - Alocando cabeça da ancora.
 	aux_ancoraTAB = (TAB_ancoraTabuleiro *)malloc(sizeof(TAB_ancoraTabuleiro));
 	if (aux_ancoraTAB == NULL) {
 	
 		return TAB_CondRetFaltouMemoria;
 	}
-	printf("\nalocou ancora");
-	cabeca_TAB = aux_ancoraTAB;
-	printf("\natribuiu aux a cabeca");
 
-	// - Aloca as listas
-	LIS_CriarLista(&caminho_matriz, "Cami");
+	cabeca_TAB = aux_ancoraTAB;
 
 	// - Alocando cabeca da casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
 	}
-	
-	printf("\noi");
 
 	// - Aloca as listas
 	
-	LIS_CriarLista(&cabeca_TAB->pCabecaLista, "show");
-	printf("1");
+	LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
 	caminho_matriz = aux_ancoraTAB->pCabecaLista;
 
 	/* --------------------------------- */
 
 	LIS_ObterId(&caminho_matriz ,idObtido );
 
-	printf("ID obtido :%s\n",idObtido);
-
-
 	//Inicializando estrutura.
 	aux_ancoraTAB->num_de_linhas = 0;
 	aux_ancoraTAB->num_de_colunas = 0;
 	
-	printf("1");
-	
 	for (numDoCaminho = 0; numDoCaminho < tamanho_matriz; numDoCaminho++)
 	{
 		//Cria 8 caminhos (linhas)
-	    printf("2");
 		LIS_CriarLista(&colunas_matriz, vetor_IDS[numDoCaminho]);
-		printf("3");
 		LIS_InserirNo(caminho_matriz, colunas_matriz);
-		printf("4");
 	    aux_ancoraTAB->num_de_linhas++;
 		
 		for (numColunas = 0; numColunas < tamanho_matriz; numColunas++)
 		{
-			printf("5");
 			//Cria 8 elementos para cada linha e aponta para uma casa
 			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
 			if (aux_cabecaCasa == NULL) {
 			
 				return TAB_CondRetFaltouMemoria;
 			}
-		printf("6");
 			cabeca_casa = aux_cabecaCasa;
-			printf("7");
 			LIS_InserirNo(colunas_matriz, cabeca_casa);
-			free(aux_cabecaCasa);
-		         printf("8");        
+			free(aux_cabecaCasa);     
 			cabeca_TAB->num_de_colunas++;
 		
 		}
@@ -199,7 +176,6 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 
 
 	cabeca_TAB = aux_ancoraTAB;
-	printf("Numero de linhas na matriz: %d || Numero de elementos na matriz: %d\n", cabeca_TAB->num_de_linhas++, cabeca_TAB->num_de_colunas++);
 	return TAB_CondRetOK;
 
 }
