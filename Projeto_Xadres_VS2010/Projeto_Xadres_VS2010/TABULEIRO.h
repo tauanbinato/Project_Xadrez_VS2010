@@ -86,7 +86,7 @@ typedef enum {
 
 */
 
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro *cabeca_TAB, int *cord_linha, int *cord_coluna, char *id_peca, char *cor);
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
 TAB_tpCondRet moverPeca();
 TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
 TAB_tpCondRet obterPeca();
@@ -105,7 +105,25 @@ TAB_tpCondRet obterPeca();
 
 TAB_tpCondRet obterListaAmeacantes();
 TAB_tpCondRet obterListaAmeacados();
-TAB_tpCondRet destruirTabuleiro();
+/***********************************************************************
+*
+*  $FC Função: TAB  &Destruir Tabuleiro
+*
+*  $ED Descrição da função
+*     Destroi o tabuleiro (as listas que a compoe e o tudo que está contido nelas) 
+*
+*  $EP Parâmetros
+*     cabeca_TAB - cabeça do tabuleiro a ser destruido
+*	
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*
+*
+*     Não será dada mais informação quanto ao problema ocorrido.
+*
+***********************************************************************/
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
 
 
 /***********************************************************************
@@ -118,15 +136,8 @@ TAB_tpCondRet destruirTabuleiro();
 *	  Cria uma lista duplamente encadeada com um identificador para representar a coluna de uma matriz	
 *
 *  $EP Parâmetros
-*     caminho_matriz         - ponteiro de ponteiro para a estrutura do tipo LIS_tpLista*
-*							 a ser criada.
-*
-*	  colunas_matriz		 - ponteiro de ponteiro para a estrutura do tipo LIS_tpLista*
-*						     a ser criada.
-*
-*	  ancora_matriz			 - ponteiro de ponteiro para uma estrutura do tipo TAB_ancoraTabuleiro , usada para ancorar o tabuleiro criado
-*
-*     ancora_casa		     - ponteiro de ponteiro para uma estrutura do tipo TAB_ancoraCasa , usada para ligar cada elemento do tabuleiro a uma cabeça de casa
+*     $EP Parâmetros
+*     cabeca_TAB - cabeça do tabuleiro a ser destruido
 *	
 *
 *  $FV Valor retornado
