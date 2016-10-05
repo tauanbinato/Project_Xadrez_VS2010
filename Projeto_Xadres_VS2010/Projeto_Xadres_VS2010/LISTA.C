@@ -405,7 +405,7 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   LIS_tpCondRet IrInicioLista (LIS_tppLista pLista )
+   LIS_tpCondRet LIS_IrInicioLista (LIS_tppLista pLista )
    {
       if ( pLista->pElemCorr == NULL )
       {

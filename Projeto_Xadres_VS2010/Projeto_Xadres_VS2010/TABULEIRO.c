@@ -45,7 +45,7 @@
 
 typedef struct TAB_tagTabuleiro {
 
-	LIS_tppLista  pCabecaLista;
+	LIS_tppLista pCabecaLista;
 	/* Ponteiro para um ponteiro de uma cabeça da lista que representa o caminho das linhas */
 
 	int num_de_linhas;
@@ -65,9 +65,9 @@ typedef struct TAB_tagTabuleiro {
 
 typedef struct TAB_tagCasa {
 
-	LIS_tppLista * pListaAmeacantes;
-	LIS_tppLista * pListaAmeacados;
-	PEC_tppPeca  * pPeca;
+	LIS_tppLista pListaAmeacantes;
+	LIS_tppLista pListaAmeacados;
+	PEC_tppPeca  pPeca;
 
 } TAB_casaMatriz;
 
@@ -223,7 +223,6 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int **cord_linha , i
 	}
 	printf("Corrente : %d || Coluna : %d\n", corrente, cord_coluna);
 
-
 	aux_Peca = (*aux_Casa)->pCasaMatriz->pPeca;
 
 	//Utiliza funcoes de acesso do modulo peca
@@ -258,23 +257,26 @@ TAB_tpCondRet moverPeca()
 *  **************************************************************************/
 TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna)
 {
-	int corrente = 1;
-	TAB_ppAncoraCasa *aux_Casa;
-	PEC_tppPeca *aux_Peca;
+	int corrente ;
+	LIS_tppLista auxCabecaColuna  ;
+	TAB_ppAncoraCasa  auxCabecaCasa ;
 	//Volta o elemento corrente até o 1º elemento
-	IrInicioLista(cabeca_TAB->pCabecaLista);
+	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
 
 	//Busca a linha certa
 	for(corrente = 1; corrente == cord_linha; corrente++)
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+	
+	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&auxCabecaColuna) ;
+	LIS_IrInicioLista(auxCabecaColuna);
 
 	//Busca coluna certa
 	for(corrente = 1; corrente == cord_coluna; corrente++)
-		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_Casa) ;
+		LIS_AvancarElementoCorrente(auxCabecaColuna);
+	
+	LIS_ObterNo(auxCabecaColuna, (void**)&auxCabecaCasa);
 
-	aux_Peca = (*aux_Casa)->pCasaMatriz->pPeca;
-
-	PEC_EsvaziaPeca(aux_Peca);
+	PEC_EsvaziaPeca(&auxCabecaCasa->pCasaMatriz->pPeca);
 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
