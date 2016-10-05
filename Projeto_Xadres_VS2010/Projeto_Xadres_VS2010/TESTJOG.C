@@ -37,19 +37,20 @@
 
 /**************************COMANDOS SCRIPT**************************/
 
-static const char CRIAR_TABULEIRO_CMD[]	    =				"=criartabuleiro";
-static const char DESTRUIR_TABULEIRO_CMD[]  =				"=destruirtabuleiro";
-static const char INSERIR_PECA_CMD[]		=				"=inserirpeca";
-static const char RESET_LISTA_CMD[]			=				"=resetteste";
-static const char CRIAR_LISTA_CMD[]			=				"=criarlista";
-static const char DESTROI_LISTA_CMD[]		=				"=destroilista";
-static const char INS_NO_CMD[]				=				"=inserirno";
-static const char OBTER_NO_CMD[]			=				"=obterno";
-static const char EXC_NO_CORRENTE_CMD[]	    =			    "=excluirnocorrente";
-static const char AVANCAR_ELEM_CMD[]		=				"=irprox";
-static const char VOLTAR_ELEM_CMD[]			=				"=irant";
-static const char OBTER_ID_LISTA_CMD[]      =			    "=obteridlista";
-static const char ALTERA_NO_CORRENTE_CMD[]  =		     	"=alterarnocorrente";
+static const char CRIAR_TABULEIRO_CMD[]	    =				"=criartabuleiro"      ;
+static const char DESTRUIR_TABULEIRO_CMD[]  =				"=destruirtabuleiro"   ;
+static const char INSERIR_PECA_CMD[]		=				"=inserirpeca"         ;
+static const char RETIRAR_PECA_CMD[]        =               "=retirarpeca"         ;
+static const char RESET_LISTA_CMD[]			=				"=resetteste"          ;
+static const char CRIAR_LISTA_CMD[]			=				"=criarlista"          ;
+static const char DESTROI_LISTA_CMD[]		=				"=destroilista"        ;
+static const char INS_NO_CMD[]				=				"=inserirno"           ;
+static const char OBTER_NO_CMD[]			=				"=obterno"             ;
+static const char EXC_NO_CORRENTE_CMD[]	    =			    "=excluirnocorrente"   ;
+static const char AVANCAR_ELEM_CMD[]		=				"=irprox"              ;
+static const char VOLTAR_ELEM_CMD[]			=				"=irant"               ;
+static const char OBTER_ID_LISTA_CMD[]      =			    "=obteridlista"        ;
+static const char ALTERA_NO_CORRENTE_CMD[]  =		     	"=alterarnocorrente"   ;
 
 /************************FIM COMANDOS SCRIPT************************/
 
@@ -79,7 +80,7 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 
 /***********************************************************************
 *
-*  $FC Função: TLIS &Testar lista
+*  $FC Função: TLIS &Testar jogo
 *
 *  $ED Descrição da função
 *     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 10
@@ -87,18 +88,20 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *     Comandos disponíveis:
 *
 *     =resetteste                   - anula o vetor de listas. Provoca vazamento de memória
-*     =criarlista                   inxLista  idLista      CondRetEsp
+*     =criarlista                   inxLista  idLista                                     CondRetEsp
 *     =obteridlista                 inxLista  idLista
 *     =excluirnocorrente            inxLista
-*     =irprox						inxLista  CondRetEsp
-*     =irant						inxLista  CondRetEsp
-*     =alterarnocorrente			inxLista  char         CondRetEsp
-*     =destroilista                 inxLista  CondRetEsp
-*     ==inserirno                   inxLista  char         CondRetEsp
-*     =obterno                      inxLista  char         CondRetEsp
-*     =excluirelem                  inxLista  CondRetEsp
-*	  =criartabuleiro				inxLista  inxLista_2   CondRetEsp
-*	  =destruirtabuleiro			inxLista			   CondRetEsp
+*     =irprox						inxLista                                              CondRetEsp
+*     =irant						inxLista                                              CondRetEsp
+*     =alterarnocorrente			inxLista  char                                        CondRetEsp
+*     =destroilista                 inxLista                                              CondRetEsp
+*     ==inserirno                   inxLista  char                                        CondRetEsp
+*     =obterno                      inxLista  char                                        CondRetEsp
+*     =excluirelem                  inxLista                                              CondRetEsp
+*	  =criartabuleiro				inxLista  inxLista_2                                  CondRetEsp
+*	  =destruirtabuleiro			inxLista			                                  CondRetEsp
+*     =inserirpeca                  inxMatriz cordLinha  cordColuna   idPeca  idCor       CondRetEsp
+*     =retirarpeca                  inxMatriz cordLinha  cordColuna                       CondRetEsp
 *
 ***********************************************************************/
 
@@ -156,15 +159,14 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 
 		if ((numLidos != 2)
-			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
+			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
-			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
-
+		printf("\nentrou");
 		CondRet_TAB = destruirTabuleiro(&vtMatrizes[inxMatriz]);
-		
+		printf("\nsaiu");
 
 		if (CondRet_TAB == 6) {
 
@@ -185,9 +187,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc( sizeof(char));
+
 		if (id_peca == NULL) return TST_CondRetMemoria;
 
 		id_cor = (char *)malloc( sizeof(char));
+
 		if (id_cor == NULL) return TST_CondRetMemoria;
 		
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
@@ -213,6 +217,29 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar Inserir Peca */
 
+	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
+	{
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
+
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+
+		printf(" recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
+		
+		CondRet_TAB = retirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
+
+		if (CondRet_TAB == 6) {
+
+			return TST_CondRetMemoria ;
+		}
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao inserir peca");
+
+	} /* fim ativa: Testar Inserir Peca */
 
 	  /* Testar CriarTabuleiro */
 

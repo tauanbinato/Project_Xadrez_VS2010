@@ -34,8 +34,8 @@
 
 //Estruturas-----------------------------------------
 
-typedef struct TAB_tagTabuleiro *TAB_ppAncoraTabuleiro;
-typedef struct TAB_tagAncoraCasa *TAB_ppAncoraCasa;
+typedef struct TAB_tagTabuleiro * TAB_ppAncoraTabuleiro;
+typedef struct TAB_tagAncoraCasa * TAB_ppAncoraCasa;
 
 //FIM Estruturas-----------------------------------------
 
@@ -89,7 +89,7 @@ typedef enum {
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
 TAB_tpCondRet moverPeca();
 TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
-TAB_tpCondRet obterPeca();
+TAB_tpCondRet obterPeca (TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor) ;
 
 
 
@@ -98,7 +98,9 @@ TAB_tpCondRet obterPeca();
 
 -Função ObterListaAmeacantes – Receberá uma coordenada linha-coluna e retornará o ponteiro para a correspondente cabeça de lista.
  Não se esqueça de projetar uma forma de operar sobre esta lista no módulo de teste.
+
 -Função ObterListaAmeacados – Receberá uma coordenada linha-coluna e retornará o ponteiro para a correspondente cabeça de lista.
+
 -Função DestruirTabuleiro – destrói o conteúdo de cada casa do tabuleiro e o próprio tabuleiro, caso este tenha sido alocado em memória dinâmica.
  Obs. no 4º. trabalho será examinado se ocorre vazamento de memória. 
 */
@@ -123,7 +125,7 @@ TAB_tpCondRet obterListaAmeacados();
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
 ***********************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
+//TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB);
 
 
 /***********************************************************************
