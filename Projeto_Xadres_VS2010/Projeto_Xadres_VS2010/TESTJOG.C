@@ -148,6 +148,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	else if (strcmp(ComandoTeste, INSERIR_PECA_CMD) == 0)
 	{
+
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc(sizeof(char));
 		if (id_peca == NULL) return TST_CondRetMemoria;
@@ -164,6 +165,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
+		printf("O que recebe: %d %d %d %c %c %d",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
 
 		CondRet_TAB = inserirPeca(&vtMatrizes[inxMatriz] , &cord_linha , &cord_coluna , id_peca , id_cor );
 		
