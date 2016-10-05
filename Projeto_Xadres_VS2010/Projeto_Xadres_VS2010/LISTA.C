@@ -100,8 +100,8 @@
    LIS_tpCondRet LIS_CriarLista (LIS_tppLista *pLista, char* idLista) {
 
 	  LIS_tpLista * aux ;
-	 
-      aux = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+
+	  aux = ( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
       if ( aux == NULL )
       {
          return LIS_CondRetFaltouMemoria ;
