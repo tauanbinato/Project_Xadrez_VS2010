@@ -402,14 +402,17 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 1; corrente == coluna; corrente++) {
-		if (corrente == coluna) {
-			break;
-		}
+		//if (corrente == coluna) {
+		//	break;
+		//}
 		LIS_AvancarElementoCorrente(aux_listaColuna);
+		printf("avancou lista coluna\n");
 	}
-
+	printf("saiu for funcao obter\n");
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
+	printf("saiu obter no 1\n");
 	LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacantes,(void**)&pListaAmeacantes);
+	printf("obteve no 2\n");
 	
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Lista Ameacantes*/
