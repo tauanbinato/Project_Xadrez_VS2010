@@ -99,11 +99,28 @@ PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca) {
 	return PEC_CondRetOK;
 }
 
-PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca *peca) {
+PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 	
-	(*peca)->cor_peca  = 'V' ;
-	(*peca)->nome_peca = 'V' ;
+	if (peca == NULL)
+		return PEC_CondRetNaoAchou;
+
+	peca->cor_peca  = 'V' ;
+	peca->nome_peca = 'V' ;
 
 	return PEC_CondRetOK;
 
+}
+
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
+	
+	if (peca == NULL)
+		return PEC_CondRetNaoAchou;
+	
+	printf("\nda free");
+	
+	free(peca);
+
+	printf("\nallal");
+	
+	return PEC_CondRetOK;
 }

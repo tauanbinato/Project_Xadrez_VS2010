@@ -265,19 +265,28 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	int corrente ;
 	LIS_tppLista auxCabecaColuna  ;
 	TAB_ppAncoraCasa  auxCabecaCasa ;
+
 	//Volta o elemento corrente até o 1º elemento
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
 
 	//Busca a linha certa
-	for(corrente = 1; corrente == cord_linha; corrente++)
+	for (corrente = 1; corrente == cord_linha; corrente++) {
+		if (corrente == cord_linha) {
+			break;
+		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+	}
 	
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&auxCabecaColuna) ;
 	LIS_IrInicioLista(auxCabecaColuna);
 
 	//Busca coluna certa
-	for(corrente = 1; corrente == cord_coluna; corrente++)
+	for (corrente = 1; corrente == cord_coluna; corrente++) {
+		if (corrente == cord_coluna) {
+			break;
+		}
 		LIS_AvancarElementoCorrente(auxCabecaColuna);
+	}
 	
 	LIS_ObterNo(auxCabecaColuna, (void**)&auxCabecaCasa);
 
@@ -293,9 +302,32 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *  **************************************************************************/
 TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor)
 {
+	int corrente                      ;
+	LIS_tppLista      auxCabecaColuna ;
+	TAB_ppAncoraCasa  auxCabecaCasa   ;
 
+	//Volta o elemento corrente até o 1º elemento
+	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
 
+	//Busca a linha certa
+	for (corrente = 1; corrente == cord_linha; corrente++) {
+		if (corrente == cord_linha) {
+			break;
+		}
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+	}
 
+	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&auxCabecaColuna);
+	LIS_IrInicioLista(auxCabecaColuna);
+
+	//Busca coluna certa
+	for (corrente = 1; corrente == cord_coluna; corrente++)
+		LIS_AvancarElementoCorrente(auxCabecaColuna);
+
+	//Obtem Cor e Nome de Peça
+	PEC_obtemCorDePeca (auxCabecaCasa->pCasaMatriz->pPeca, &id_cor)  ;
+	PEC_obtemNomeDePeca(auxCabecaCasa->pCasaMatriz->pPeca, &id_peca) ; 
+	
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/
 // FIM AREA DO TAUAN----------------
@@ -329,45 +361,53 @@ TAB_tpCondRet obterListaAmeacados( int linha, int coluna, LIS_tppLista * pListaA
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-/*TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 {
 	int numLinhas, numColunas;
 	LIS_tppLista listacolunas, aux;
-	TAB_ancoraCasa *aux_Casa;
+	TAB_ppAncoraCasa aux_Casa;
 	PEC_tppPeca aux_Peca;
-	
+
 
 	aux = cabeca_TAB->pCabecaLista;
-	printf("atribuiu ao aux p cabeca tab\n");
-	for(numLinhas = 0; numLinhas < tamanho_matriz; numLinhas++)
+	LIS_IrInicioLista(aux);
+
+	for (numLinhas = 0; numLinhas < tamanho_matriz; numLinhas++)
 	{
-		printf("entrou prim for\n");
+		printf("\nENTROU FOR");
+		LIS_ObterNo(aux, (void**)&listacolunas);
+		LIS_IrInicioLista(listacolunas);
+
 		for (numColunas = 0; numColunas < tamanho_matriz; numColunas++)
 		{
-			printf("entrou seg for\n");
+			printf("\nentrou forzao");
+			LIS_ObterNo(listacolunas, (void**)&aux_Casa);
 			
-			LIS_ObterNo(aux, (void**)&listacolunas);
-			printf("obteve no-lista colunas\n");
-			LIS_ObterNo(listacolunas,(void**)&aux_Casa);
-			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
-			while(aux_Peca != NULL)
-			{
-				free(aux_Peca);
-				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
-				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
-			}
-			LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacantes,(void**)&aux_Peca);
-			while(aux_Peca != NULL)
-			{
-				free(aux_Peca);
-				LIS_ExcluirNoCorrente(aux_Casa->pCasaMatriz->pListaAmeacados);
-				LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados,(void**)&aux_Peca);
-			}
+			printf("\nobtem");
+			//PEC_DestroiPeca(aux_Casa->pCasaMatriz->pPeca);
+			
+			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacados);
+			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacantes);
+
+			printf("\ndestroi");
+
+			free(aux_Casa->pCasaMatriz);
 			free(aux_Casa);
-			LIS_ExcluirNoCorrente(listacolunas);
+
+			LIS_AvancarElementoCorrente(listacolunas);
+			printf("\nchega aqui?");
 		}
-		LIS_ExcluirNoCorrente(aux);
+
+		printf("\nsaiu %d", numLinhas);
+
+		LIS_DestroiLista(listacolunas);
+		LIS_AvancarElementoCorrente(aux);
+
 	}
+
+	printf("\nsaiu porra toda");
+	LIS_DestroiLista(aux);
+	free(cabeca_TAB);
+
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB Destruir Tabuleiro*/
-// FIM AREA DA JULIA-----------------

@@ -152,22 +152,21 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/* Testar DestruirTabuleiro */
 
 
-	/*else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
+	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
 
 	
 		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 
 		if ((numLidos != 2)
-			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
+			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
-			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
-
-		/*CondRet_TAB = destruirTabuleiro(&vtMatrizes[inxMatriz]);
-		
+		printf("\nentrou");
+		CondRet_TAB = destruirTabuleiro(&vtMatrizes[inxMatriz]);
+		printf("\nsaiu");
 
 		if (CondRet_TAB == 6) {
 

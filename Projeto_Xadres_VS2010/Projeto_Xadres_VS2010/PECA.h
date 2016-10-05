@@ -168,10 +168,29 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, char nome_peca, char cor_peca);
 *     peca  - ponteiro para a estrutura a ser manipulada
 *
 *  $FV Valor retornado
+*	  CondRetNaoAchou      - se a peça nao existir
 *     CondRetOK            - se um elemento tiver sido esvaziado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca *peca) ;
+
+PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) ;
+
+/***********************************************************************
+*
+*  $FC Função: PEC  &DestroiPeca
+*
+*  $ED Descrição da função
+*     Destroi a peça
+*
+*  $EP Parâmetros
+*     peca  - ponteiro para a estrutura a ser manipulada
+*
+*  $FV Valor retornado
+*	  CondRetNaoAchou      - se a peça nao existir
+*     CondRetOK            - se um elemento tiver sido destruido
+*
+***********************************************************************/
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
 
 #undef PECA_EXT
 
