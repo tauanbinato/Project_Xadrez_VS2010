@@ -43,10 +43,16 @@ typedef struct PEC_tagPeca {
 
 	char cor_peca;
 	/* Cor da peca especifica*/
+	char *movimento;
+	/*Contem qual movimento a peça pode fazer*/
 
 
 } PEC_Peca;
-
+/***************************************************************************
+*
+*  Funcao: PEC  &Criar Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca , char nome_peca , char cor_peca) {
 
 	PEC_Peca *aux_peca;
@@ -59,21 +65,33 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca , char nome_peca , char cor_peca) {
 	*peca = aux_peca;
 	
 	return PEC_CondRetOK;
-}
-
+}/*Fim funcao: &PEC criar Peça*/
+/***************************************************************************
+*
+*  Funcao: PEC  &Inserir Nome da Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca , char nome_peca) {
 
 	peca->nome_peca= nome_peca;
 	return PEC_CondRetOK;
-}
-
+}/*Fim funcao: &PEC Inserir Nome da Peça*/
+/***************************************************************************
+*
+*  Funcao: PEC  &Inserir cor da Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char cor_peca) {
 
 
 	peca->cor_peca = cor_peca;
 	return PEC_CondRetOK;
-}
-
+}/*Fim funcao: &PEC inserir cor da peça*/
+/***************************************************************************
+*
+*  Funcao: PEC  &Obter Nome da Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca peca, char *nome_peca) {
 
 	char aux;
@@ -84,8 +102,12 @@ PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca peca, char *nome_peca) {
 	*nome_peca= aux;
 
 	return PEC_CondRetOK;
-}
-
+}/*Fim funcao: &PEC obtem nome da Peça*/
+/***************************************************************************
+*
+*  Funcao: PEC  &Obter cor da Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca) {
 
 	char aux;
@@ -97,8 +119,12 @@ PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca) {
 	
 
 	return PEC_CondRetOK;
-}
-
+}/*Fim funcao: &PEC obtem cor da Peça*/
+/***************************************************************************
+*
+*  Funcao: PEC &Esvaziar Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 	
 	if (peca == NULL)
@@ -109,8 +135,12 @@ PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 
 	return PEC_CondRetOK;
 
-}
-
+}/*Fim funcao: &PEC Esvazia Peça*/
+/***************************************************************************
+*
+*  Funcao: PEC  &Destroi Peça
+*
+*  **************************************************************************/
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	
 	if (peca == NULL)
@@ -123,4 +153,4 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	printf("\nallal");
 	
 	return PEC_CondRetOK;
-}
+}/*Fim funcao: &PEC Destroi Peça*/
