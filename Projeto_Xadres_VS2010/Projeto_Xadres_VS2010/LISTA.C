@@ -146,7 +146,6 @@
    LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char *idLista) {
 
 	   strcpy(idLista, pLista->idLista);
-
 	   return LIS_CondRetOK;
    
    } /* Fim Fun��o: LIS  &ObterId */
@@ -277,14 +276,14 @@
 *  ****/
 
 LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
-	   
+
 	if (pLista->pElemCorr == NULL)
 	   {
-		   return LIS_CondRetListaVazia;
+				   return LIS_CondRetListaVazia;
 	   } /* if */
 
 	  *pValor = pLista->pElemCorr->pValor;
-	  
+
 	   return LIS_CondRetOK;
 
    } /* Fim fun��o: LIS  &Obter refer�ncia para o valor contido no elemento */
