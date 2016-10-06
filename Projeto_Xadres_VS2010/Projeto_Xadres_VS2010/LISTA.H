@@ -1,53 +1,53 @@
-#if ! defined( LISTA_ )
+Ôªø#if ! defined( LISTA_ )
 #define LISTA_
 /***************************************************************************
 *
-*  $MCD MÛdulo de definiÁ„o: LIS  Lista duplamente encadeada
+*  $MCD M√≥dulo de defini√ß√£o: LIS  Lista duplamente encadeada
 *
 *  Arquivo gerado:              LISTA.h
 *  Letras identificadoras:      LIS
 *
-*  Nome da base de software:    ArcabouÁo para a automaÁ„o de testes de programas redigidos em C
+*  Nome da base de software:    Arcabou√ßo para a automa√ß√£o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\LISTA.BSW
 *
-*  Projeto: INF 1301 / 1628 AutomatizaÁ„o dos testes de mÛdulos C
+*  Projeto: INF 1301 / 1628 Automatiza√ß√£o dos testes de m√≥dulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o  Autor        Data          ObservaÁıes
-*     5       lp,ja, tb 28/nov/2016   alteraÁ„o de funÁıes e ediÁ„o do scrpit de teste
-*     4       avs       01/fev/2006   criar linguagem script simbÛlica
-*     3       avs       08/dez/2004	  uniformizaÁ„o dos exemplos
-*     2       avs       07/jul/2003	  unificaÁ„o de todos os mÛdulos em um sÛ projeto
-*     1       avs       16/abr/2003	  inÌcio desenvolvimento
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o  Autor        Data          Observa√ß√µes
+*     5       lp,ja, tb 28/nov/2016   altera√ß√£o de fun√ß√µes e edi√ß√£o do scrpit de teste
+*     4       avs       01/fev/2006   criar linguagem script simb√≥lica
+*     3       avs       08/dez/2004	  uniformiza√ß√£o dos exemplos
+*     2       avs       07/jul/2003	  unifica√ß√£o de todos os m√≥dulos em um s√≥ projeto
+*     1       avs       16/abr/2003	  in√≠cio desenvolvimento
 *
-*  $ED DescriÁ„o do mÛdulo
-*     Implementa listas genÈricas duplamente encadeadas.
-*     Podem existir n listas em operaÁ„o simultaneamente.
-*     As listas possuem uma cabeÁa encapsulando o seu estado.
+*  $ED Descri√ß√£o do m√≥dulo
+*     Implementa listas gen√©ricas duplamente encadeadas.
+*     Podem existir n listas em opera√ß√£o simultaneamente.
+*     As listas possuem uma cabe√ßa encapsulando o seu estado.
 *
-*     Cada lista È homogÍnea quanto ao tipo dos dados que armazena.
-*     Cada elemento da lista referencia o valor que contÈm.
+*     Cada lista √© homog√™nea quanto ao tipo dos dados que armazena.
+*     Cada elemento da lista referencia o valor que cont√©m.
 *
-*     Os ponteiros para os dados s„o copiados para elementos da lista.
-*        N„o È copiado o valor apontado por estes ponteiros.
+*     Os ponteiros para os dados s√£o copiados para elementos da lista.
+*        N√£o √© copiado o valor apontado por estes ponteiros.
 *
-*     O controle da destruiÁ„o do valor de um elemento a ser excluÌdo
-*        È realizado por uma funÁ„o fornecida pelo usu·rio.
+*     O controle da destrui√ß√£o do valor de um elemento a ser exclu√≠do
+*        √© realizado por uma fun√ß√£o fornecida pelo usu√°rio.
 *
-*     Cada lista referencia uma funÁ„o que determina como devem ser
+*     Cada lista referencia uma fun√ß√£o que determina como devem ser
 *        desalocados os dados nela contidos.
 *
-*     A funÁ„o de liberaÁ„o dos valores contidos nos elementos deve
-*        assegurar a liberaÁ„o de todos os espaÁos referÍnciados pelo
+*     A fun√ß√£o de libera√ß√£o dos valores contidos nos elementos deve
+*        assegurar a libera√ß√£o de todos os espa√ßos refer√™nciados pelo
 *        valor contido em um elemento.
-*        Esta funÁ„o È chamada antes de se desalocar um elemento
+*        Esta fun√ß√£o √© chamada antes de se desalocar um elemento
 *        de uma lista.
-*        Caso n„o seja necess·rio desalocar o valor referenciado pelo
-*        elemento, o ponteiro para a funÁ„o de liberaÁ„o poder· ser NULL .
-*        Caso o elemento da lista seja a ˙nica ‚ncora do valor referenciado,
-*        esta funÁ„o deve promover a destruiÁ„o (free) desse valor e
+*        Caso n√£o seja necess√°rio desalocar o valor referenciado pelo
+*        elemento, o ponteiro para a fun√ß√£o de libera√ß√£o poder√° ser NULL .
+*        Caso o elemento da lista seja a √∫nica √¢ncora do valor referenciado,
+*        esta fun√ß√£o deve promover a destrui√ß√£o (free) desse valor e
 *        de todos os dados nele ancorados.
 *
 ***************************************************************************/
@@ -58,20 +58,20 @@
    #define LISTA_EXT extern
 #endif
 
-/***** DeclaraÁıes exportadas pelo mÛdulo *****/
+/***** Declara√ß√µes exportadas pelo m√≥dulo *****/
 
-/* Tipo referÍncia para uma lista */
+/* Tipo refer√™ncia para uma lista */
 
 typedef struct LIS_tagLista * LIS_tppLista ;
 
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: LIS CondiÁıes de retorno
+*  $TC Tipo de dados: LIS Condi√ß√µes de retorno
 *
 *
-*  $ED DescriÁ„o do tipo
-*     CondiÁıes de retorno das funÁıes da lista
+*  $ED Descri√ß√£o do tipo
+*     Condi√ß√µes de retorno das fun√ß√µes da lista
 *
 ***********************************************************************/
 
@@ -81,47 +81,55 @@ typedef struct LIS_tagLista * LIS_tppLista ;
                /* Concluiu corretamente */
 
          LIS_CondRetListaVazia = 2 ,
-               /* A lista n„o contÈm elementos */
+               /* A lista n√£o cont√©m elementos */
 
          LIS_CondRetListaNaoExiste,
-               /* Lista n„o existe */
+               /* Lista n√£o existe */
 
          LIS_CondRetFimLista ,
                /* Foi atingido o final da lista */
 
 		 LIS_CondRetInicioLista,
-			   /*Foi atingido o inÌcio da lista */
+			   /*Foi atingido o in√≠cio da lista */
 
          LIS_CondRetFaltouMemoria
-               /* Faltou memÛria ao tentar criar um elemento de lista */
+               /* Faltou mem√≥ria ao tentar criar um elemento de lista */
 
    } LIS_tpCondRet ;
 
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Criar lista
+*  $FC Fun√ß√£o: LIS  &Criar lista
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Cria uma cabeÁa de lista genÈrica duplamente encadeada.
-*     Os possÌveis tipos s„o desconhecidos a priori.
-*     A tipagem È implicita.
-*     N„o existe identificador de tipo associado ‡ lista.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Cria uma cabe√ßa de lista gen√©rica duplamente encadeada.
+*     Os poss√≠veis tipos s√£o desconhecidos a priori.
+*     A tipagem √© implicita.
+*     N√£o existe identificador de tipo associado √† lista.
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista        - ponteiro de ponteiro para a estrutura do tipo LIS_tpLista*
 *					  a ser criada.
 *
-*     idLista       - string de identificaÁ„o da lista
+*     idLista       - string de identifica√ß√£o da lista
 *
 *
 *  $FV Valor retornado
-*     Se executou corretamente retorna a condiÁ„o de retorno LIS_CondRetOK.
+*     Se executou corretamente retorna a condi√ß√£o de retorno LIS_CondRetOK.
 *     
-*     Se ocorreu algum erro, por exemplo falta de memÛria ou dados errados,
+*     Se ocorreu algum erro, por exemplo falta de mem√≥ria ou dados errados,
 *     LIS_CondRetFaltouMemoria.
 *
-*     N„o ser· dada mais informaÁ„o quanto ao problema ocorrido.
+*     N√£o ser√° dada mais informa√ß√£o quanto ao problema ocorrido.
+*
+*	$AE - Assertivas de entrada:
+*	-Recebe uma identidade de lista que √© um string de ate 4 caracteres v√°lidos 
+*	$AS - Assertivas de sa√≠da:
+*	-Se pAnt ‚â† NULL, ent√£o pCorr->pAnt->pProx = pCorr ; Se pProx ‚â† NULL, ent√£o pCorr->pProx->pAnt->pCorr (essas s√£o as assertivas estruturais da lista duplamente encadeada com cabe√ßa)
+*	-Lista foi criada
+*	-Os ponteiros de inicio, fim e pElem corrente apontam para o mesmo local(origem da lista)
+*
 *
 ***********************************************************************/
 
@@ -129,32 +137,45 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Destruir lista
+*  $FC Fun√ß√£o: LIS  &Destruir lista
 *
-*  $ED DescriÁ„o da funÁ„o
-*     DestrÛi a lista fornecida.
-*     O par‚metro ponteiro para a lista n„o È modificado.
-*     Se ocorrer algum erro durante a destruiÁ„o, a lista resultar·
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Destr√≥i a lista fornecida.
+*     O par√¢metro ponteiro para a lista n√£o √© modificado.
+*     Se ocorrer algum erro durante a destrui√ß√£o, a lista resultar√°
 *     estruturalmente incorreta.
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK                - destruiu sem problemas
 *     LIS_CondRetListaNaoExiste    - lista nao existe
 *
+*	$AE - Assertivas de entrada:
+*	-Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*
+*	$AS - Assertivas de sa√≠da:
+*	-Lista foi destru√≠da e o espa√ßo alocado por ela foi liberado 
 ***********************************************************************/
 
    LIS_tpCondRet LIS_DestroiLista( LIS_tppLista pLista ) ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Obter Id
+*  $FC Fun√ß√£o: LIS  &Obter Id
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Obtem o Id contido dentro da cabeÁa da Lista passada
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Obtem o Id contido dentro da cabe√ßa da Lista passada
 *
-*  $EP Par‚metros
-*     pLista  - ponteiro para a cabeÁa a ser encontrado o Id
+*  $EP Par√¢metros
+*     pLista  - ponteiro para a cabe√ßa a ser encontrado o Id
 *	  idLista - ponteiro para identificacao da Id da lista
+*
+*	$AE - Assertivas de entrada:
+*	- Valem assertivas estruturais da lista duplamente encadeadas
+*	- Recebe uma lista j√° criada (e n√£o nula)
+*
+*	$AS - Assertivas de sa√≠da:
+*	- Valem assertivas estruturais da lista duplamente encadeadas
+*	- Ponteiro foi preenchido com identidade da lista enviada
 *
 ***********************************************************************/
 
@@ -162,13 +183,19 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Esvaziar lista
+*  $FC Fun√ß√£o: LIS  &Esvaziar lista
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Elimina todos os elementos, sem contudo eliminar a lista
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista - ponteiro para a lista a ser esvaziada
+*
+*	$AE - Assertivas de entrada:
+*
+*	$AS - Assertivas de sa√≠da:
+*	- Se a lista n√£o for nula, todos seus elementos est√£o eliminados
+*	- Valem todas as assertivas estruturais de lista
 *
 ***********************************************************************/
 
@@ -177,14 +204,14 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Inserir No
+*  $FC Fun√ß√£o: LIS  &Inserir No
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Insere novo elemento ap·s o elemento corrente.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Insere novo elemento ap√°s o elemento corrente.
 *     Caso a lista esteja vazia, insere o primeiro elemento da lista.
 *
-*  $EP Par‚metros
-*     Par‚metros
+*  $EP Par√¢metros
+*     Par√¢metros
 *        pLista - ponteiro para a lista onde deve ser inserido o elemento
 *        pValor - ponteiro para o valor do novo elemento
 *                 Pode ser NULL
@@ -194,6 +221,14 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *     Valor retornado
 *        LIS_CondRetOK
 *        LIS_CondRetFaltouMemoria
+*	$AE - Assertivas de entrada
+*	- Valem assertivas estruturais da lista duplamente encadeadas
+*	- Lista existe (j√° foi criada, mas pode estar vazia)
+*	- N√≥ corrente aponta para o √∫ltimo elemento da lista
+*	- Valor a ser inserido √© valido (nesse caso, √© um char)
+*	$AS - Assertivas de sa√≠da:
+*	- Valem assertivas estruturais da lista duplamente encadeadas
+*	- Lista tem um novo n√≥, com a informa√ß√£o recebida, e o elemento corrente aponta para ele, bem como o ponteiro de final de lista (se a lista estava vazia esse ser√° o primeiro n√≥)
 *
 ***********************************************************************/
 
@@ -204,20 +239,29 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Excluir no corrente
+*  $FC Fun√ß√£o: LIS  &Excluir no corrente
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Exclui o elemento do no corrente da lista dada.
-*     Se existir o elemento aa esquerda do corrente ser· o novo corrente.
-*     Se n„o existir e existir o elemento ‡ direita, este se tornar· corrente.
-*     Se este tambÈm n„o existir a lista tornou-se vazia.
+*     Se existir o elemento aa esquerda do corrente ser√° o novo corrente.
+*     Se n√£o existir e existir o elemento √† direita, este se tornar√° corrente.
+*     Se este tamb√©m n√£o existir a lista tornou-se vazia.
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista    - ponteiro para a lista na qual deve excluir.
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK
 *     LIS_CondRetListaVazia
+*
+*	$AE - Assertivas de entrada
+*	- Lista existe com pelo menos tr√™s n√≥s
+*	- Corrente aponta para o n√≥ intermedi√°rio que precisa ser exclu√≠do
+*	- Valem assertivas estruturais da lista duplamente encadeada com cabe√ßa 
+*	$AS - Assertivas de sa√≠da:
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- N√≥ corrente foi exclu√≠do
+*	- Corrente aponta para o pr√≥ximo 
 *
 ***********************************************************************/
 
@@ -226,18 +270,23 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Obter referÍncia para o caracter contido no elemento
+*  $FC Fun√ß√£o: LIS  &Obter refer√™ncia para o caracter contido no elemento
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Obtem a referÍncia para o caracter contido no elemento corrente da lista
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Obtem a refer√™ncia para o caracter contido no elemento corrente da lista
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista     - ponteiro para a lista de onde se quer o valor
-*     CharObtido - referÍncia para o char a ser passado pela funÁ„o
+*     CharObtido - refer√™ncia para o char a ser passado pela fun√ß√£o
 *
 *  $FV Valor retornado
 *     LIS_CondRetOK             - se o elemento corrente existe
 *     LIS_CondRetListaVazia     - se a lista estiver vazia
+*
+*	$AE - Assertivas de entrada
+*	- Valem as assertivas de lista duplamente encadeadas
+*	$AS - Assertivas de sa√≠da:
+*	- O caracter que est√° contido no ponteiro enviado era o contido no n√≥ que o ponteiro corrente apontava
 *
 ***********************************************************************/
 
@@ -245,18 +294,25 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &AvancarElementoCorrente
+*  $FC Fun√ß√£o: LIS  &AvancarElementoCorrente
 *
-*  $ED DescriÁ„o da funÁ„o
-*     AvanÁa o elemento corrente um elemento na lista
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Avan√ßa o elemento corrente um elemento na lista
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista  - ponteiro para a lista a ser manipulada
 *
 *  $FV Valor retornado
 *     CondRetOK         - se um elemento tiver sido andado
 *     CondRetFimLista   - se encontrou o fim da lista antes de andar um elemento
-*     CondRetListaVazia - se a lista est· vazia
+*     CondRetListaVazia - se a lista est√° vazia
+*
+*	$AE - Assertivas de entrada
+*	- Recebe uma lista j√° criada 
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	$AS - Assertivas de sa√≠da:
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- O ponteiro corrente aponta para o pr√≥ximo, no caso que era o √∫ltimo, ele continua apontando para o mesmo elemento
 *
 ***********************************************************************/
 
@@ -265,18 +321,25 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Voltar Elemento Corrente
+*  $FC Fun√ß√£o: LIS  &Voltar Elemento Corrente
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Volta o elemento corrente um elemento na lista
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista  - ponteiro para a lista a ser manipulada
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
 *     CondRetInicioLista   - se encontrou o inicio da lista antes de voltar um elemento
-*     CondRetListaVazia    - se a lista est· vazia
+*     CondRetListaVazia    - se a lista est√° vazia
+*
+*	$AE - Assertivas de entrada
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- Recebe uma lista j√° criada 
+*	$AS - Assertivas de sa√≠da:
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- O ponteiro corrente aponta para o anterior, e caso o enviado fosse o primeiro, continua apontando para o mesmo elemento
 *
 ***********************************************************************/
 
@@ -284,20 +347,27 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Alterar no corrente
+*  $FC Fun√ß√£o: LIS  &Alterar no corrente
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Altera o elemento o caracter contido no elemento corrente
-*	  para o fornecido na funÁ„o
+*	  para o fornecido na fun√ß√£o
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista   - ponteiro para a lista a ser manipulada
 *     CharDado - caracter fornecido
 *
 *  $FV Valor retornado
 *     CondRetOK               - se o caracter for alterado com sucesso
-*     CondRetListaNaoExiste   - se a lista n„o existe
-*     CondRetListaVazia       - se a lista est· vazia
+*     CondRetListaNaoExiste   - se a lista n√£o existe
+*     CondRetListaVazia       - se a lista est√° vazia
+*
+*	$AE - Assertivas de entrada
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- N√≥ corrente aponta para um √≠ndice valido
+*	$AS - Assertivas de sa√≠da:
+*	- Valem as assertivas estruturais da lista duplamente encadeada com cabe√ßa
+*	- N√≥ corrente agora aponta para o mesmo elemento, mas ao inv√©s de conter um √≠ndice, cont√©m um char
 *
 ***********************************************************************/
 
@@ -305,14 +375,19 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: LIS  &Ir para o elemento inicial
+*  $FC Fun√ß√£o: LIS  &Ir para o elemento inicial
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Torna corrente o primeiro elemento da lista.
-*     Faz nada se a lista est· vazia.
+*     Faz nada se a lista est√° vazia.
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     pLista - ponteiro para a lista a manipular
+*
+*	$AE - Assertivas de entrada
+*	- valem assertivas estruturais de lista duplamente encadeada
+*	$AS - Assertivas de sa√≠da:
+*	- O elemento corrente da lista agora aponta para o elemento inicial
 *
 ***********************************************************************/
 
@@ -320,7 +395,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 #undef LISTA_EXT
 
-/********** Fim do mÛdulo de definiÁ„o: LIS  Lista duplamente encadeada **********/                 
+/********** Fim do m√≥dulo de defini√ß√£o: LIS  Lista duplamente encadeada **********/                 
 
 #else
 #endif

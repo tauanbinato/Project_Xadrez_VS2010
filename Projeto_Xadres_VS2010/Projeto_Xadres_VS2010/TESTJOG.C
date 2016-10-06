@@ -157,8 +157,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
-
-
+		printf("\n%d", vtMatrizes[ inxMatriz ]);
 		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 		if ((numLidos != 2)
 			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
@@ -235,8 +234,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar Inserir Peca */
 
-
-
 	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
 	{
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
@@ -277,10 +274,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
+		printf("\nANTES: %d", vtMatrizes[inxMatriz]);
 
 		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz]);
 		
-
+		printf("\nDEPOIS: %d", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;
@@ -292,216 +290,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar CriarTabuleiro */
 
-	  /* Testar CriarLista */
-
-	else if (strcmp(ComandoTeste, CRIAR_LISTA_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("isi",
-			&inxLista, StringDado, &CondRetEsp);
-
-		if ((numLidos != 3)
-			|| (!ValidarInxLista(inxLista, VAZIO)))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		CondRet_LIS = LIS_CriarLista(&vtListas[inxLista], StringDado);
-
-
-		if (CondRet_LIS == 6) {
-
-			return TST_CondRetMemoria;
-
-		}
-
-		return TST_CompararInt(CondRetEsp, CondRet_LIS,
-			"Condicao de retorno errada ao criar lista");
-
-	} /* fim ativa: Testar CriarLista */
-
-	  /* Testar Obter Id */
-
-	else if (strcmp(ComandoTeste, OBTER_ID_LISTA_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("isi",
-			&inxLista, StringDado, &CondRetEsp);
-
-		if (numLidos != 3)
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		strcpy(pDado, StringDado);
-
-		CondRet_LIS = LIS_ObterId(&vtListas[inxLista], pDado);
-
-		return TST_CompararString(pDado, StringDado,
-			"Id obtida pela função diferente da esperada");
-
-	} /* fim ativa: Testar CriarLista */
-
-	  /* Testar Destruir lista */
-
-	else if (strcmp(ComandoTeste, DESTROI_LISTA_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("ii",
-			&inxLista, &CondRetEsp);
-		if ((numLidos != 2))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		CondRet_LIS = LIS_DestroiLista(vtListas[inxLista]);
-
-		vtListas[inxLista] = NULL;
-
-		return TST_CompararInt(CondRetEsp, CondRet_LIS,
-			"Condicao de retorno errada ao inserir antes.");
-
-	} /* fim ativa: Testar Destruir lista */
-
-	  /* Testar inserir elemento apos */
-
-	else if (strcmp(ComandoTeste, INS_NO_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("ici",
-			&inxLista, &pCharDado, &CondRetEsp);
-
-		if (numLidos != 3)
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		pDado = (char *)malloc(sizeof(char));
-
-		if (pDado == NULL)
-		{
-			return TST_CondRetMemoria;
-		} /* if */
-
-		pDado = pCharDado;
-
-		CondRet_LIS = LIS_InserirNo(vtListas[inxLista], pDado);
-
-		if (CondRet_LIS != LIS_CondRetOK)
-		{
-			free(pDado);
-		} /* if */
-
-		return TST_CompararInt(CondRetEsp, CondRet_LIS,
-			"Condicao de retorno errada ao inserir apos.");
-
-	} /* fim ativa: Testar inserir elemento apos */
-
-	  /* Testar excluir simbolo */
-
-	else if (strcmp(ComandoTeste, EXC_NO_CORRENTE_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("i",
-			&inxLista);
-
-		if ((numLidos != 1)
-			|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		return TST_CompararInt(0,
-			LIS_ExcluirNoCorrente(vtListas[inxLista]),
-			"Condição de retorno errada ao excluir.");
-
-	} /* fim ativa: Testar excluir simbolo */
-
-	  /* Testar obter valor do elemento corrente */
-
-	else if (strcmp(ComandoTeste, OBTER_NO_CMD) == 0)
-	{
-		numLidos = LER_LerParametros("ici",
-			&inxLista, &CharDado, &CondRetEsp);
-
-		if ((numLidos != 3))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		CondRet_LIS = LIS_ObterNo(vtListas[inxLista], (void**)&CharObtido);
-		
-		if (CondRet_LIS == 2)
-		{		
-			return  TST_CompararPonteiroNulo(1, &CharObtido,
-				"Erro Lista Vazia");
-		} /* if */
-
-		return TST_CompararChar(CharObtido, CharDado,
-			"Valor do elemento errado.");
-
-	} /* fim ativa: Testar obter valor do elemento corrente */
-
-	  /* Testar Avançar elemento */
-
-	else if (strcmp(ComandoTeste, AVANCAR_ELEM_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("ii", &inxLista,
-			&CondRetEsp);
-
-		if ((numLidos != 2)
-			|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		return TST_CompararInt(CondRetEsp,
-			LIS_AvancarElementoCorrente(vtListas[inxLista]),
-			"Condicao de retorno errada ao avancar");
-
-	} /* fim ativa: LIS  &Avançar elemento */
-
-	  /* LIS  &Voltar elemento */
-
-	else if (strcmp(ComandoTeste, VOLTAR_ELEM_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("ii", &inxLista,
-			&CondRetEsp);
-
-		if ((numLidos != 2)
-			|| (!ValidarInxLista(inxLista, NAO_VAZIO)))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		return TST_CompararInt(CondRetEsp,
-			LIS_VoltarElementoCorrente(vtListas[inxLista]),
-			"Condicao de retorno errada ao avancar");
-
-	} /* fim ativa: LIS  &Voltar elemento */
-
-	else if (strcmp(ComandoTeste, ALTERA_NO_CORRENTE_CMD) == 0)
-	{
-
-		numLidos = LER_LerParametros("ici", &inxLista, &pCharDado,
-			&CondRetEsp);
-
-		if ((numLidos != 3))
-		{
-			return TST_CondRetParm;
-		} /* if */
-
-		return TST_CompararInt(CondRetEsp,
-			LIS_AlterarElementoCorrente(vtListas[inxLista], pCharDado),
-			"Condicao de retorno errada ao avancar");
-
-	} /* fim ativa: LIS  &Voltar elemento */
-
-	return TST_CondRetNaoConhec;
-
-} /* Fim função: TLIS &Testar lista */
+	} /* Fim função: TLIS &Testar jogo*/
 
 
   /*****  Código das funções encapsuladas no módulo  *****/
@@ -570,7 +359,6 @@ int ValidarInxMatriz(int inxLista, int Modo)
 		{
 			return FALSE;
 		} /* if */
-
 
 	}
 	else
