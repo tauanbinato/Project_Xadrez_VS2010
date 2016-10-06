@@ -26,7 +26,6 @@
 
 //Include de outros modulos
 #include   "lista.h"
-#include   "Peca.h"
 
 #define	   tamanho_matriz	8
 
@@ -279,7 +278,7 @@ TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, in
 *  Funcao: TAB  &Retirar Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna)
+TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
 {
 	int corrente ;
 	LIS_tppLista auxCabecaColuna  ;
@@ -309,6 +308,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
+
 
 /***************************************************************************
 *

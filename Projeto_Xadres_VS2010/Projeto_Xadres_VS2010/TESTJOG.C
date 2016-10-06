@@ -153,6 +153,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Efetuar reset de teste de lista */
 
+
 	/* Testar DestruirTabuleiro */
 
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
@@ -222,7 +223,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 
 		/*Parte da Peca*/
-
 		CondRet_PEC = PEC_insereValorEmPeca(peca_PEC, &id_peca, &id_cor);
 		
 		if (CondRet_PEC == 6) {
