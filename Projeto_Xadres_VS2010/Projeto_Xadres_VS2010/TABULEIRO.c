@@ -125,12 +125,12 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-
+	
 	// - Alocando cabeca de uma casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
-	}*/
+	}
 
 	// - Aloca a lista que a cabeca tabuleiro aponta
 	
