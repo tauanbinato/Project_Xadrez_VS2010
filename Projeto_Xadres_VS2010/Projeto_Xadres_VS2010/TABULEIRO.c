@@ -36,7 +36,6 @@
 
 
 
-
 /***********************************************************************
 *
 *  $TC Tipo de dados: TAB Descritor da cabeca (ancora) da matriz
@@ -79,8 +78,6 @@ typedef struct TAB_tagCasa {
 ***********************************************************************/
 
 typedef struct TAB_tagAncoraCasa {
-
-
 
 	TAB_casaMatriz * pCasaMatriz;
 	/* Ponteiro para uma casa */
@@ -257,9 +254,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	printf("2");
 	PEC_insereCorDePeca(aux_Peca, &id_cor);
 	printf("3");
-	PEC_obtemNomeDePeca(aux_Peca, nomePeca);
-	printf("4");
-	PEC_obtemCorDePeca(aux_Peca, corPeca);
+	PEC_obtemValoresdePeca(aux_Peca , nomePeca , corPeca);
 	printf("5");
 	printf("Peca adicionda : %c\n",nomePeca);
 	printf("6");
