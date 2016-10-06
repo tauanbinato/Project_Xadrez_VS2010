@@ -63,6 +63,7 @@ static const char ALTERA_NO_CORRENTE_CMD[]  =		     	"=alterarnocorrente"   ;
 
 #define DIM_VT_LISTA   10
 #define DIM_VT_TAB	   10
+#define DIM_VT_PEC	   10
 #define DIM_VALOR     100
 
 LIS_tppLista            vtListas[DIM_VT_LISTA];
@@ -119,10 +120,13 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		inxMatriz = -1;
 	int  cord_linha , cord_coluna;
 
+
+
 	/*Condicoes de Retorno*/
 	TST_tpCondRet CondRet;
 	LIS_tpCondRet CondRet_LIS;
 	TAB_tpCondRet CondRet_TAB;
+	PEC_tpCondRet CondRet_PEC;
 
 
 	/*Strings*/
@@ -177,44 +181,61 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar DestruirTabuleiro */
 
-	  /* Testar InserirPeca */
 
+
+	  /* Testar InserirPeca */
 
 	else if (strcmp(ComandoTeste, INSERIR_PECA_CMD) == 0)
 	{
 
+		/* Alocacoes Necessarias */
 
+		PEC_tppPeca  peca_PEC;
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc( sizeof(char));
 		if (id_peca == NULL) return TST_CondRetMemoria;
+
 		id_cor = (char *)malloc( sizeof(char));
 		if (id_cor == NULL) return TST_CondRetMemoria;
 
-		PEC_tppPeca * peca_PECA;
 		
+		/* FIM Alocacoes Necessarias */
 
-		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
+		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna, &id_peca,&id_cor,  &CondRetEsp);
 
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
 			printf("Entrou");
 			return TST_CondRetParm;
-		} /* if */
+		} 
 
 		printf(" recebe do script: %d %d %d %c %c %d\n",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
 
-		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &id_peca , &id_cor );
+		/*Parte da Tabuleiro*/
+		PEC_criaPeca(&peca_PEC);
+		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 			printf("Entrou");
 			return TST_CondRetMemoria;
+		}
+		if (TST_CompararInt(CondRetEsp, CondRet_TAB, "Condicao de retorno errada ao inserir peca"));
 
+
+		/*Parte da Peca*/
+
+		CondRet_PEC = PEC_insereValorEmPeca(peca_PEC, &id_peca, &id_cor);
+		
+		if (CondRet_PEC == 6) {
+			printf("Entrou");
+			return TST_CondRetMemoria;
 		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao inserir peca");
+		return TST_CompararInt(CondRetEsp, CondRet_PEC,"Condicao de retorno errada ao inserir peca");
 
 	} /* fim ativa: Testar Inserir Peca */
+
+
 
 	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
 	{

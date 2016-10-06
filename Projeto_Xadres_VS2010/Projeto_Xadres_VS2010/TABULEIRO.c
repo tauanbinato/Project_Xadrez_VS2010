@@ -209,7 +209,8 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	PEC_tppPeca aux_Peca;
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho , aux_listaColuna;
+	LIS_tppLista aux_listaCaminho;
+	LIS_tppLista aux_listaColuna;
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/

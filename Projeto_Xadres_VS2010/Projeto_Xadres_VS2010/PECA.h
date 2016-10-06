@@ -70,38 +70,21 @@ typedef struct PEC_tagPeca * PEC_tppPeca;
 
 /***********************************************************************
 *
-*  $FC Função: PEC  &Insere nome 
+*  $FC Função: PEC  &Insere Valor em Peca
 *
 *  $ED Descrição da função
-*     Insere um nome em uma estrutura peca
+*     Insere um nome e uma cor em uma estrutura peca
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
+*     cor_peca   - cor de uma peca
 *	  nome_peca  - nome de uma peca
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereNomeDePeca(PEC_tppPeca peca, char **nome_peca);
-
-
-/***********************************************************************
-*
-*  $FC Função: PEC  &Insere cor
-*
-*  $ED Descrição da função
-*     Insere uma cor em uma estrutura peca
-*
-*  $EP Parâmetros
-*     peca  - ponteiro para a estrutura a ser manipulada
-*	  cor_peca - nome da cor de uma peca
-*
-*  $FV Valor retornado
-*     CondRetOK            - se um elemento tiver sido voltado
-*
-***********************************************************************/
-PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char **cor_peca);
+PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca, char **nome_peca, char **cor_peca);
 
 /***********************************************************************
 *
