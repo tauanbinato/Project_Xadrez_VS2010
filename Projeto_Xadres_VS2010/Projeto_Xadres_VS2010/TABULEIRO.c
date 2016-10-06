@@ -144,7 +144,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	LIS_ObterId(caminho_matriz ,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
 
-
+	 
 	//Inicializando estrutura.
 	aux_ancoraTAB->num_de_linhas = 0;
 	aux_ancoraTAB->num_de_colunas = 0;
