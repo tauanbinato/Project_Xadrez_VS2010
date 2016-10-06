@@ -105,38 +105,21 @@ PEC_tpCondRet PEC_insereCorDePeca(PEC_tppPeca peca, char **cor_peca);
 
 /***********************************************************************
 *
-*  $FC Função: PEC  &Obtem nome peca
+*  $FC Função: PEC  &Obtem Valores de Peca
 *
 *  $ED Descrição da função
-*     Funcao de acesso para obter nome de uma estrutura peca
+*     Funcao de acesso para obter nome e cor de uma estrutura peca
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
+*	  cor_peca  - cor de uma peca
 *	  nome_peca  - nome de uma peca
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_obtemNomeDePeca(PEC_tppPeca peca, char *nome_peca);
-
-/***********************************************************************
-*
-*  $FC Função: PEC  &Obtem cor peca
-*
-*  $ED Descrição da função
-*     Funcao de acesso para obter nome de uma estrutura peca
-*
-*  $EP Parâmetros
-*     peca  - ponteiro para a estrutura a ser manipulada
-*	  cor_peca  - nome da cor de uma peca
-*
-*  $FV Valor retornado
-*     CondRetOK            - se um elemento tiver sido voltado
-*
-***********************************************************************/
-
-PEC_tpCondRet PEC_obtemCorDePeca(PEC_tppPeca peca, char *cor_peca);
+PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *cor_peca);
 
 /***********************************************************************
 *

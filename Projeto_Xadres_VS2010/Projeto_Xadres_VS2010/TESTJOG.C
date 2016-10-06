@@ -151,7 +151,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	/* Testar DestruirTabuleiro */
 
-
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
 
