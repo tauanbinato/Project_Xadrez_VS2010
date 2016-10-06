@@ -170,7 +170,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 				return TAB_CondRetFaltouMemoria;
 			}
 
-			cabeca_casa = &aux_cabecaCasa;
+			*cabeca_casa = aux_cabecaCasa;
 
 			LIS_InserirNo(colunas_matriz, cabeca_casa);
 
@@ -340,8 +340,8 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
-	PEC_obtemNomeDePeca(aux_Casa->pCasaMatriz->pPeca, &id_peca);
-	PEC_obtemCorDePeca(aux_Casa->pCasaMatriz->pPeca, &id_cor);
+
+	PEC_obtemValoresdePeca(aux_Casa->pCasaMatriz->pPeca, &id_peca, &id_cor);
 
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/
