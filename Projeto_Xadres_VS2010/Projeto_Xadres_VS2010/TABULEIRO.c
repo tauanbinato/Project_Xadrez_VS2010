@@ -516,7 +516,7 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 			printf("\nB");
 	
 			LIS_AvancarElementoCorrente(listacolunas);
-			printf("\n%d", numColunas);
+			printf("\n%d", numColunas); 
 		}
 		
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
