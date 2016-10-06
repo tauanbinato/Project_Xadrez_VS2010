@@ -33,7 +33,7 @@
 
 #include    "Lista.h"
 #include	"Tabuleiro.h"
-
+#include    "Peca.h"
 
 /**************************COMANDOS SCRIPT**************************/
 
@@ -154,9 +154,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
 
-	
-		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 
+		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 		if ((numLidos != 2)
 			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
@@ -186,13 +185,13 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc( sizeof(char));
-
 		if (id_peca == NULL) return TST_CondRetMemoria;
-
 		id_cor = (char *)malloc( sizeof(char));
-
 		if (id_cor == NULL) return TST_CondRetMemoria;
+
+		PEC_tppPeca * peca_PECA;
 		
+
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
 
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
@@ -201,8 +200,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-
 		printf(" recebe do script: %d %d %d %c %c %d\n",inxMatriz , cord_linha , cord_coluna , id_peca , id_cor , CondRetEsp);
+
 		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &id_peca , &id_cor );
 		
 		if (CondRet_TAB == 6) {
