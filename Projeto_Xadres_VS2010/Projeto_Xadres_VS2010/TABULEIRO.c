@@ -253,8 +253,24 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 *  Funcao: TAB  &Mover Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet moverPeca()
+TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest) 
 {
+	char *id_peca, *id_cor;
+
+	if (cabeca_TAB == NULL) {
+		return TAB_CondRetListaVazia;
+	}
+	
+	if (xDest > 8 || xDest < 1 || yDest> 1 || yDest < 8) {
+		return TAB_CondRetFimLista;
+	}
+
+
+	obterPeca(cabeca_TAB, xDest, yDest, id_peca, id_cor);
+
+
+
+
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Mover Peca*/
 
