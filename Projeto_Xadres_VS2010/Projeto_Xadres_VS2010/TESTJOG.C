@@ -183,6 +183,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	else if (strcmp(ComandoTeste, INSERIR_PECA_CMD) == 0)
 	{
 
+
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc( sizeof(char));
 		if (id_peca == NULL) return TST_CondRetMemoria;
