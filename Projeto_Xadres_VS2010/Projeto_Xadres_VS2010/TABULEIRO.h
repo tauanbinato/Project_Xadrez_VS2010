@@ -94,6 +94,9 @@ typedef enum {
 
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
 
+// para determinar se a funcao criar tabuleira ta de boas
+TAB_tpCondRet inserirPeca2(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
+
 /***********************************************************************
 
 -Função MoverPeca –a coordenada de origem e a coordenada de destino. Esta função deverá verificar se a peça poderá executar este movimento e se capturará uma peça de outra cor.

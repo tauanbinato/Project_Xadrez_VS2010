@@ -127,10 +127,10 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 
 
 	// - Alocando cabeca de uma casa
-	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
+	cabeca_casa = (TAB_ppAncoraCasa*)malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
-	}*/
+	}
 
 	// - Aloca a lista que a cabeca tabuleiro aponta
 	
@@ -197,7 +197,44 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 }
 /* Fim funcao: TAB  &Criar tabuleiro */
 
+// AREA DA JULIA -------------------------------
+TAB_tpCondRet inserirPeca2(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor)
+{
+	int current_line = 0;
+	int current_col = 0;
 
+	LIS_tppLista auxLine;
+	LIS_tppLista auxCol;
+
+	TAB_ppAncoraCasa auxCasa;
+
+	auxLine = cabeca_TAB->pCabecaLista ;
+
+	if ( auxLine == NULL ) return TAB_CondRetListaVazia;
+
+	LIS_IrInicioLista(auxLine) ;
+
+	while ( current_line < cord_linha )
+	{
+		LIS_AvancarElementoCorrente(auxLine);
+		current_line++;
+	}
+
+	LIS_ObterNo(auxLine, (void**)&auxCol);
+
+	while ( current_col < cord_coluna )
+	{
+		LIS_AvancarElementoCorrente(auxCol);
+		current_col++;
+	}
+
+	LIS_ObterNo(auxCol, (void**)&auxCasa) ;
+
+	//auxCasa->pCasaMatriz->
+
+
+	return TAB_CondRetOK;
+}
 
 // AREA DO TAUAN------------------
 /***************************************************************************
