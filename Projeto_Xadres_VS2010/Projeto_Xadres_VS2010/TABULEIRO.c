@@ -80,8 +80,6 @@ typedef struct TAB_tagCasa {
 
 typedef struct TAB_tagAncoraCasa {
 
-
-
 	TAB_casaMatriz * pCasaMatriz;
 	/* Ponteiro para uma casa */
 
@@ -125,12 +123,11 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-
 	// - Alocando cabeca de uma casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
-	}*/
+	}
 
 	// - Aloca a lista que a cabeca tabuleiro aponta
 	
@@ -143,8 +140,6 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	//caminho_matriz = cabeca_TAB->pCabecaLista;
 	caminho_matriz = aux_ancoraTAB->pCabecaLista;
 	// Fim Edit ###
-
-	
 
 	LIS_ObterId(caminho_matriz ,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
@@ -160,7 +155,6 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 		LIS_CriarLista(&colunas_matriz, vetor_IDS[numDoCaminho]);
 		LIS_InserirNo(caminho_matriz, colunas_matriz);
 	    aux_ancoraTAB->num_de_linhas++;
-		
 		
 		for (numColunas = 0; numColunas < tamanho_matriz; numColunas++)
 		{
@@ -185,7 +179,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 			//cabeca_TAB->num_de_colunas++;
 			aux_ancoraTAB->num_de_colunas++;
 
-			printf("(%d,%d) - %d\n", numDoCaminho, numColunas, cabeca_casa);
+			printf("(%d,%d) - %d\n", numDoCaminho, numColunas, (*cabeca_casa)->pCasaMatriz);
 		
 		}
 	} /* endFor */
@@ -219,8 +213,8 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	LIS_IrInicioLista(aux_listaCaminho);
-
+	LIS_IrInicioLista(&aux_listaCaminho);
+	printf("\nPARAPAPA");
 	printf("Valores: cord_linha: %d  cord_coluna: %d  , id peca: %c   id_cor: %c\n" ,cord_linha , cord_coluna , *id_peca , *id_cor);
 
 	//Testa se esta OUT of RANGE
@@ -234,9 +228,10 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		if (corrente == cord_linha) {
 			break;
 		}
+		printf("\ncapitao nascimento");
 		LIS_AvancarElementoCorrente(aux_listaCaminho);
 	}
-
+	printf("\nmorro do dende");
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
 	LIS_IrInicioLista(aux_listaColuna);
 

@@ -286,7 +286,7 @@ LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 	   } /* if */
 
 	  *pValor = pLista->pElemCorr->pValor;
-	  printf("\npValor: %d", *pValor);
+	  printf("\npValor: %c", *pValor);
 	   return LIS_CondRetOK;
 
    } /* Fim fun��o: LIS  &Obter refer�ncia para o valor contido no elemento */
