@@ -195,7 +195,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna,  &id_peca,&id_cor,  &CondRetEsp);
 
-		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
 			printf("Entrou");
 			return TST_CondRetParm;
