@@ -75,14 +75,13 @@ typedef enum {
 *  $FC Função: TAB  &inserir Peça
 *
 *  $ED Descrição da função
-*     insere Peça na casa passada
+*     insere Peça por referencia na casa passada
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
+*     cabeca_TAB		- cabeça do tabuleiro a ser inserida
 *	  cord_linha		- coordenada para a linha
 *	  cord_coluna		- coordenada para a coluna
-*     id_Peca		    - ponteiro parao tipo de peca a ser inserida
-*     id_cor		    - ponteiro parao a cor da peca a ser inserida
+*	  peca_PEC			- ponteiro pra void de uma peca
 *
 *  $FV Valor retornado
 *     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
@@ -92,10 +91,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
-
-// para determinar se a funcao criar tabuleira ta de boas
-TAB_tpCondRet inserirPeca2(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , char **id_peca , char **id_cor);
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void * peca_PEC);
 
 /***********************************************************************
 
