@@ -153,6 +153,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Efetuar reset de teste de lista */
 
+
 	/* Testar DestruirTabuleiro */
 
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
@@ -198,7 +199,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		if (id_cor == NULL) return TST_CondRetMemoria;
 
 		
-		/* FIM Alocacoes Necessarias */
+		/* FIM Alocacoes Necessarias  */
 
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna, &id_peca,&id_cor,  &CondRetEsp);
 
@@ -218,11 +219,10 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			printf("Entrou");
 			return TST_CondRetMemoria;
 		}
-		if (TST_CompararInt(CondRetEsp, CondRet_TAB, "Condicao de retorno errada ao inserir peca"));
+		if (TST_CompararInt(CondRetEsp, CondRet_TAB, "Condicao de retorno errada na inserirPeca TAB"));
 
 
 		/*Parte da Peca*/
-
 		CondRet_PEC = PEC_insereValorEmPeca(peca_PEC, &id_peca, &id_cor);
 		
 		if (CondRet_PEC == 6) {
@@ -230,7 +230,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetMemoria;
 		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_PEC,"Condicao de retorno errada ao inserir peca");
+		return TST_CompararInt(CondRetEsp, CondRet_PEC,"Condicao de retorno errada ao inserir valor em Peca");
 
 	} /* fim ativa: Testar Inserir Peca */
 

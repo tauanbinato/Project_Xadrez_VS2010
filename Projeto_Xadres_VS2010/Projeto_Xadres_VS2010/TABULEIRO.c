@@ -26,7 +26,6 @@
 
 //Include de outros modulos
 #include   "lista.h"
-#include   "Peca.h"
 
 #define	   tamanho_matriz	8
 
@@ -67,7 +66,8 @@ typedef struct TAB_tagCasa {
 
 	LIS_tppLista pListaAmeacantes;
 	LIS_tppLista pListaAmeacados;
-	PEC_tppPeca  pPeca;
+	(void*) pPeca;
+	char pCor;
 
 } TAB_casaMatriz;
 
@@ -253,8 +253,35 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 *  Funcao: TAB  &Mover Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet moverPeca()
+TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest) 
 {
+	char *id_cor_dest, *id_cor_origem;
+	void *peca_origem, *peca_dest;
+
+	if (cabeca_TAB == NULL) {
+		return TAB_CondRetListaVazia;
+	}
+	
+	if (xDest > 8 || xDest < 1 || yDest> 1 || yDest < 8) {
+		return TAB_CondRetFimLista;
+	}
+
+	obterPeca(cabeca_TAB, xDest, yDest, id_cor_origem, &peca_origem);
+	obterPeca(cabeca_TAB, xDest, yDest, id_cor_dest, &peca_dest);
+
+	// TRAB 3: Conferir validade do movimento
+
+	// 
+	if (peca_dest == NULL) {
+
+	}
+
+	if (id_cor_origem != id_cor_dest) {
+		inserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
+		retirarPeca(cabeca_TAB, xDest, yDest);
+		return TAB_CondRetOK;
+	}
+
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Mover Peca*/
 
@@ -263,7 +290,7 @@ TAB_tpCondRet moverPeca()
 *  Funcao: TAB  &Retirar Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna)
+TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
 {
 	int corrente ;
 	LIS_tppLista auxCabecaColuna  ;
@@ -294,12 +321,13 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
 
+
 /***************************************************************************
 *
 *  Funcao: TAB  &Obter Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor)
+TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_cor, void** peca)
 {
 	int corrente;
 	char nomePeca, corPeca;
@@ -341,8 +369,8 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
-
-	PEC_obtemValoresdePeca(aux_Casa->pCasaMatriz->pPeca, &id_peca, &id_cor);
+	*id_cor = aux_Casa->pCasaMatriz->pCor;
+	*peca = aux_Casa->pCasaMatriz->pPeca;
 
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/

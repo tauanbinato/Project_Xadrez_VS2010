@@ -89,15 +89,37 @@ typedef enum {
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
+*	$AE - Assertivas de entrada
+*	- Recebe número da linha e da coluna válidos (menores ou iguais a 8)
+*	- A posição da casa no encontro da linha com a coluna está vazia
+*	- Tabuleiro já foi criado
+*	- Recebe cor valida (‘P’ ou ‘B’) e identidade (string de 4 caracteres)
+*	$AS - Assertivas de saída:
+*	- Peça foi criada e inserida na posição desejada do tabuleiro
+*
 ***********************************************************************/
 
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void * peca_PEC);
 
 /***********************************************************************
-
--Função MoverPeca –a coordenada de origem e a coordenada de destino. Esta função deverá verificar se a peça poderá executar este movimento e se capturará uma peça de outra cor.
-Caso isso aconteça, a peça oponente será retirada do tabuleiro.  Crie os retornos necessários.
-
+*
+*	$FC Funçao: TAB &MoverPeca 
+* 
+*	$ED Descrição da função:
+*	Esta função deverá mover a peça recebida para a posição desejada no tabuleiro
+*	
+*	$EP Parâmetros
+*	- Coordenadas de origem e destino
+*
+*	$AE - Assertivas de entrada
+*	- Peça já foi criada, com suas informações preenchidas ( e não é vazia )
+*	- Posição para qual ela vai se mover está vazia, além de ser uma posição valida (contida dentro do tabuleiro)
+*	- Movimento é permitido para aquela peça
+*	- Tabuleiro já foi criado
+*	$AS - Assertivas de saída:
+*	- Peca agora está na posição desejada
+*	- Sua posição antiga agora está vazia (‘V’)
+*
 ***********************************************************************/
 
 TAB_tpCondRet moverPeca();
@@ -119,6 +141,12 @@ TAB_tpCondRet moverPeca();
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
+*	$AE - Assertivas de entrada
+*	- Existe uma peça na coordenada enviada
+*	- Tabuleiro existe
+*	$AS - Assertivas de saída:
+*	- Peça foi retirada
+*	- Posição (casa) que ela estava agora está vazia
 *
 ***********************************************************************/
 
@@ -143,10 +171,15 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
-*
+*	$AE - Assertivas de entrada
+*	- Tabuleiro está criado
+*	- Posição enviada é válida
+*	- Ponteiro a ser preenchido é do mesmo tipo estrutural que peça
+*	$AS - Assertivas de saída:
+*	- Ponteiro agora contem informação sobre a peça que estava na posição inserida (pode ser uma peça ou ‘V’-vazio)
 ***********************************************************************/
 
-TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_peca, char *id_cor) ;
+TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_cor, void** peca) ;
 
 /***********************************************************************
 *
@@ -167,7 +200,12 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
-*
+*	$AE - Assertivas de entrada
+*	- Recebe índice de linha e coluna válidos (menores ou igual a 8)
+*	- Tabuleiro tem que estar criado e preenchido (com vazios ou com peças)
+*	$AS - Assertivas de saída:
+*	- Valem assertivas estruturais de lista
+*	- Foi obtido a lista ameaçantes que estava na posição dos índices recebidos
 ***********************************************************************/
 
 TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes);
@@ -192,6 +230,13 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
+*	$AE - Assertivas de entrada
+*	- Recebe índice de linha e coluna válidos (menores ou igual a 8)
+*	- Tabuleiro tem que estar criado e preenchido (com vazios ou com peças)
+*	$AS - Assertivas de saída:
+*	Valem assertivas estruturais de lista
+*	-Foi obtido a lista ameaçados que estava na posição dos índices recebidos
+*	 
 ***********************************************************************/
 
 TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados);
@@ -213,6 +258,10 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
+*	$AE - Assertivas de entrada
+*	- Recebe o endereço da cabeça do tabuleiro (já criado)
+*	$AS - Assertivas de saída:
+*	- Tabuleiro foi destruído, e todos seus componentes também. Além disso, toda a memória alocada antes por ele e seus componentes foram liberadas
 ***********************************************************************/
 
 TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
@@ -239,6 +288,11 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
+*	$AE - Assertivas de entrada
+*	- Recebe o endereço de uma cabeça de matriz a ser preenchida
+*	$AS - Assertivas de saída:
+*	- Valem todas as assertivas de estruturais de lista
+*	- Ponteiro agora foi preenchido para a estrutura criada, que é uma matriz composta por listas ( com 8 linhas e 8 colunas )
 ***********************************************************************/
 
 TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);

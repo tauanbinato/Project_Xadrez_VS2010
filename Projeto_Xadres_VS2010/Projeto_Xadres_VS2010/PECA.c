@@ -46,6 +46,11 @@ typedef struct PEC_tagPeca {
 } PEC_Peca;
 
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Cria peca
+*
+***********************************************************************/
 
 PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 
@@ -60,6 +65,12 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 	
 	return PEC_CondRetOK;
 }
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Insere Valor Em Peca
+*
+***********************************************************************/
 
 PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char **nome_peca , char **cor_peca) {
 
@@ -89,7 +100,11 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char **nome_peca , char *
 	return PEC_CondRetOK;
 }
 
-
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Obtem Valor de Peca
+*
+***********************************************************************/
 
 PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca , char *cor_peca) {
 
@@ -101,6 +116,11 @@ PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca , char *c
 	return PEC_CondRetOK;
 }
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Esvazia peca
+*
+***********************************************************************/
 
 PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 	
@@ -113,6 +133,12 @@ PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 	return PEC_CondRetOK;
 
 }
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: PEC Destroi Peca
+*
+***********************************************************************/
 
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	
