@@ -199,7 +199,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		if (id_cor == NULL) return TST_CondRetMemoria;
 
 		
-		/* FIM Alocacoes Necessarias */
+		/* FIM Alocacoes Necessarias  */
 
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna, &id_peca,&id_cor,  &CondRetEsp);
 
