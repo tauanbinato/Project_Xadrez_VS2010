@@ -190,7 +190,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		/* Declaracoes Necessarias */
 		PEC_tppPeca  *peca_PEC;
-		char *id_peca , *id_cor;
+		char id_peca , id_cor;
 		
 
 		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna, &id_peca,&id_cor,  &CondRetEsp);
@@ -205,7 +205,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		/*Parte da Tabuleiro*/
 		PEC_criaPeca(&peca_PEC);
-		PEC_insereValorEmPeca(&peca_PEC, id_peca, id_cor);
+		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
 
 		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &peca_PEC );
 		
