@@ -106,22 +106,18 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 
 	//Auxiliares
 
-	LIS_tppLista   aux_caminhoMatriz;
+	LIS_tppLista   aux_colunasMatriz;
 	TAB_ancoraCasa *aux_cabecaCasa;
 	TAB_ppAncoraTabuleiro aux_ancoraTAB;
 
-	/* Fazendo as alocacaos necessarias */
+
 	// - Alocando cabeça da Tabuleiro.
 	aux_ancoraTAB = (TAB_ancoraTabuleiro *)malloc(sizeof(TAB_ancoraTabuleiro));
 	if (aux_ancoraTAB == NULL) {
 	
 		return TAB_CondRetFaltouMemoria;
 	}
-	// - Alocando cabeca de uma casa
-	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
-	if (cabeca_casa == NULL) {
-		return TAB_CondRetFaltouMemoria;
-	}
+	
 
 	/*Criando a lista de caminho e testando*/
 	printf("\nId enviado: %s\n" , idEnviado);
@@ -135,33 +131,35 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	aux_ancoraTAB->num_de_colunas = 0;
 	
 	
+	//Cria 8 caminhos (linhas)
 	for (aux_ancoraTAB->num_de_linhas = 0; aux_ancoraTAB->num_de_linhas < *lado_linhas ; aux_ancoraTAB->num_de_linhas++)
 	{
 	
-		//Cria 8 caminhos (linhas)
 		LIS_CriarLista(&colunas_matriz, "teste");
 		LIS_InserirNo(caminho_matriz, colunas_matriz);
+		
 	
+		//Cria 8 elementos para cada linha e aponta para uma casa
 		for (aux_ancoraTAB->num_de_colunas = 0; aux_ancoraTAB->num_de_colunas < *lado_colunas ; aux_ancoraTAB->num_de_colunas++)
 		{
-			//Cria 8 elementos para cada linha e aponta para uma casa
+			
+			cabeca_casa = (TAB_ppAncoraCasa *)malloc(sizeof(TAB_ppAncoraCasa));
+			if (cabeca_casa == NULL) {
+				return TAB_CondRetFaltouMemoria;
+			}
+
 			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
 			if (aux_cabecaCasa == NULL) {
 			
 				return TAB_CondRetFaltouMemoria;
 			}
 
-			cabeca_casa = (TAB_ppAncoraCasa *)malloc(sizeof(TAB_ppAncoraCasa));
-			if (cabeca_casa == NULL) {
-				return TAB_CondRetFaltouMemoria;
-			}
-
 			*cabeca_casa = aux_cabecaCasa;
-			LIS_InserirNo(colunas_matriz, cabeca_casa);
+			LIS_InserirNo(colunas_matriz, &cabeca_casa);
 			free(aux_cabecaCasa);    
- 
-	
-			printf("(%d,%d) - %d\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas, colunas_matriz);
+		
+			printf("(%d,%d) - (%d,%d)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , *cabeca_casa);
+
 		}
 
 
