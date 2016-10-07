@@ -261,25 +261,26 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar Inserir Peca */
 
-	  /* Testar CriarTabuleiro */
 
+	  /* Testar CriarTabuleiro */
 
 	else if (strcmp(ComandoTeste, CRIAR_TABULEIRO_CMD) == 0)
 	{
 
-	
-		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
+		int lado_linhas, lado_colunas;
 
-		if ((numLidos != 2)
+		numLidos = LER_LerParametros("iiii", &inxMatriz,&lado_linhas,&lado_colunas, &CondRetEsp);
+
+		if ((numLidos != 4)
 			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
 			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
-		printf("\nANTES: %d", vtMatrizes[inxMatriz]);
+		printf("\nANTES: %d , %d %d", vtMatrizes[inxMatriz] , lado_linhas , lado_colunas);
 
-		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz]);
+		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
 		
 		printf("\nDEPOIS: %d", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
