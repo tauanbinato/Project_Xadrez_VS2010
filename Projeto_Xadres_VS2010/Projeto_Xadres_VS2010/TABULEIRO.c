@@ -185,21 +185,21 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 *Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor. 
 *Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente
 *  *************************************************************************/
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void ** peca_PEC)
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void** peca_PEC)
 {
 
 	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-
+	LIS_tppLista aux_listaColuna;
+	TAB_ancoraCasa **aux_Ancora_De_Uma_Casa;
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho;
-	LIS_tppLista aux_listaColuna;
-	aux_listaCaminho = cabeca_TAB->pCabecaLista;
+	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	LIS_IrInicioLista(&aux_listaCaminho);
+	LIS_IrInicioLista(aux_listaCaminho);
 	printf("Valores: cord_linha: %d  cord_coluna: %d \n" ,cord_linha , cord_coluna);
 
 	//Testa se esta OUT of RANGE
@@ -227,8 +227,9 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
 
-	LIS_ObterNo(aux_listaColuna, &peca_PEC);
+	LIS_ObterNo(aux_listaColuna, &aux_Ancora_De_Uma_Casa);
 
+	(*aux_Ancora_De_Uma_Casa)->pCasaMatriz->pPeca = *peca_PEC;
 
 	return TAB_CondRetOK;
 

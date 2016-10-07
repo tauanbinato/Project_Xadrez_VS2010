@@ -58,8 +58,8 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 	aux_peca = (PEC_Peca *)malloc(sizeof(PEC_Peca));
 	if (aux_peca == NULL) return PEC_CondRetFaltouMemoria;
 
-	strcpy(aux_peca->cor_peca , 'V');
-	strcpy(aux_peca->nome_peca , 'V');
+	aux_peca->cor_peca = 'V';
+	aux_peca->nome_peca = 'V';
 
 	*peca = aux_peca;
 	
@@ -72,29 +72,28 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca , char **nome_peca , char **cor_peca) {
+PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char *cor_peca) {
 
 	/*Aloca nome*/
 	char* aux_nome;
 	char* aux_cor;
 
-
 	aux_nome = (char *)malloc(sizeof(char));
 	if (aux_nome == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_nome = *nome_peca;
+	aux_nome = &nome_peca;
 
 	/*Aloca cor*/
 	aux_cor = (char *)malloc(sizeof(char));
 	if (aux_cor == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_cor = *cor_peca;
+	aux_cor = &cor_peca;
 
 
-	printf("obtendo peca : %c \n", aux_cor);
+	printf("obtendo peca : %c \n", *aux_cor);
 
-	(*peca)->cor_peca = aux_cor;
-	(*peca)->nome_peca = aux_nome;
+	peca->cor_peca = aux_cor;
+	peca->nome_peca = aux_nome;
 	printf("\nAPOS INSERIR  : cor_peca %s , nome_peca: %s \n", aux_cor , aux_nome);
 
 	return PEC_CondRetOK;

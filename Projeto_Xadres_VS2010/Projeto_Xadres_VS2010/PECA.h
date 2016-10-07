@@ -84,7 +84,7 @@ typedef struct PEC_tagPeca * PEC_tppPeca;
 *     CondRetOK            - se um elemento tiver sido voltado
 *
 ***********************************************************************/
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca, char **nome_peca, char **cor_peca);
+PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca, char *nome_peca, char *cor_peca);
 
 /***********************************************************************
 *
