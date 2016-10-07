@@ -222,7 +222,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	}
 	printf("3\n");
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
-	printf("\npValor: %p", aux_listaColuna);
+	printf("\npValor: %p\n", *aux_listaColuna);
 	printf("4\n");
 	LIS_IrInicioLista(aux_listaColuna);
 
