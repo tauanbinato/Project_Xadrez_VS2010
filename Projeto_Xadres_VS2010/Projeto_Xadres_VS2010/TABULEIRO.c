@@ -162,7 +162,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 			LIS_InserirNo(colunas_matriz, &cabeca_casa);
 			free(aux_cabecaCasa);    
 		
-			printf("(%d,%d) - (%d,%d)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , *cabeca_casa);
+			printf("(%d,%d) - (%d,%d)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
 
 		}
 
