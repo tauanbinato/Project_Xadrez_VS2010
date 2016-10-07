@@ -27,8 +27,6 @@
 //Include de outros modulos
 #include   "lista.h"
 
-#define	   tamanho_matriz	8
-
 #define LISTA_OWN
 #include "Tabuleiro.h"
 #undef LISTA_OWN
@@ -69,8 +67,6 @@ typedef struct TAB_tagCasa {
 	void* pPeca;
 	char pCor;
 
-
-
 } TAB_casaMatriz;
 
 
@@ -95,12 +91,11 @@ typedef struct TAB_tagAncoraCasa {
 *
 *  **************************************************************************/
 
-TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
+TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int lado_linhas , int lado_colunas) {
 
 	/* Declaracoes necessarias */
 	int numDoCaminho, numColunas;
-	char* vetor_IDS[tamanho_matriz] = { "um" , "dois" , "tres" , "quat" , "cinc" , "seis" , "sete" , "oito" };
-
+	
 	LIS_tppLista  caminho_matriz;
 	LIS_tppLista  colunas_matriz ;
 
@@ -116,49 +111,39 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 	TAB_ppAncoraTabuleiro aux_ancoraTAB;
 
 	/* Fazendo as alocacaos necessarias */
-
-
 	// - Alocando cabeça da Tabuleiro.
 	aux_ancoraTAB = (TAB_ancoraTabuleiro *)malloc(sizeof(TAB_ancoraTabuleiro));
 	if (aux_ancoraTAB == NULL) {
 	
 		return TAB_CondRetFaltouMemoria;
 	}
-
 	// - Alocando cabeca de uma casa
 	cabeca_casa = (TAB_ppAncoraCasa )malloc(sizeof(TAB_ancoraCasa));
 	if (cabeca_casa == NULL) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-	// - Aloca a lista que a cabeca tabuleiro aponta
-	
-	printf("Id enviado: %s\n" , idEnviado);
-
-	// Init Edit: Brandao 05/10 20:16 ####
-	//LIS_CriarLista(&cabeca_TAB->pCabecaLista, idEnviado);
+	/*Criando a lista de caminho e testando*/
+	printf("\nId enviado: %s\n" , idEnviado);
 	LIS_CriarLista(&aux_ancoraTAB->pCabecaLista, idEnviado);
-	
-	//caminho_matriz = cabeca_TAB->pCabecaLista;
 	caminho_matriz = aux_ancoraTAB->pCabecaLista;
-	// Fim Edit ###
-
 	LIS_ObterId(caminho_matriz ,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
 
-	 
 	//Inicializando estrutura.
 	aux_ancoraTAB->num_de_linhas = 0;
 	aux_ancoraTAB->num_de_colunas = 0;
 	
-	for (numDoCaminho = 0; numDoCaminho < tamanho_matriz; numDoCaminho++)
+
+	for (aux_ancoraTAB->num_de_linhas; aux_ancoraTAB->num_de_linhas < lado_linhas ; aux_ancoraTAB->num_de_linhas++)
 	{
 		//Cria 8 caminhos (linhas)
-		LIS_CriarLista(&colunas_matriz, vetor_IDS[numDoCaminho]);
+		LIS_CriarLista(&colunas_matriz, "teste");
 		LIS_InserirNo(caminho_matriz, colunas_matriz);
-	    aux_ancoraTAB->num_de_linhas++;
+	    
 		
-		for (numColunas = 0; numColunas < tamanho_matriz; numColunas++)
+		
+		for (aux_ancoraTAB->num_de_colunas; aux_ancoraTAB->num_de_colunas < lado_colunas ; aux_ancoraTAB->num_de_colunas++)
 		{
 			//Cria 8 elementos para cada linha e aponta para uma casa
 			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
@@ -173,17 +158,14 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 			}
 
 			*cabeca_casa = aux_cabecaCasa;
-
 			LIS_InserirNo(colunas_matriz, cabeca_casa);
-
 			free(aux_cabecaCasa);    
  
-			//cabeca_TAB->num_de_colunas++;
-			aux_ancoraTAB->num_de_colunas++;
-
-			printf("(%d,%d) - %d\n", numDoCaminho, numColunas, (*cabeca_casa)->pCasaMatriz);
-		
+	
+			printf("%d,%d) - %d\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas, colunas_matriz);
 		}
+
+
 	} /* endFor */
 
 
@@ -202,13 +184,13 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB) {
 *Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor. 
 *Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente
 *  *************************************************************************/
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void * peca_PEC)
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void ** peca_PEC)
 {
 
+	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-	TAB_ppAncoraCasa *aux_Casa;
-	PEC_tppPeca aux_Peca;
+
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho;
@@ -220,7 +202,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	printf("Valores: cord_linha: %d  cord_coluna: %d \n" ,cord_linha , cord_coluna);
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > tamanho_matriz || cord_coluna > tamanho_matriz ) || (cord_linha == 0 || cord_coluna == 0)) {
+	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha == 0 || cord_coluna == 0)) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -243,11 +225,12 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		}
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Peca);
 
-	peca_PEC = &aux_Peca;
+	LIS_ObterNo(aux_listaColuna, &peca_PEC);
+
 
 	return TAB_CondRetOK;
+
 }/*Fim funcao: TAB &Inserir Peça*/
 
 /***************************************************************************
@@ -334,7 +317,6 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	int corrente;
 	char nomePeca, corPeca;
 	TAB_ppAncoraCasa aux_Casa;
-	PEC_tppPeca *aux_Peca;
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho, aux_listaColuna;
@@ -345,7 +327,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > tamanho_matriz || cord_coluna > tamanho_matriz) || (cord_linha == 0 || cord_coluna == 0)) {
+	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas) || (cord_linha == 0 || cord_coluna == 0)) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -391,7 +373,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	int corrente;
 	char nomePeca, corPeca;
 	TAB_ppAncoraCasa aux_Casa;
-	PEC_tppPeca *aux_Peca;
+	
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho, aux_listaColuna;
@@ -402,7 +384,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > tamanho_matriz || coluna > tamanho_matriz) || (linha == 0 || coluna == 0)) {
+	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha == 0 || coluna == 0)) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -446,7 +428,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	int corrente;
 	char nomePeca, corPeca;
 	TAB_ppAncoraCasa aux_Casa;
-	PEC_tppPeca *aux_Peca;
+	
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho, aux_listaColuna;
@@ -457,7 +439,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > tamanho_matriz || coluna > tamanho_matriz) || (linha == 0 || coluna == 0)) {
+	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha == 0 || coluna == 0)) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -493,12 +475,12 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
-{
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){}
+/*
 	int numLinhas, numColunas;
 	LIS_tppLista listacolunas, aux, *listaameacantes,*listaameacados;
 	TAB_ppAncoraCasa *aux_Casa;
-	PEC_tppPeca aux_Peca;
+	
 	
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
 	
@@ -516,7 +498,7 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB)
 			printf("\npassou");
 			//LIS_EsvaziarLista(listacolunas);
 			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaameacantes);
-			LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
+			LIS_ObterNo(*listaameacantes, (*);
 			while (listaameacantes != NULL)
 			{
 				PEC_DestroiPeca(aux_Peca); //destroi a peca na posicao 

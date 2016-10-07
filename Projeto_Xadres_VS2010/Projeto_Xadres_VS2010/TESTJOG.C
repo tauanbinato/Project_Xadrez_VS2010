@@ -190,7 +190,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		/* Alocacoes Necessarias */
 
-		PEC_tppPeca  peca_PEC;
+		PEC_tppPeca  *peca_PEC;
 		char *id_peca , *id_cor;
 		id_peca = (char *)malloc( sizeof(char));
 		if (id_peca == NULL) return TST_CondRetMemoria;
@@ -213,7 +213,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		/*Parte da Tabuleiro*/
 		PEC_criaPeca(&peca_PEC);
-		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
+		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 			printf("Entrou");
@@ -223,7 +223,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 
 		/*Parte da Peca*/
-		CondRet_PEC = PEC_insereValorEmPeca(peca_PEC, &id_peca, &id_cor);
+		CondRet_PEC = PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
 		
 		if (CondRet_PEC == 6) {
 			printf("Entrou");
@@ -232,7 +232,10 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		return TST_CompararInt(CondRetEsp, CondRet_PEC,"Condicao de retorno errada ao inserir valor em Peca");
 
-	} /* fim ativa: Testar Inserir Peca */
+	} 
+	/* fim ativa: Testar Inserir Peca */
+
+
 
 	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
 	{

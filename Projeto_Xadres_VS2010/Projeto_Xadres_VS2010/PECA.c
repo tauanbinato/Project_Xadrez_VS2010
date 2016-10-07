@@ -72,7 +72,7 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char **nome_peca , char **cor_peca) {
+PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca , char **nome_peca , char **cor_peca) {
 
 	/*Aloca nome*/
 	char* aux_nome;
@@ -93,8 +93,8 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char **nome_peca , char *
 
 	printf("obtendo peca : %c \n", aux_cor);
 
-	peca->cor_peca = aux_cor;
-	peca->nome_peca = aux_nome;
+	(*peca)->cor_peca = aux_cor;
+	(*peca)->nome_peca = aux_nome;
 	printf("\nAPOS INSERIR  : cor_peca %s , nome_peca: %s \n", aux_cor , aux_nome);
 
 	return PEC_CondRetOK;
