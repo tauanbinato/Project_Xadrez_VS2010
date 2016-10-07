@@ -135,14 +135,14 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	aux_ancoraTAB->num_de_colunas = 0;
 	
 	
-	for (aux_ancoraTAB->num_de_linhas; aux_ancoraTAB->num_de_linhas < *lado_linhas ; aux_ancoraTAB->num_de_linhas++)
+	for (aux_ancoraTAB->num_de_linhas = 0; aux_ancoraTAB->num_de_linhas < *lado_linhas ; aux_ancoraTAB->num_de_linhas++)
 	{
 	
 		//Cria 8 caminhos (linhas)
 		LIS_CriarLista(&colunas_matriz, "teste");
 		LIS_InserirNo(caminho_matriz, colunas_matriz);
 	
-		for (aux_ancoraTAB->num_de_colunas; aux_ancoraTAB->num_de_colunas < *lado_colunas ; aux_ancoraTAB->num_de_colunas++)
+		for (aux_ancoraTAB->num_de_colunas = 0; aux_ancoraTAB->num_de_colunas < *lado_colunas ; aux_ancoraTAB->num_de_colunas++)
 		{
 			//Cria 8 elementos para cada linha e aponta para uma casa
 			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
@@ -168,7 +168,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	} /* endFor */
 
 
-	cabeca_TAB = aux_ancoraTAB;
+	*cabeca_TAB = &aux_ancoraTAB;
 	return TAB_CondRetOK;
 
 }
