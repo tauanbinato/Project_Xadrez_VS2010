@@ -262,11 +262,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		printf("\nANTES: %d , %d %d", vtMatrizes[inxMatriz] , lado_linhas , lado_colunas);
+		printf("\nANTES: %p , %d %d", vtMatrizes[inxMatriz] , lado_linhas , lado_colunas);
 
 		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
 		
-		printf("\nDEPOIS: %d", vtMatrizes[inxMatriz]);
+		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;

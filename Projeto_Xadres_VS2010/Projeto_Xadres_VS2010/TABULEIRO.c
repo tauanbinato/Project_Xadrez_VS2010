@@ -162,7 +162,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 			LIS_InserirNo(colunas_matriz, &cabeca_casa);
 			free(aux_cabecaCasa);    
 		
-			printf("(%d,%d) - (%d,%d)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
+			printf("(%d,%d) - (%p,%p)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
 
 		}
 
@@ -170,7 +170,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	} /* endFor */
 
 
-	*cabeca_TAB = &aux_ancoraTAB;
+	*cabeca_TAB = aux_ancoraTAB;
 	return TAB_CondRetOK;
 
 }
@@ -191,44 +191,54 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-	LIS_tppLista aux_listaColuna;
+	LIS_tppLista *aux_listaColuna;
 	TAB_ancoraCasa **aux_Ancora_De_Uma_Casa;
 	
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho;
 	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
 
+	printf("\nAux_listacaminho : %p\n", aux_listaCaminho);
+
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
 	LIS_IrInicioLista(aux_listaCaminho);
 	printf("Valores: cord_linha: %d  cord_coluna: %d \n" ,cord_linha , cord_coluna);
 
+	printf("1\n");
 	//Testa se esta OUT of RANGE
 	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha == 0 || cord_coluna == 0)) {
 		return TAB_CondRetNaoAchou;
+		printf("out of range\n");
 	}
 
+	printf("2\n");
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
 	for (corrente = 1; corrente == cord_linha; corrente++) {
 		if (corrente == cord_linha) {
 			break;
 		}
+		printf("avancou\n");
 		LIS_AvancarElementoCorrente(aux_listaCaminho);
 	}
-
+	printf("3\n");
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
+	printf("\npValor: %p", aux_listaColuna);
+	printf("4\n");
 	LIS_IrInicioLista(aux_listaColuna);
 
-	
+	printf("5\n");
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 1; corrente == cord_coluna; corrente++) {
 		if (corrente == cord_coluna) {
 			break;
 		}
+		printf("avancou coluna\n");
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
-
+	printf("6\n");
 	LIS_ObterNo(aux_listaColuna, &aux_Ancora_De_Uma_Casa);
 
+	printf("7\n");
 	(*aux_Ancora_De_Uma_Casa)->pCasaMatriz->pPeca = *peca_PEC;
 
 	return TAB_CondRetOK;
