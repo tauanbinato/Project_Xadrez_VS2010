@@ -66,8 +66,10 @@ typedef struct TAB_tagCasa {
 
 	LIS_tppLista pListaAmeacantes;
 	LIS_tppLista pListaAmeacados;
-	(void*) pPeca;
+	void* pPeca;
 	char pCor;
+
+
 
 } TAB_casaMatriz;
 
