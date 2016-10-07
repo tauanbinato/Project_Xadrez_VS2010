@@ -93,6 +93,10 @@ typedef struct TAB_tagAncoraCasa {
 
 TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linhas , int *lado_colunas) {
 
+
+	/*SCRIPT PARA TESTA_LA : =criartabuleiro tabuleiro0	 lado_linhas	lado_colunas	OK  */
+
+
 	/* Declaracoes necessarias */
 	int numDoCaminho, numColunas;
 	
