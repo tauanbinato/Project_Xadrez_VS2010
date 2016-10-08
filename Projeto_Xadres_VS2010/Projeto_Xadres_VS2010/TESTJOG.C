@@ -214,7 +214,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetMemoria;
 		}
 		
-		return TST_CompararInt(CondRetEsp, CondRet_PEC,"Condicao de retorno errada ao inserir valor em Peca");
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,"Condicao de retorno errada ao inserir valor em Peca");
 
 	} 
 	/* fim ativa: Testar Inserir Peca */
