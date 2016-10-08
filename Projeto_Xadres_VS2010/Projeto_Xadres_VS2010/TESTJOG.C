@@ -220,7 +220,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/* fim ativa: Testar Inserir Peca */
 
 
-
+	/* Testar Retirar Peca */
 	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
 	{
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
@@ -241,9 +241,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		}
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao inserir peca");
+			"Condicao de retorno errada ao retirar peca");
 
-	} /* fim ativa: Testar Inserir Peca */
+	} /* fim ativa: Testar Retirar Peca */
 
 
 	  /* Testar CriarTabuleiro */
