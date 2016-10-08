@@ -148,7 +148,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 			if (cabeca_casa == NULL) {
 				return TAB_CondRetFaltouMemoria;
 			}
-
+			
 			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
 			if (aux_cabecaCasa == NULL) {
 			
@@ -156,8 +156,10 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 			}
 
 			*cabeca_casa = aux_cabecaCasa;
+
 			LIS_InserirNo(colunas_matriz, &cabeca_casa);
-			
+
+
 			printf("(%d,%d) - (%p,%p)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
 			free(aux_cabecaCasa);
 		}
@@ -186,8 +188,8 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-	LIS_tppLista *aux_listaColuna;
-	TAB_ppAncoraCasa *aux_Ancora_De_Uma_Casa;
+	LIS_tppLista aux_listaColuna;
+	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
 
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
@@ -220,17 +222,17 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	
 	
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(&aux_listaColuna);
+	LIS_IrInicioLista(aux_listaColuna);
 	for (corrente = 0; corrente < cord_coluna; corrente++) {
 		if (corrente == cord_coluna) {
 			break;
 		}
 		
-		LIS_AvancarElementoCorrente(&aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna);
 		printf("avancou coluna\n");
 	}
 
-	LIS_ObterNo(&aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
+	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
 	printf("\nEndereco Y: %p\n", aux_Ancora_De_Uma_Casa);
 
 
