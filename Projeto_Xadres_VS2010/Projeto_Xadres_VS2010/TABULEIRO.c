@@ -235,8 +235,8 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
 	printf("\nEndereco Y: %p\n", aux_Ancora_De_Uma_Casa);
 
-
-	//aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
+	
+	aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
 
 	return TAB_CondRetOK;
 
