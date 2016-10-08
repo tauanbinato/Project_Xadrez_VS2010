@@ -99,7 +99,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void * peca_PEC);
+TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca_PEC);
 
 /***********************************************************************
 *

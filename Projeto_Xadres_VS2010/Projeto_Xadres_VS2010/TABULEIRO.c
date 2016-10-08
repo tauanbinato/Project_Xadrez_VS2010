@@ -187,8 +187,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	int corrente;
 	char *nomePeca , *corPeca;
 	LIS_tppLista *aux_listaColuna;
-	TAB_ancoraCasa **aux_Ancora_De_Uma_Casa;
-
+	TAB_ppAncoraCasa *aux_Ancora_De_Uma_Casa;
 
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
@@ -197,8 +196,6 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 
 	printf("\nAux_listacaminho : %p\n", aux_listaCaminho);
 
-	aux_Ancora_De_Uma_Casa = (TAB_ancoraCasa **)malloc(sizeof(TAB_ancoraCasa));
-	if (aux_Ancora_De_Uma_Casa == NULL) return TAB_CondRetFaltouMemoria;
 
 	//Testa se esta OUT of RANGE
 	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
