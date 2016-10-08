@@ -99,17 +99,13 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 
 	/* Declaracoes necessarias */
 	int numDoCaminho, numColunas;
-	
 	LIS_tppLista  caminho_matriz;
 	LIS_tppLista  colunas_matriz ;
-
 	TAB_ppAncoraCasa *cabeca_casa;
-
 	char idObtido[5];
 	char idEnviado[5] = "Cami";
 
 	//Auxiliares
-
 	LIS_tppLista   aux_colunasMatriz;
 	TAB_ancoraCasa *aux_cabecaCasa;
 	TAB_ppAncoraTabuleiro aux_ancoraTAB;
@@ -123,11 +119,12 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	}
 	
 
+
 	/*Criando a lista de caminho e testando*/
 	printf("\nId enviado: %s\n" , idEnviado);
-	LIS_CriarLista(&aux_ancoraTAB->pCabecaLista, idEnviado);
-	caminho_matriz = aux_ancoraTAB->pCabecaLista;
-	LIS_ObterId(caminho_matriz ,idObtido );
+	LIS_CriarLista(&caminho_matriz, idEnviado);
+	aux_ancoraTAB->pCabecaLista = caminho_matriz;
+	LIS_ObterId(aux_ancoraTAB->pCabecaLista,idObtido );
 	printf("Id obtido: %s\n" , idObtido);
 
 	//Inicializando estrutura.
@@ -140,14 +137,14 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	{
 	
 		LIS_CriarLista(&colunas_matriz, "teste");
-		LIS_InserirNo(caminho_matriz, colunas_matriz);
+		LIS_InserirNo(aux_ancoraTAB->pCabecaLista, colunas_matriz);
 		
 	
 		//Cria 8 elementos para cada linha e aponta para uma casa
 		for (aux_ancoraTAB->num_de_colunas = 0; aux_ancoraTAB->num_de_colunas < *lado_colunas ; aux_ancoraTAB->num_de_colunas++)
 		{
 			
-			cabeca_casa = (TAB_ppAncoraCasa *)malloc(sizeof(TAB_ppAncoraCasa));
+			cabeca_casa = (TAB_ppAncoraCasa *)malloc(sizeof(TAB_ancoraCasa));
 			if (cabeca_casa == NULL) {
 				return TAB_CondRetFaltouMemoria;
 			}
@@ -160,22 +157,20 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 
 			*cabeca_casa = aux_cabecaCasa;
 			LIS_InserirNo(colunas_matriz, &cabeca_casa);
-			free(aux_cabecaCasa);    
-		
+			
 			printf("(%d,%d) - (%p,%p)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
-
+			free(aux_cabecaCasa);
 		}
-
+		
 
 	} /* endFor */
 
-
+	
 	*cabeca_TAB = aux_ancoraTAB;
 	return TAB_CondRetOK;
 
 }
 /* Fim funcao: TAB  &Criar tabuleiro */
-
 
 
 // AREA DO TAUAN------------------
@@ -193,53 +188,56 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	char *nomePeca , *corPeca;
 	LIS_tppLista *aux_listaColuna;
 	TAB_ancoraCasa **aux_Ancora_De_Uma_Casa;
-	
+
+
+
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho;
 	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
 
 	printf("\nAux_listacaminho : %p\n", aux_listaCaminho);
 
-	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	LIS_IrInicioLista(aux_listaCaminho);
-	printf("Valores: cord_linha: %d  cord_coluna: %d \n" ,cord_linha , cord_coluna);
+	aux_Ancora_De_Uma_Casa = (TAB_ancoraCasa **)malloc(sizeof(TAB_ancoraCasa));
+	if (aux_Ancora_De_Uma_Casa == NULL) return TAB_CondRetFaltouMemoria;
 
-	printf("1\n");
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha == 0 || cord_coluna == 0)) {
-		return TAB_CondRetNaoAchou;
+	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
 		printf("out of range\n");
+		return TAB_CondRetNaoAchou;
 	}
 
-	printf("2\n");
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 1; corrente == cord_linha; corrente++) {
+	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
+
+	for(corrente = 0; corrente < cord_linha; corrente++) {
 		if (corrente == cord_linha) {
 			break;
 		}
-		printf("avancou\n");
-		LIS_AvancarElementoCorrente(aux_listaCaminho);
-	}
-	printf("3\n");
-	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
-	printf("\npValor: %p\n", *aux_listaColuna);
-	printf("4\n");
-	LIS_IrInicioLista(aux_listaColuna);
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		printf("avancou linha\n");
+	}/*fim for*/
+	
 
-	printf("5\n");
+	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
+	printf("\nEndereco X: %p\n", aux_listaColuna);
+	
+	
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	for (corrente = 1; corrente == cord_coluna; corrente++) {
+	LIS_IrInicioLista(&aux_listaColuna);
+	for (corrente = 0; corrente < cord_coluna; corrente++) {
 		if (corrente == cord_coluna) {
 			break;
 		}
+		
+		LIS_AvancarElementoCorrente(&aux_listaColuna);
 		printf("avancou coluna\n");
-		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
-	printf("6\n");
-	LIS_ObterNo(aux_listaColuna, &aux_Ancora_De_Uma_Casa);
 
-	printf("7\n");
-	(*aux_Ancora_De_Uma_Casa)->pCasaMatriz->pPeca = *peca_PEC;
+	LIS_ObterNo(&aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
+	printf("\nEndereco Y: %p\n", aux_Ancora_De_Uma_Casa);
+
+
+	//aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
 
 	return TAB_CondRetOK;
 

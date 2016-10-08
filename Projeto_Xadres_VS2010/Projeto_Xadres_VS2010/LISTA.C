@@ -111,6 +111,7 @@
 	  strcpy(aux->idLista, idLista);
 	  
 	  *pLista = aux;
+	 
 
       return LIS_CondRetOK ;
 
