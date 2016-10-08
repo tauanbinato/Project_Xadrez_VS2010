@@ -136,7 +136,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	for (aux_ancoraTAB->num_de_linhas = 0; aux_ancoraTAB->num_de_linhas < *lado_linhas ; aux_ancoraTAB->num_de_linhas++)
 	{
 	
-		LIS_CriarLista(&colunas_matriz, "teste");
+		LIS_CriarLista(&colunas_matriz, "test");
 		LIS_InserirNo(aux_ancoraTAB->pCabecaLista, colunas_matriz);
 		
 	
