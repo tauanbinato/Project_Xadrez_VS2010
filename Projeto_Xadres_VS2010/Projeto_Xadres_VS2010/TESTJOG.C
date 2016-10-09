@@ -206,7 +206,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
 		
-		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
+		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna ,(void**)peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 
@@ -284,6 +284,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
 	{
 
+		PEC_tppPeca* peca_PEC;
 		int lado_linhas, lado_colunas;
 
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
@@ -293,8 +294,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
+		PEC_criaPeca(&peca_PEC);
 
-		CondRet_TAB = TAB_ObterPeca(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas);
+		CondRet_TAB = TAB_ObterPeca(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas ,(void**)peca_PEC);
 
 		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
