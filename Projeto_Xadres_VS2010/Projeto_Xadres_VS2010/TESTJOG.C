@@ -284,21 +284,27 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
 	{
 
+		//Declaracoes
 		PEC_tppPeca* peca_PEC;
-		int lado_linhas, lado_colunas;
+		char *id_peca, *id_cor;
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
 
-		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp);
+
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
+	
 		PEC_criaPeca(&peca_PEC);
+	
+		CondRet_TAB = TAB_ObterPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna ,(void**)peca_PEC);
+		PEC_obtemValoresdePeca(peca_PEC, id_peca, id_cor);
 
-		CondRet_TAB = TAB_ObterPeca(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas ,(void**)peca_PEC);
+		printf("Peca obtida: nome:%c - cor:%c", id_peca, id_cor);
 
-		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
+		
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;
@@ -306,7 +312,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		}
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao criar tabuleiro");
+			"Condicao de retorno errada ao tentar obter peca de um tabuleiro");
 
 	} /* fim ativa: Testar CriarTabuleiro */
 
