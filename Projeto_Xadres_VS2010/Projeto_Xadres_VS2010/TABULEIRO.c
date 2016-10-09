@@ -495,31 +495,48 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 	int numLinhas, numColunas;
 	LIS_tppLista listaColunas, aux, *listaAmeacantes,*listaAmeacados;
 	TAB_ppAncoraCasa aux_Casa;
-	
-	numLinhas = cabeca_TAB->num_de_linhas;
-	numColunas = cabeca_TAB->num_de_colunas;
+
+
 
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	for(numLinhas = 0; numLinhas < 0; numLinhas++)
+	
+	for(numLinhas = 0; numLinhas < cabeca_TAB->num_de_linhas; numLinhas++)
 	{
+		
 		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listaColunas);
 
-
+		
 		/*Vai ate o final da coluna*/
 		LIS_IrInicioLista(listaColunas);
 		for (numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
 			LIS_AvancarElementoCorrente(listaColunas);
 		}
-
+		
 		/*Vem de trás pra frente na coluna*/
 		for (numColunas = numColunas; numColunas > 0; numColunas--){
 		
-		
+			printf("Liberando Casa\n");
 			LIS_ObterNo(listaColunas, (void**)&aux_Casa);
-			free(aux_Casa->pCasaMatriz->pListaAmeacados);
-			free(aux_Casa->pCasaMatriz->pListaAmeacantes);
+
+			printf("Lista ameacados : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
+			obterListaAmeacados(cabeca_TAB, numLinhas, numColunas, &listaAmeacados);
+			free(listaAmeacados);
+			printf("Lista ameacados LIBERADA : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
+
+
+			printf("Lista ameacantes : %p\n", aux_Casa->pCasaMatriz->pListaAmeacantes);
+			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, &listaAmeacantes);
+			free(listaAmeacantes);
+			printf("Lista ameacantes LIBERADA : %p\n", aux_Casa->pCasaMatriz->pListaAmeacantes);
+
+			printf("Peca: %p", aux_Casa->pCasaMatriz->pPeca);
 			free(aux_Casa->pCasaMatriz->pPeca);
+			printf("Peca LIBERADA: %p", aux_Casa->pCasaMatriz->pPeca);
+
+			printf("Casa: %p", aux_Casa);
 			free(aux_Casa);
+			printf("Casa: LIBERADA %p", aux_Casa);
+
 			LIS_ExcluirNoCorrente(listaColunas);
 			LIS_VoltarElementoCorrente(listaColunas);
 			
