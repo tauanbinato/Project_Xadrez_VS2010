@@ -287,8 +287,16 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	int corrente ;
 	LIS_tppLista auxCabecaColuna  ;
 	TAB_ppAncoraCasa  auxCabecaCasa ;
+
+	//Testa se esta OUT of RANGE
+	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
+		printf("out of range\n");
+		return TAB_CondRetNaoAchou;
+	}
+
 	//Volta o elemento corrente até o 1º elemento
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
+
 	//Busca a linha certa
 	for (corrente = 1; corrente < cord_linha; corrente++) {
 		if (corrente == cord_linha)
@@ -297,6 +305,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	}
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&auxCabecaColuna) ;
 	LIS_IrInicioLista(auxCabecaColuna);
+
 	//Busca coluna certa
 	for(corrente = 1; corrente < cord_coluna; corrente++){
 		if (corrente == cord_coluna)
@@ -304,6 +313,11 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 		LIS_AvancarElementoCorrente(auxCabecaColuna);
 	}
 	LIS_ObterNo(auxCabecaColuna, (void**)&auxCabecaCasa);
+
+	if(auxCabecaCasa->pCasaMatriz->pPeca == (void*)'V' )
+	{
+		TAB_CondRetNaoAchou;
+	}
 	//auxCabecaCasa->pCasaMatriz->pPeca = NULL; 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/

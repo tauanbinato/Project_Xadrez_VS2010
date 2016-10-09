@@ -139,6 +139,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	//char* id_cor;
 	StringDado[0] = 0;
 
+
 	/* Efetuar reset de teste de lista */
 
 	if (strcmp(ComandoTeste, RESET_LISTA_CMD) == 0)
