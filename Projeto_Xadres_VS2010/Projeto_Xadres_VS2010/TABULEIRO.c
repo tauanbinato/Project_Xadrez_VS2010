@@ -404,7 +404,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	}
 
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 1; corrente == linha; corrente++) {
+	for (corrente = 0; corrente < linha; corrente++) {
 		if (corrente == linha) {
 			break;
 		}
@@ -417,10 +417,10 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	printf("Corrente : %d || Linha : %d\n", corrente, linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	for (corrente = 1; corrente == coluna; corrente++) {
-		//if (corrente == coluna) {
-		//	break;
-		//}
+	for (corrente = 0; corrente < coluna; corrente++) {
+		if (corrente == coluna) {
+			break;
+		}
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 		printf("avancou lista coluna\n");
 	}
@@ -459,7 +459,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	}
 
 	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 1; corrente == linha; corrente++) {
+	for (corrente = 0; corrente < linha; corrente++) {
 		if (corrente == linha) {
 			break;
 		}
@@ -472,7 +472,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	printf("Corrente : %d || Linha : %d\n", corrente, linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	for (corrente = 1; corrente == coluna; corrente++) {
+	for (corrente = 0; corrente < coluna; corrente++) {
 		if (corrente == coluna) {
 			break;
 		}
