@@ -328,14 +328,14 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
 	LIS_tppLista aux_listaCaminho, aux_listaColuna;
 	printf("1\n");
-	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
+	aux_listaCaminho = cabeca_TAB->pCabecaLista;
 
 	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
 	LIS_IrInicioLista(aux_listaCaminho);
-	printf("cord_linha:%d , cord_coluna: %d\n", cabeca_TAB->num_de_linhas, cabeca_TAB->num_de_colunas);
+
 	//Testa se esta OUT of RANGE
-	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || (cord_linha < 0 || cord_coluna < 0)) {
-		printf("out\n");
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || cord_linha < 0 || cord_coluna < 0) {
+		
 		return TAB_CondRetNaoAchou;
 	}
 	printf("3\n");
