@@ -291,28 +291,22 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	TAB_ppAncoraCasa  auxCabecaCasa ;
 	//Volta o elemento corrente até o 1º elemento
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-
 	//Busca a linha certa
 	for (corrente = 1; corrente < cord_linha; corrente++) {
 		if (corrente == cord_linha)
 			break;
 			LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
 	}
-	
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&auxCabecaColuna) ;
 	LIS_IrInicioLista(auxCabecaColuna);
-
 	//Busca coluna certa
 	for(corrente = 1; corrente < cord_coluna; corrente++){
 		if (corrente == cord_coluna)
 			break;
 		LIS_AvancarElementoCorrente(auxCabecaColuna);
 	}
-	
 	LIS_ObterNo(auxCabecaColuna, (void**)&auxCabecaCasa);
-
-	auxCabecaCasa->pCasaMatriz->pPeca = NULL; 
-
+	//auxCabecaCasa->pCasaMatriz->pPeca = NULL; 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
 
