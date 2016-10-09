@@ -139,6 +139,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	//char* id_cor;
 	StringDado[0] = 0;
 
+
 	/* Efetuar reset de teste de lista */
 
 	if (strcmp(ComandoTeste, RESET_LISTA_CMD) == 0)
@@ -206,8 +207,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		/*Parte da Tabuleiro*/
 		PEC_criaPeca(&peca_PEC);
 		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
-
-		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &peca_PEC );
+		printf("b4 - %d", peca_PEC);
+		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 			printf("Entrou");
@@ -220,9 +221,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/* fim ativa: Testar Inserir Peca */
 
 
-
+	/* Testar Retirar Peca */
 	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
 	{
+		/* Declaracoes Necessarias */
+		PEC_tppPeca  *peca_PEC;
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
 
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
@@ -231,19 +234,18 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 
-		printf(" recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
+		//printf(" retirar: recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
 		
 		CondRet_TAB = retirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
-
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria ;
 		}
-
+		PEC_EsvaziaPeca( &peca_PEC );
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao inserir peca");
+			"Condicao de retorno errada ao retirar peca");
 
-	} /* fim ativa: Testar Inserir Peca */
+	} /* fim ativa: Testar Retirar Peca */
 
 
 	  /* Testar CriarTabuleiro */
@@ -258,6 +260,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		if ((numLidos != 4)
 			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
+			printf("\n%d\n", numLidos);
 			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
