@@ -188,7 +188,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-	LIS_tppLista aux_listaColuna;
+	LIS_tppLista *aux_listaColuna;
 	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
 
 
@@ -217,22 +217,22 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	}/*fim for*/
 	
 
-	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
+	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)aux_listaColuna);
 	printf("\nEndereco X: %p\n", aux_listaColuna);
 	
 	
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(aux_listaColuna);
+	LIS_IrInicioLista(&aux_listaColuna);
 	for (corrente = 0; corrente < cord_coluna; corrente++) {
 		if (corrente == cord_coluna) {
 			break;
 		}
 		
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(&aux_listaColuna);
 		printf("avancou coluna\n");
 	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
+	LIS_ObterNo(&aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
 	printf("\nEndereco Y: %p\n", aux_Ancora_De_Uma_Casa);
 
 
@@ -548,5 +548,5 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){}
 	free(cabeca_TAB);
 
 	return TAB_CondRetOK;
-}/*Fim funcao: &TAB Destruir Tabuleiro*/
+}Fim funcao: &TAB Destruir Tabuleiro*/
 // FIM AREA DA JULIA-----------------
