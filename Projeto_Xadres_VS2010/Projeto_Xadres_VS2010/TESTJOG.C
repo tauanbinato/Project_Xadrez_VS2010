@@ -168,7 +168,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_TAB = destruirTabuleiro(vtMatrizes[inxMatriz]);
+		CondRet_TAB = TAB_DestruirTabuleiro(vtMatrizes[inxMatriz]);
 		printf("\nsaiu");
 
 		if (CondRet_TAB == 6) {
@@ -206,7 +206,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
 		
-		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
+		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 
@@ -234,7 +234,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		//printf(" retirar: recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
 		
-		CondRet_TAB = retirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
+		CondRet_TAB = TAB_RetirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria ;
@@ -265,7 +265,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		printf("\nANTES: %p , %d %d", vtMatrizes[inxMatriz] , lado_linhas , lado_colunas);
 
-		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
+		CondRet_TAB = TAB_CriaTabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
 		
 		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {

@@ -99,7 +99,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca_PEC);
+TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca_PEC);
 
 /***********************************************************************
 *
@@ -122,7 +122,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *
 ***********************************************************************/
 
-TAB_tpCondRet moverPeca();
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest);
 
 /***********************************************************************
 *
@@ -150,7 +150,7 @@ TAB_tpCondRet moverPeca();
 *
 ***********************************************************************/
 
-TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
+TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
 
 /***********************************************************************
 *
@@ -179,7 +179,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *	- Ponteiro agora contem informação sobre a peça que estava na posição inserida (pode ser uma peça ou ‘V’-vazio)
 ***********************************************************************/
 
-TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_cor, void** peca) ;
+TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_cor, void** peca) ;
 
 /***********************************************************************
 *
@@ -208,7 +208,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 *	- Foi obtido a lista ameaçantes que estava na posição dos índices recebidos
 ***********************************************************************/
 
-TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes);
+TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes);
 
 /***********************************************************************
 *
@@ -239,7 +239,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 *	 
 ***********************************************************************/
 
-TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados);
+TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados);
 
 /***********************************************************************
 *
@@ -264,7 +264,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 *	- Tabuleiro foi destruído, e todos seus componentes também. Além disso, toda a memória alocada antes por ele e seus componentes foram liberadas
 ***********************************************************************/
 
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 
 /***********************************************************************
 *
@@ -295,7 +295,7 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 *	- Ponteiro agora foi preenchido para a estrutura criada, que é uma matriz composta por listas ( com 8 linhas e 8 colunas )
 ***********************************************************************/
 
-TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
+TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB, int *lado_linhas, int *lado_colunas);
 
 
 

@@ -90,7 +90,7 @@ typedef struct TAB_tagAncoraCasa {
 *
 *  **************************************************************************/
 
-TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linhas , int *lado_colunas) {
+TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linhas , int *lado_colunas) {
 
 
 	/*SCRIPT PARA TESTA_LA : =criartabuleiro tabuleiro0	 lado_linhas	lado_colunas	OK  */
@@ -179,7 +179,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 *  Funcao: TAB &inserir Peca
 *
 *  *************************************************************************/
-TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void** peca_PEC)
+TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void** peca_PEC)
 {
 
 	/*Declaracoes*/
@@ -236,7 +236,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 *  Funcao: TAB  &Mover Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest) 
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest) 
 {
 	char *id_cor_dest, *id_cor_origem;
 	void *peca_origem, *peca_dest;
@@ -245,12 +245,12 @@ TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, in
 		return TAB_CondRetListaVazia;
 	}
 	
-	if (xDest > 8 || xDest < 1 || yDest> 1 || yDest < 8) {
+	if (xDest > 7 || xDest < 0|| yDest> 0 || yDest < 7) {
 		return TAB_CondRetFimLista;
 	}
 
-	obterPeca(cabeca_TAB, xDest, yDest, id_cor_origem, &peca_origem);
-	obterPeca(cabeca_TAB, xDest, yDest, id_cor_dest, &peca_dest);
+	TAB_ObterPeca(cabeca_TAB, xDest, yDest, id_cor_origem, &peca_origem);
+	TAB_ObterPeca(cabeca_TAB, xDest, yDest, id_cor_dest, &peca_dest);
 
 	// TRAB 3: Conferir validade do movimento
 
@@ -260,8 +260,8 @@ TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, in
 	}
 
 	if (id_cor_origem != id_cor_dest) {
-		inserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
-		retirarPeca(cabeca_TAB, xDest, yDest);
+		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
+		TAB_RetirarPeca(cabeca_TAB, xDest, yDest);
 		return TAB_CondRetOK;
 	}
 
@@ -273,7 +273,7 @@ TAB_tpCondRet moverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, in
 *  Funcao: TAB  &Retirar Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
+TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
 {
 	int corrente ;
 	LIS_tppLista auxCabecaColuna  ;
@@ -319,8 +319,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *  Funcao: TAB  &Obter Peca
 *
 *  **************************************************************************/
-
-TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca)
+TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, char *id_cor, void** peca)
 {
 	int corrente;
 	char nomePeca, corPeca;
@@ -372,7 +371,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 *  Funcao: TAB  &Obter Lista Ameacantes
 *
 *  **************************************************************************/
-TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes )
+TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes )
 {
 	int corrente;
 	char nomePeca, corPeca;
@@ -428,7 +427,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 *  Funcao: TAB  &Obter Lista Ameacados
 *
 *  **************************************************************************/
-TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados )
+TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados )
 {
 	int corrente;
 	char nomePeca, corPeca;
@@ -481,7 +480,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 
 	int numLinhas, numColunas;
 	LIS_tppLista listaColunas, aux, *listaAmeacantes,*listaAmeacados;
@@ -511,13 +510,13 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 
 
 			printf("Lista ameacados : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
-			obterListaAmeacados(cabeca_TAB, numLinhas, numColunas, listaAmeacados);
+			TAB_ObterListaAmeacados(cabeca_TAB, numLinhas, numColunas, listaAmeacados);
 			free(listaAmeacados);
 			printf("Lista ameacados LIBERADA : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
 
 
 			printf("Lista ameacantes : %p\n", aux_Casa->pCasaMatriz->pListaAmeacantes);
-			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaAmeacantes);
+			TAB_ObterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaAmeacantes);
 			free(&listaAmeacantes);
 			printf("Lista ameacantes LIBERADA : %p\n", listaAmeacantes);
 
