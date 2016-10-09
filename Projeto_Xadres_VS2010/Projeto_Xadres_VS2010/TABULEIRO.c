@@ -9,13 +9,13 @@
 *
 *  Projeto: INF 1301 / 1628 Automatizacao dos testes de módulos C
 *  Gestor:  LES/DI/PUC-Rio
-*  Autores: avs
+*  Autores: avs 
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
 *     1       tb,ja,lp   26/set/2016 início desenvolvimento.
 
-*
+* 
 ***************************************************************************/
 
 #include   <stdio.h>
@@ -65,7 +65,6 @@ typedef struct TAB_tagCasa {
 	LIS_tppLista pListaAmeacantes;
 	LIS_tppLista pListaAmeacados;
 	void* pPeca;
-	char pCor;
 
 } TAB_casaMatriz;
 
@@ -195,8 +194,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
-		printf("out of range\n");
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || cord_linha < 0 || cord_coluna < 0) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -211,11 +209,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 		//printf("avancou linha\n");
 	}/*fim for*/
 	
-
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
-
-	printf("\nEndereco X(%d): %p\n", cord_linha, aux_listaColuna);
-	
 	
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	LIS_IrInicioLista(aux_listaColuna);
@@ -230,8 +224,6 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	printf("\nEndereco Y(%d): %p\n", cord_coluna, aux_Ancora_De_Uma_Casa);
-
 	
 	aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
 
@@ -288,8 +280,8 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	TAB_ppAncoraCasa  auxCabecaCasa ;
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
-	
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas  || cord_linha < 0 || cord_coluna < 0) {
+		printf("out of range\n");
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -342,7 +334,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas) || (cord_linha < 0 || cord_coluna < 0)) {
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || cord_linha < 0 || cord_coluna < 0) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -367,7 +359,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
-	*id_cor = aux_Casa->pCasaMatriz->pCor;
+	//*id_cor = aux_Casa->pCasaMatriz->pCor;
 	*peca = aux_Casa->pCasaMatriz->pPeca;
 
 	return TAB_CondRetOK;
@@ -398,7 +390,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha < 0 || coluna < 0)) {
+	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -453,7 +445,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha < 0 || coluna < 0)) {
+	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
 		printf("out of range");
 		return TAB_CondRetNaoAchou;
 	}
