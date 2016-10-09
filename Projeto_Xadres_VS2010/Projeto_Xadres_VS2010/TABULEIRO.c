@@ -280,7 +280,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	TAB_ppAncoraCasa  auxCabecaCasa ;
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas  || cord_linha < 0 || cord_coluna < 0) {
 		printf("out of range\n");
 		return TAB_CondRetNaoAchou;
 	}
