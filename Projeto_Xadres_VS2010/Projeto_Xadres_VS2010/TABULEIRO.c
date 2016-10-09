@@ -15,7 +15,7 @@
 *     Versão  Autor    Data     Observações
 *     1       tb,ja,lp   26/set/2016 início desenvolvimento.
 
-*
+* 
 ***************************************************************************/
 
 #include   <stdio.h>
