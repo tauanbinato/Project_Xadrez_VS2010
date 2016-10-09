@@ -92,8 +92,7 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char *c
 
 	peca->cor_peca = *aux_cor;
 	peca->nome_peca = *aux_nome;
-	printf("\nAPOS INSERIR  : cor_peca %c , nome_peca: %c \n", peca->cor_peca, peca->nome_peca);
-
+	
 	return PEC_CondRetOK;
 }
 
