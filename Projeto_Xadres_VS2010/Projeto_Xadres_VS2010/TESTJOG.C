@@ -35,23 +35,16 @@
 #include	"Tabuleiro.h"
 #include    "Peca.h"
 
-/**************************COMANDOS SCRIPT**************************/
+/**************************COMANDOS SCRIPT**************************/  
 
-static const char CRIAR_TABULEIRO_CMD[]	    =				"=criartabuleiro"      ;
-static const char OBTER_PECA_CMD[]			=				"=obterpeca"		   ;
-static const char DESTRUIR_TABULEIRO_CMD[]  =				"=destruirtabuleiro"   ;
-static const char INSERIR_PECA_CMD[]		=				"=inserirpeca"         ;
-static const char RETIRAR_PECA_CMD[]        =               "=retirarpeca"         ;
-static const char RESET_LISTA_CMD[]			=				"=resetteste"          ;
-static const char CRIAR_LISTA_CMD[]			=				"=criarlista"          ;
-static const char DESTROI_LISTA_CMD[]		=				"=destroilista"        ;
-static const char INS_NO_CMD[]				=				"=inserirno"           ;
-static const char OBTER_NO_CMD[]			=				"=obterno"             ;
-static const char EXC_NO_CORRENTE_CMD[]	    =			    "=excluirnocorrente"   ;
-static const char AVANCAR_ELEM_CMD[]		=				"=irprox"              ;
-static const char VOLTAR_ELEM_CMD[]			=				"=irant"               ;
-static const char OBTER_ID_LISTA_CMD[]      =			    "=obteridlista"        ;
-static const char ALTERA_NO_CORRENTE_CMD[]  =		     	"=alterarnocorrente"   ;
+static const char CRIAR_TABULEIRO_CMD[]	       =				"=criartabuleiro"      ;
+static const char OBTER_PECA_CMD[]			   =				"=obterpeca"		   ;
+static const char DESTRUIR_TABULEIRO_CMD[]     =				"=destruirtabuleiro"   ;
+static const char INSERIR_PECA_CMD[]		   =				"=inserirpeca"         ;
+static const char RETIRAR_PECA_CMD[]           =                "=retirarpeca"         ;
+static const char RESET_LISTA_CMD[]			   =				"=resetteste"          ;
+static const char OBTER_LISTA_AMEACANTES_CMD[] =				"=obterlistaameacantes";
+static const char OBTER_LISTA_AMEACADOS_CMD[]  =				"=obterlistaameacados" ;
 
 /************************FIM COMANDOS SCRIPT************************/
 
@@ -171,12 +164,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		CondRet_TAB = TAB_DestruirTabuleiro(vtMatrizes[inxMatriz]);
 		printf("\nsaiu");
 
-		if (CondRet_TAB == 6) {
-
-			return TST_CondRetMemoria;
-
-		}
-
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao destruir tabuleiro");
 
@@ -207,12 +194,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
 		
 		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna ,(void**)peca_PEC );
-		
-		if (CondRet_TAB == 6) {
 
-			return TST_CondRetMemoria;
-		}
-		
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,"Condicao de retorno errada ao inserir valor em Peca");
 
 	} 
@@ -235,10 +217,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		//printf(" retirar: recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
 		
 		CondRet_TAB = TAB_RetirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
-		if (CondRet_TAB == 6) {
 
-			return TST_CondRetMemoria ;
-		}
 		//PEC_EsvaziaPeca( &peca_PEC );
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao retirar peca");
@@ -314,10 +293,46 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao tentar obter peca de um tabuleiro");
 
-	} /* fim ativa: Testar CriarTabuleiro */
+	} /* fim ativa: Testar ObterPeca */
+	
+	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACANTES_CMD) == 0)
+	{
+		LIS_tppLista Lista;
+		int lado_linhas, lado_colunas;
 
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
 
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+		
+		CondRet_TAB = TAB_ObterListaAmeacantes(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista );
 
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao criar tabuleiro");
+
+	} /* fim ativa: Testar ObterListaAmeacantes */
+
+	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACADOS_CMD) == 0)
+	{
+		LIS_tppLista Lista;
+		int lado_linhas, lado_colunas;
+
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
+
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		CondRet_TAB = TAB_ObterListaAmeacados(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista);
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao criar tabuleiro");
+
+	} /* fim ativa: Testar ObterListaAmeacados */
+	
 	} /* Fim função: TLIS &Testar jogo*/
 
 
