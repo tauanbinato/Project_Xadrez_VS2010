@@ -318,9 +318,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 	{
 		TAB_CondRetNaoAchou;
 	}
-
-	//auxCabecaCasa->pCasaMatriz->pPeca = NULL;
-
+	auxCabecaCasa->pCasaMatriz->pPeca = (void*)'V'; 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
 

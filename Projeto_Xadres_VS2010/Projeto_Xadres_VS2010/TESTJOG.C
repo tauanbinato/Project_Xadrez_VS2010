@@ -167,7 +167,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		printf("\nentrou");
 		CondRet_TAB = destruirTabuleiro(vtMatrizes[inxMatriz]);
 		printf("\nsaiu");
 
@@ -241,7 +240,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 			return TST_CondRetMemoria ;
 		}
-		PEC_EsvaziaPeca( &peca_PEC );
+		//PEC_EsvaziaPeca( &peca_PEC );
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao retirar peca");
 
