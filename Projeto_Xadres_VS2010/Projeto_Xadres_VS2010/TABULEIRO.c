@@ -334,7 +334,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas) || (cord_linha < 0 || cord_coluna < 0)) {
+	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || cord_linha < 0 || cord_coluna < 0) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -391,7 +391,7 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha < 0 || coluna < 0)) {
+	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -446,7 +446,7 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	LIS_IrInicioLista(aux_listaCaminho);
 
 	//Testa se esta OUT of RANGE
-	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha < 0 || coluna < 0)) {
+	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
 		printf("out of range");
 		return TAB_CondRetNaoAchou;
 	}
