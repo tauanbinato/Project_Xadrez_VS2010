@@ -400,7 +400,6 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 
 	//Testa se esta OUT of RANGE
 	if ((linha > cabeca_TAB->num_de_linhas || coluna > cabeca_TAB->num_de_colunas) || (linha < 0 || coluna < 0)) {
-		printf("out of range");
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -471,7 +470,6 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
 	LIS_IrInicioLista(aux_listaColuna);
 
-	printf("Corrente : %d || Linha : %d\n", corrente, linha);
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	for (corrente = 0; corrente < coluna; corrente++) {
@@ -520,26 +518,28 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 			printf("Liberando Linha:%d Coluna:%d\n",numLinhas,numColunas);
 			LIS_ObterNo(listaColunas, (void**)&aux_Casa);
 
+
 			printf("Lista ameacados : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
-			obterListaAmeacados(cabeca_TAB, numLinhas, numColunas, aux_Casa->pCasaMatriz->pListaAmeacados);
-			listaAmeacados = &aux_Casa->pCasaMatriz->pListaAmeacados;
+			obterListaAmeacados(cabeca_TAB, numLinhas, numColunas, listaAmeacados);
 			free(listaAmeacados);
 			printf("Lista ameacados LIBERADA : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
 
 
 			printf("Lista ameacantes : %p\n", aux_Casa->pCasaMatriz->pListaAmeacantes);
-			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, aux_Casa->pCasaMatriz->pListaAmeacantes);
-			listaAmeacantes = &aux_Casa->pCasaMatriz->pListaAmeacantes;
+			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaAmeacantes);
 			free(&listaAmeacantes);
 			printf("Lista ameacantes LIBERADA : %p\n", listaAmeacantes);
+
 
 			printf("Peca: %p", aux_Casa->pCasaMatriz->pPeca);
 			free(aux_Casa->pCasaMatriz->pPeca);
 			printf("Peca LIBERADA: %p", aux_Casa->pCasaMatriz->pPeca);
 
+
 			printf("Casa: %p", aux_Casa);
 			free(aux_Casa);
 			printf("Casa: LIBERADA %p", aux_Casa);
+
 
 			LIS_ExcluirNoCorrente(listaColunas);
 			LIS_VoltarElementoCorrente(listaColunas);
