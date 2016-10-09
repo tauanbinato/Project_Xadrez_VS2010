@@ -141,21 +141,21 @@
 /***************************************************************************
 **
 *  Funcao: LIS  &ObeterId
-*  ****/
+*  *************************************************************************/
 
    LIS_tpCondRet LIS_ObterId(LIS_tppLista pLista, char *idLista) {
 
 	   strcpy(idLista, pLista->idLista);
-
+	
 	   return LIS_CondRetOK;
    
    } /* Fim Fun��o: LIS  &ObterId */
     
 /***************************************************************************
-
 *
 *  Funcao: LIS  &Esvaziar lista
-*  ****/
+*
+*  *************************************************************************/
 
    void LIS_EsvaziarLista( LIS_tppLista pLista )
    {
@@ -185,8 +185,9 @@
 
 /***************************************************************************
 *
-*  Fun��o: LIS  &Inserir elemento ap�s
-*  ****/
+*  Funcao: LIS  &Inserir elemento apos
+*
+*  *************************************************************************/
 
    LIS_tpCondRet LIS_InserirNo(LIS_tppLista pLista ,void* pValor)
       
@@ -231,8 +232,9 @@
 
 /***************************************************************************
 *
-*  Fun��o: LIS  &Excluir elemento
-*  ****/
+*  Funcao: LIS  &Excluir elemento
+*
+*  *************************************************************************/
 
    LIS_tpCondRet LIS_ExcluirNoCorrente( LIS_tppLista pLista )
    {
@@ -276,8 +278,9 @@
 
 /***************************************************************************
 *
-*  Fun��o: LIS  &Obter refer�ncia para o valor contido no elemento
-*  ****/
+*  Funcao: LIS  &Obter refer�ncia para o valor contido no elemento
+*
+*  *************************************************************************/
 
 LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 
@@ -293,8 +296,9 @@ LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 
 /***************************************************************************
 *
-*  Fun��o: LIS  &Avan�ar elemento
-*  ****/
+*  Funcao: LIS  &Avan�ar elemento
+*
+*  ************************************************************************/
 
    LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista)
    {
@@ -332,8 +336,9 @@ LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 
 /***************************************************************************
 *
-*  Fun��o: LIS  &Voltar elemento
-*  ****/
+*  Funcao: LIS  &Voltar elemento
+*
+*  *************************************************************************/
 
 LIS_tpCondRet LIS_VoltarElementoCorrente(LIS_tppLista pLista)
    {
@@ -370,8 +375,9 @@ LIS_tpCondRet LIS_VoltarElementoCorrente(LIS_tppLista pLista)
    } /* Fim fun��o: LIS  &Avan�ar elemento */
 /***************************************************************************
 *
-*  Fun��o: LIS  &Alterar elemento corrente
-*  ****/
+*  Funcao: LIS  &Alterar elemento corrente
+*
+*  *************************************************************************/
 
 LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 {
@@ -404,7 +410,7 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 
 /***********************************************************************
 *
-*  Função: LIS  &Ir para o elemento inicial
+*  Funcao: LIS  &Ir para o elemento inicial
 *  *********************************************************************/
 
    LIS_tpCondRet LIS_IrInicioLista (LIS_tppLista pLista )
@@ -422,7 +428,7 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 
 /***************************************************************************
 *
-*  $FC Fun��o: LIS  -Liberar elemento da lista (ESTATICA)
+*  $FC Funcao: LIS  -Liberar elemento da lista (ESTATICA)
 *
 *  $ED Descri��o da fun��o
 *     Elimina os espa�os apontados pelo valor do elemento e o
@@ -470,7 +476,7 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 
 /***********************************************************************
 *
-*  $FC Fun��o: LIS  -Limpar a cabe�a da lista (ESTATICA)
+*  $FC Funcao: LIS  -Limpar a cabe�a da lista (ESTATICA)
 *
 ***********************************************************************/
 

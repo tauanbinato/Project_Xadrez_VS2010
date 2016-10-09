@@ -173,12 +173,11 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 /* Fim funcao: TAB  &Criar tabuleiro */
 
 
-// AREA DO TAUAN------------------
+
 /***************************************************************************
-**
-*  Funcao: TAB &inserir Peça
-*Função InserirPeca – Receberá a coordenada linha-coluna, o identificador da peça a ser inserida e a sua cor. 
-*Crie os retornos necessários inclusive prevendo a colocação da peça em uma coordenada inexistente
+*
+*  Funcao: TAB &inserir Peca
+*
 *  *************************************************************************/
 TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void** peca_PEC)
 {
@@ -230,6 +229,7 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	return TAB_CondRetOK;
 
 }/*Fim funcao: TAB &Inserir Peça*/
+
 
 /***************************************************************************
 *
@@ -319,6 +319,7 @@ TAB_tpCondRet retirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int 
 *  Funcao: TAB  &Obter Peca
 *
 *  **************************************************************************/
+
 TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca)
 {
 	int corrente;
@@ -364,10 +365,7 @@ TAB_tpCondRet obterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int co
 
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/
-// FIM AREA DO TAUAN----------------
 
-
-// AREA DA JULIA--------------------
 
 /***************************************************************************
 *
@@ -422,7 +420,8 @@ TAB_tpCondRet obterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, 
 	
 	
 	return TAB_CondRetOK;
-}/*Fim funcao: &TAB obter Lista Ameacantes*/
+}
+/*Fim funcao: &TAB obter Lista Ameacantes*/
 
 /***************************************************************************
 *
@@ -474,7 +473,8 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 	LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados, (void**)&pListaAmeacados);
 
 	return TAB_CondRetOK;
-}/*Fim funcao: &TAB obter Lista Ameacados*/
+}
+/*Fim funcao: &TAB obter Lista Ameacados*/
 
 /***************************************************************************
 *
@@ -548,4 +548,4 @@ TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 	return TAB_CondRetOK;
 }
 /*Fim funcao: &TAB Destruir Tabuleiro*/
-// FIM AREA DA JULIA-----------------
+

@@ -294,7 +294,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 
-		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas);
+		CondRet_TAB = TAB_ObterPeca(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas);
 
 		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
