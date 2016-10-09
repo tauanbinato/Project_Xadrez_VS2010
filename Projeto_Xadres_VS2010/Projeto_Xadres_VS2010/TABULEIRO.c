@@ -119,7 +119,6 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 	}
 	
 
-
 	/*Criando a lista de caminho e testando*/
 	printf("\nId enviado: %s\n" , idEnviado);
 	LIS_CriarLista(&caminho_matriz, idEnviado);
@@ -491,69 +490,50 @@ TAB_tpCondRet obterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, i
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){}
-/*
+TAB_tpCondRet destruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
+
 	int numLinhas, numColunas;
-	LIS_tppLista listacolunas, aux, *listaameacantes,*listaameacados;
-	TAB_ppAncoraCasa *aux_Casa;
+	LIS_tppLista listaColunas, aux, *listaAmeacantes,*listaAmeacados;
+	TAB_ppAncoraCasa aux_Casa;
 	
-	
+	numLinhas = cabeca_TAB->num_de_linhas;
+	numColunas = cabeca_TAB->num_de_colunas;
+
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	
-	for(numLinhas = 1; numLinhas < tamanho_matriz; numLinhas++)
+	for(numLinhas = 0; numLinhas < 0; numLinhas++)
 	{
-		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listacolunas);
-		LIS_IrInicioLista(listacolunas);
+		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listaColunas);
 
-		for (numColunas = 1; numColunas < tamanho_matriz; numColunas++)
-		{
-			aux_Casa = (TAB_ppAncoraCasa*)malloc(sizeof(TAB_ppAncoraCasa));
 
-			printf("\nentrou for2");
-			LIS_ObterNo(listacolunas, (void**)&aux_Casa);
-			printf("\npassou");
-			//LIS_EsvaziarLista(listacolunas);
-			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaameacantes);
-			LIS_ObterNo(*listaameacantes, (*);
-			while (listaameacantes != NULL)
-			{
-				PEC_DestroiPeca(aux_Peca); //destroi a peca na posicao 
-				LIS_ExcluirNoCorrente(*listaameacantes); //exclui o no onde se encontrava a peca
-				printf ("printf passou 3\n");
-				LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
-			}
-			
-			printf("esvaziou");
-			obterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaameacados);
-			LIS_ObterNo(*listaameacantes, (void**)&aux_Peca);
-			while (listaameacados != NULL)
-			{
-				PEC_DestroiPeca(aux_Peca);
-				LIS_ExcluirNoCorrente(*listaameacados);
-				printf ("printf passou 3\n");
-				LIS_ObterNo(*listaameacados, (void**)&aux_Peca);
-			}
-		
-			LIS_DestroiLista(*listaameacantes);
-			LIS_DestroiLista(*listaameacados);
-			//PEC_DestroiPeca(aux_Casa->pCasaMatriz->pPeca);
-			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacados);
-			//LIS_DestroiLista(aux_Casa->pCasaMatriz->pListaAmeacantes);
-	
-			free(aux_Casa);
-			printf("\nB");
-	
-			LIS_AvancarElementoCorrente(listacolunas); 
-			printf("\n%d", numColunas); 
+		/*Vai ate o final da coluna*/
+		LIS_IrInicioLista(listaColunas);
+		for (numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
+			LIS_AvancarElementoCorrente(listaColunas);
 		}
+
+		/*Vem de trás pra frente na coluna*/
+		for (numColunas = numColunas; numColunas > 0; numColunas--){
+		
+		
+			LIS_ObterNo(listaColunas, (void**)&aux_Casa);
+			free(aux_Casa->pCasaMatriz->pListaAmeacados);
+			free(aux_Casa->pCasaMatriz->pListaAmeacantes);
+			free(aux_Casa->pCasaMatriz->pPeca);
+			free(aux_Casa);
+			LIS_ExcluirNoCorrente(listaColunas);
+			LIS_VoltarElementoCorrente(listaColunas);
+			
+		} // Fim for
 		
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
 	}
+
+	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
 	LIS_EsvaziarLista(cabeca_TAB->pCabecaLista);
 	LIS_DestroiLista(cabeca_TAB->pCabecaLista);
-
 	free(cabeca_TAB);
 
 	return TAB_CondRetOK;
-}Fim funcao: &TAB Destruir Tabuleiro*/
+}
+/*Fim funcao: &TAB Destruir Tabuleiro*/
 // FIM AREA DA JULIA-----------------
