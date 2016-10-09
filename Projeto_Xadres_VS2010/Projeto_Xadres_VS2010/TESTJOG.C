@@ -206,8 +206,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		/*Parte da Tabuleiro*/
 		PEC_criaPeca(&peca_PEC);
 		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
-
-		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , &peca_PEC );
+		printf("b4 - %d", peca_PEC);
+		CondRet_TAB = inserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna , peca_PEC );
 		
 		if (CondRet_TAB == 6) {
 			printf("Entrou");
@@ -258,6 +258,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		if ((numLidos != 4)
 			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
+			printf("\n%d\n", numLidos);
 			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */

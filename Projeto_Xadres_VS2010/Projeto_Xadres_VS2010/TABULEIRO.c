@@ -157,7 +157,7 @@ TAB_tpCondRet cria_tabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linha
 
 			*cabeca_casa = aux_cabecaCasa;
 
-			LIS_InserirNo(colunas_matriz, &cabeca_casa);
+			LIS_InserirNo(colunas_matriz, cabeca_casa);
 
 
 			printf("(%d,%d) - (%p,%p)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
@@ -188,16 +188,12 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 	/*Declaracoes*/
 	int corrente;
 	char *nomePeca , *corPeca;
-	LIS_tppLista aux_listaColuna;
+	LIS_tppLista aux_listaCaminho, aux_listaColuna;
 	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
 
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho;
 	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
-
-	printf("\nAux_listacaminho : %p\n", aux_listaCaminho);
-
 
 	//Testa se esta OUT of RANGE
 	if ((cord_linha > cabeca_TAB->num_de_linhas || cord_coluna > cabeca_TAB->num_de_colunas ) || (cord_linha < 0 || cord_coluna < 0)) {
@@ -213,27 +209,29 @@ TAB_tpCondRet inserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int
 			break;
 		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
-		printf("avancou linha\n");
+		//printf("avancou linha\n");
 	}/*fim for*/
 	
 
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
-	printf("\nEndereco X: %p\n", aux_listaColuna);
+
+	printf("\nEndereco X(%d): %p\n", cord_linha, aux_listaColuna);
 	
 	
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
 	LIS_IrInicioLista(aux_listaColuna);
+
 	for (corrente = 0; corrente < cord_coluna; corrente++) {
 		if (corrente == cord_coluna) {
 			break;
 		}
 		
 		LIS_AvancarElementoCorrente(aux_listaColuna);
-		printf("avancou coluna\n");
+		//printf("avancou coluna\n");
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	printf("\nEndereco Y: %p\n", aux_Ancora_De_Uma_Casa);
+	printf("\nEndereco Y(%d): %p\n", cord_coluna, aux_Ancora_De_Uma_Casa);
 
 	
 	aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
