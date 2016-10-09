@@ -38,6 +38,7 @@
 /**************************COMANDOS SCRIPT**************************/
 
 static const char CRIAR_TABULEIRO_CMD[]	    =				"=criartabuleiro"      ;
+static const char OBTER_PECA_CMD[]			=				"=obterpeca"		   ;
 static const char DESTRUIR_TABULEIRO_CMD[]  =				"=destruirtabuleiro"   ;
 static const char INSERIR_PECA_CMD[]		=				"=inserirpeca"         ;
 static const char RETIRAR_PECA_CMD[]        =               "=retirarpeca"         ;
@@ -278,7 +279,39 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar CriarTabuleiro */
 
+
+	/*Inicio teste Obter Peca*/
+	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
+	{
+
+		int lado_linhas, lado_colunas;
+
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
+
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+
+		CondRet_TAB = cria_tabuleiro(&vtMatrizes[inxMatriz], &lado_linhas, &lado_colunas);
+
+		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
+		if (CondRet_TAB == 6) {
+
+			return TST_CondRetMemoria;
+
+		}
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao criar tabuleiro");
+
+	} /* fim ativa: Testar CriarTabuleiro */
+
+
+
 	} /* Fim função: TLIS &Testar jogo*/
+
 
 
   /*****  Código das funções encapsuladas no módulo  *****/
