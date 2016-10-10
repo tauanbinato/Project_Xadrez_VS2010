@@ -304,11 +304,12 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 	}
 	LIS_ObterNo(auxCabecaColuna, (void**)&auxCabecaCasa);
 
-	if(auxCabecaCasa->pCasaMatriz->pPeca == (void*)'V' )
+	if(auxCabecaCasa->pCasaMatriz->pPeca == NULL )
 	{
 		TAB_CondRetNaoAchou;
 	}
-	auxCabecaCasa->pCasaMatriz->pPeca = (void*)'V'; 
+
+	auxCabecaCasa->pCasaMatriz->pPeca = NULL; 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
 

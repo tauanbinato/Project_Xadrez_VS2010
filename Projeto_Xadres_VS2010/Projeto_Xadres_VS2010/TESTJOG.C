@@ -206,6 +206,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	{
 		/* Declaracoes Necessarias */
 		PEC_tppPeca  *peca_PEC;
+
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
 
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
@@ -213,12 +214,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-
-		//printf(" retirar: recebe do script: %d %d %d %c %c %d\n", inxMatriz, cord_linha, cord_coluna, CondRetEsp);
 		
 		CondRet_TAB = TAB_RetirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
 
-		//PEC_EsvaziaPeca( &peca_PEC );
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao retirar peca");
 
