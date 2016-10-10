@@ -265,7 +265,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		//Declaracoes
 		PEC_tppPeca* peca_PEC;
-		char *id_peca, *id_cor;
+		char id_peca, id_cor;
 
 
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp);
@@ -279,8 +279,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		PEC_criaPeca(&peca_PEC);
 	
 		CondRet_TAB = TAB_ObterPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna ,(void**)peca_PEC);
-		PEC_obtemValoresdePeca(peca_PEC, id_peca, id_cor);
-
+		PEC_obtemValoresdePeca(peca_PEC, &id_peca, &id_cor);
+		
 		printf("Peca obtida: nome:%c - cor:%c", id_peca, id_cor);
 
 		

@@ -104,11 +104,9 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char *c
 
 PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca , char *cor_peca) {
 
-	strcpy(nome_peca, peca->nome_peca);
-	printf("obtendo peca : %c \n", nome_peca);
-	strcpy(cor_peca, peca->cor_peca);
-	printf("obtendo cor : %c \n", nome_peca);
-
+	*nome_peca = peca->nome_peca;
+	*cor_peca = peca->cor_peca;
+	
 	return PEC_CondRetOK;
 }
 
