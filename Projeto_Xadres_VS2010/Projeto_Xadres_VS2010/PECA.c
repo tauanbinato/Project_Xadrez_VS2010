@@ -42,6 +42,7 @@ typedef struct PEC_tagPeca {
 
 	char cor_peca;
 	/* Cor da peca especifica*/
+	char *movimento;
 
 } PEC_Peca;
 

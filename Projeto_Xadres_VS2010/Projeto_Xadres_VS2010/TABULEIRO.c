@@ -248,8 +248,8 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 		return TAB_CondRetFimLista;
 	}
 
-	TAB_ObterPeca(cabeca_TAB, xDest, yDest, id_cor_origem, &peca_origem);
-	TAB_ObterPeca(cabeca_TAB, xDest, yDest, id_cor_dest, &peca_dest);
+	TAB_ObterPeca(cabeca_TAB, xOrg, yOrg, &peca_origem);
+	TAB_ObterPeca(cabeca_TAB, xDest, yDest, &peca_dest);
 
 	// TRAB 3: Conferir validade do movimento
 

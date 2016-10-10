@@ -235,7 +235,7 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 *	- Tabuleiro tem que estar criado e preenchido (com vazios ou com peças)
 *	$AS - Assertivas de saída:
 *	Valem assertivas estruturais de lista
-*	-Foi obtido a lista ameaçados que estava na posição dos índices recebidos
+*	- Foi obtido a lista ameaçados que estava na posição dos índices recebidos
 *	 
 ***********************************************************************/
 

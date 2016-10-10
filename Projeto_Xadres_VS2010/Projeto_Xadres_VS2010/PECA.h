@@ -83,6 +83,10 @@ typedef struct PEC_tagPeca * PEC_tppPeca;
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
 *
+*  $AE - Assertivas de entrada
+*  - Recebe um ponteiro para peça (criada) e um nome e cor válidos a serem inseridos nela
+*  $AS - Assertivas de saida
+*  - É passado por referencia o ponteiro preenchido com a cor e nome desejados
 ***********************************************************************/
 PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca, char *nome_peca, char *cor_peca);
 
@@ -101,6 +105,11 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca, char *nome_peca, char *co
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
 *
+*  $AE - Assertivas de entrada
+*  - Recebe uma peça criada
+*  - Recebe ponteiros para serem preenchidos com nome e cor da peça
+*  $AS - Assertivas de saida
+*  - Ponteiros estao preencidos com os valores da peça enviada
 ***********************************************************************/
 PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *cor_peca);
 
@@ -118,7 +127,11 @@ PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *co
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
-*
+*  $AE - Assertivas de entrada
+*  - Recebe ponteiro para esse tipo de estrutura
+*  $AS - Assertivas de saida
+*  - Foi criado a estrutura com seus respectivos campos (nome, cor e movimento- todos preenchidos com nome ‘V’, cor: NULL e movimento: NULL)
+*  
 ***********************************************************************/
 
 PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca);
@@ -137,6 +150,10 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca);
 *	  CondRetNaoAchou      - se a peça nao existir
 *     CondRetOK            - se um elemento tiver sido esvaziado
 *
+*  $AE - Assertivas de entrada
+*  - Recebe uma peça (pode ser nula ou não)
+*  $AS - Assertivas de saida
+*  - A os campos da peça foram substituidos por 'V' (se a peça nao fosse nula), caso fosse nula, recebe nao achou
 ***********************************************************************/
 
 PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) ;
@@ -154,7 +171,10 @@ PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) ;
 *  $FV Valor retornado
 *	  CondRetNaoAchou      - se a peça nao existir
 *     CondRetOK            - se um elemento tiver sido destruido
-*
+*  $AE - Assertivas de entrada
+*  - Recebe uma peca
+*  $AS - Assertivas de saida
+*  - Se ela fosse nula, retorna que nao achou, caso contrario, seu espaco é liberado 
 ***********************************************************************/
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
 
