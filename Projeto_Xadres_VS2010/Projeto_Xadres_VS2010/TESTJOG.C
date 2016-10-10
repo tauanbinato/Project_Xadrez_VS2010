@@ -342,9 +342,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		LIS_tppLista Lista;
 		int xOrg , yOrg , xDes , yDes;
 
-		numLidos = LER_LerParametros("iiiiiicc", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&id_corDest,&id_corOrg,&CondRetEsp);
+		numLidos = LER_LerParametros("iiiiicci", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&id_corDest,&id_corOrg,&CondRetEsp);
 
-		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		if ((numLidos != 8) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
