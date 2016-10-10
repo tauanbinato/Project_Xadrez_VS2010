@@ -244,7 +244,11 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 		return TAB_CondRetTabVazio;
 	}
 	
-	if (xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0) 
+	if ( xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0 ) 
+	{
+		return TAB_CondRetNaoAchou;
+	}
+	if ( xOrg > 7 || xOrg < 0|| yOrg > 7 || yOrg < 0 ) 
 	{
 		return TAB_CondRetNaoAchou;
 	}
@@ -254,7 +258,12 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 
 	// TRAB 3: Conferir validade do movimento
 
-	// 
+	//
+	if ( peca_origem == NULL )
+	{
+		return TAB_CondRetCasaVazia;
+	}
+
 	if ( peca_dest == NULL )
 	{
 		TAB_RetirarPeca(cabeca_TAB, xOrg, yOrg);
@@ -510,55 +519,15 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 	
 	for(numLinhas = 0; numLinhas < cabeca_TAB->num_de_linhas; numLinhas++)
 	{
-		
 		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listaColunas);
-
 		
-		/*Vai ate o final da coluna*/
-		LIS_IrInicioLista(listaColunas);
-		for (numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
-			LIS_AvancarElementoCorrente(listaColunas);
+		for ( numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
+			TAB_RetirarPeca(cabeca_TAB, numLinhas, numColunas);
 		}
-		
-		/*Vem de trás pra frente na coluna*/
-		for (numColunas = numColunas; numColunas > 0; numColunas--){
-		
-			printf("Liberando Linha:%d Coluna:%d\n",numLinhas,numColunas);
-			LIS_ObterNo(listaColunas, (void**)&aux_Casa);
 
-
-			printf("Lista ameacados : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
-			TAB_ObterListaAmeacados(cabeca_TAB, numLinhas, numColunas, listaAmeacados);
-			free(listaAmeacados);
-			printf("Lista ameacados LIBERADA : %p\n", aux_Casa->pCasaMatriz->pListaAmeacados);
-
-
-			printf("Lista ameacantes : %p\n", aux_Casa->pCasaMatriz->pListaAmeacantes);
-			TAB_ObterListaAmeacantes(cabeca_TAB, numLinhas, numColunas, listaAmeacantes);
-			free(&listaAmeacantes);
-			printf("Lista ameacantes LIBERADA : %p\n", listaAmeacantes);
-
-
-			printf("Peca: %p", aux_Casa->pCasaMatriz->pPeca);
-			free(aux_Casa->pCasaMatriz->pPeca);
-			printf("Peca LIBERADA: %p", aux_Casa->pCasaMatriz->pPeca);
-
-
-			printf("Casa: %p", aux_Casa);
-			free(aux_Casa);
-			printf("Casa: LIBERADA %p", aux_Casa);
-
-
-			LIS_ExcluirNoCorrente(listaColunas);
-			LIS_VoltarElementoCorrente(listaColunas);
-			
-		} // Fim for
-		
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		LIS_EsvaziarLista(listaColunas);
 	}
-
-	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	LIS_EsvaziarLista(cabeca_TAB->pCabecaLista);
+		
 	LIS_DestroiLista(cabeca_TAB->pCabecaLista);
 	free(cabeca_TAB);
 

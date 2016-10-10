@@ -84,16 +84,6 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *     Comandos disponíveis:
 *
 *     =resetteste                   - anula o vetor de listas. Provoca vazamento de memória
-*     =criarlista                   inxLista  idLista                                     CondRetEsp
-*     =obteridlista                 inxLista  idLista
-*     =excluirnocorrente            inxLista
-*     =irprox						inxLista                                              CondRetEsp
-*     =irant						inxLista                                              CondRetEsp
-*     =alterarnocorrente			inxLista  char                                        CondRetEsp
-*     =destroilista                 inxLista                                              CondRetEsp
-*     ==inserirno                   inxLista  char                                        CondRetEsp
-*     =obterno                      inxLista  char                                        CondRetEsp
-*     =excluirelem                  inxLista                                              CondRetEsp
 *	  =criartabuleiro				inxLista  inxLista_2                                  CondRetEsp
 *	  =destruirtabuleiro			inxLista			                                  CondRetEsp
 *     =inserirpeca                  inxMatriz cordLinha  cordColuna   idPeca  idCor       CondRetEsp
@@ -344,7 +334,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		numLidos = LER_LerParametros("iiiiicci", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&id_corDest,&id_corOrg,&CondRetEsp);
 
-		if ((numLidos != 8) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		if (numLidos != 8)
 		{
 			return TST_CondRetParm;
 		} /* if */
