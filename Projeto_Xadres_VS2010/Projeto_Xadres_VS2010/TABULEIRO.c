@@ -244,7 +244,7 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 		return TAB_CondRetListaVazia;
 	}
 	
-	if (xDest > 7 || xDest < 0|| yDest> 0 || yDest < 7) {
+	if (xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0) {
 		return TAB_CondRetFimLista;
 	}
 

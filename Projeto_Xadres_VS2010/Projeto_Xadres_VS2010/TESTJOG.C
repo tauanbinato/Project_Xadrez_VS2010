@@ -38,6 +38,7 @@
 /**************************COMANDOS SCRIPT**************************/  
 
 static const char CRIAR_TABULEIRO_CMD[]	       =				"=criartabuleiro"      ;
+static const char MOVER_PECA_CMD[]			   =				"=moverpeca"           ;
 static const char OBTER_PECA_CMD[]			   =				"=obterpeca"		   ;
 static const char DESTRUIR_TABULEIRO_CMD[]     =				"=destruirtabuleiro"   ;
 static const char INSERIR_PECA_CMD[]		   =				"=inserirpeca"         ;
@@ -331,6 +332,32 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar ObterListaAmeacados */
 	
+
+	 /*Testar mover peca*/
+
+	else if (strcmp(ComandoTeste, MOVER_PECA_CMD) == 0)
+	{
+		LIS_tppLista Lista;
+		int xOrg , yOrg , xDes , yDes;
+
+		numLidos = LER_LerParametros("iiiiii", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&CondRetEsp);
+
+		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		CondRet_TAB = TAB_MoverPeca(vtMatrizes[inxMatriz], xOrg, yOrg, xDes, yDes);
+ 
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao criar tabuleiro");
+
+	} /* fim ativa: Testar ObterListaAmeacados */
+
+
+
+
 	} /* Fim função: TLIS &Testar jogo*/
 
 
