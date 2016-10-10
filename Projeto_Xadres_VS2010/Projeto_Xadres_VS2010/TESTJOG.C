@@ -88,7 +88,10 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *	  =destruirtabuleiro			inxLista			                                  CondRetEsp
 *     =inserirpeca                  inxMatriz cordLinha  cordColuna   idPeca  idCor       CondRetEsp
 *     =retirarpeca                  inxMatriz cordLinha  cordColuna                       CondRetEsp
-*
+*	  =obterpeca
+*	  =moverpeca
+*	  =obterlistaameacantes
+*	  =obterlistaameacados
 ***********************************************************************/
 
 TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
@@ -103,7 +106,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		ValEsp = -1,
 		i,
 		inxMatriz = -1;
-	int  cord_linha , cord_coluna;
+	int  cord_linha, cord_coluna;
+	char cord_coluna_char;
 
 
 
@@ -144,7 +148,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
-		printf("\n%d", vtMatrizes[ inxMatriz ]);
+		//printf("\n%d", vtMatrizes[ inxMatriz ]);
 		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 		if ((numLidos != 2)
 			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
@@ -172,8 +176,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		char id_peca , id_cor;
 		
 
-		numLidos = LER_LerParametros("iiicci", &inxMatriz,&cord_linha,&cord_coluna, &id_peca,&id_cor,  &CondRetEsp);
-
+		numLidos = LER_LerParametros("iiccci", &inxMatriz,&cord_linha,&cord_coluna_char, &id_peca,&id_cor,  &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
@@ -198,8 +202,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		/* Declaracoes Necessarias */
 		PEC_tppPeca  *peca_PEC;
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp) ;
-
+		numLidos = LER_LerParametros("iici", &inxMatriz, &cord_linha, &cord_coluna_char, &CondRetEsp) ;
+		cord_coluna = (int)(cord_coluna_char - 'a');
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
@@ -257,8 +261,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		char id_peca, id_cor;
 
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz, &cord_linha, &cord_coluna, &CondRetEsp);
-
+		numLidos = LER_LerParametros("iici", &inxMatriz, &cord_linha, &cord_coluna_char, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
@@ -287,17 +291,17 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/* Testar Obter Lista Ameacantes */
 	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACANTES_CMD) == 0)
 	{
-		LIS_tppLista Lista;
+		//LIS_tppLista Lista;
 		int lado_linhas, lado_colunas;
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
-
-		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		numLidos = LER_LerParametros("iicii", &inxMatriz, &cord_linha, &cord_coluna_char, &inxLista, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
+		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 		
-		CondRet_TAB = TAB_ObterListaAmeacantes(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista );
+		CondRet_TAB = TAB_ObterListaAmeacantes(vtMatrizes[inxMatriz], cord_linha, cord_coluna, &vtListas[inxLista] );
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao obter lista ameacantes");
@@ -307,17 +311,18 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/* Testar Obter Lista Ameacados */
 	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACADOS_CMD) == 0)
 	{
-		LIS_tppLista Lista;
+		//LIS_tppLista Lista;
 		int lado_linhas, lado_colunas;
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz, &lado_linhas, &lado_colunas, &CondRetEsp);
+		numLidos = LER_LerParametros("iicii", &inxMatriz, &cord_linha, &cord_coluna_char, &inxLista, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
 
-		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_TAB = TAB_ObterListaAmeacados(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista);
+		CondRet_TAB = TAB_ObterListaAmeacados(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &vtListas[inxLista] );
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao obter lista ameacados");
@@ -331,9 +336,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	{
 		LIS_tppLista Lista;
 		int xOrg , yOrg , xDes , yDes;
+		char yCharDes, yCharOrg; 
 
-		numLidos = LER_LerParametros("iiiiicci", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&id_corDest,&id_corOrg,&CondRetEsp);
-
+		numLidos = LER_LerParametros("iiciccci", &inxMatriz,&xOrg,&yCharOrg,&xDes,&yCharDes,&id_corDest,&id_corOrg,&CondRetEsp);
+		yOrg = (int)(yCharOrg - 'a');
+		yDes = (int)(yCharDes- 'a');
 		if (numLidos != 8)
 		{
 			return TST_CondRetParm;
