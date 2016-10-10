@@ -56,7 +56,7 @@ typedef enum {
 	TAB_CondRetOK,
 	/* Concluiu corretamente  = 0*/
 
-	TAB_CondRetListaVazia,
+	TAB_CondRetCasaVazia,
 	/* A lista não contém elementos = 1 */
 
 	TAB_CondRetFimLista,
@@ -65,8 +65,17 @@ typedef enum {
 	TAB_CondRetNaoAchou,
 	/* Não encontrou o valor procurado = 3*/
 
-	TAB_CondRetFaltouMemoria
+	TAB_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento de lista = 4 */
+
+	TAB_CondRetComeu,
+	/*Peca foi comida = 5 */
+
+	TAB_CondRetTabVazio,
+	/*peca foi comida = 6 */
+
+	TAB_CondRetNaoPermitido
+	/*movimento nao permitido = 7 */
 
 } TAB_tpCondRet;
 
@@ -83,9 +92,8 @@ typedef enum {
 *	  cord_coluna		- coordenada para a coluna
 *	  peca_PEC			- ponteiro pra void de uma peca
 *
-*  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
-*
+*	$FV Valor retornado
+*	CondRetOK, se peça foi inserida, CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
@@ -122,7 +130,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *
 ***********************************************************************/
 
-TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest);
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest,char corDest, char corOrg);
 
 /***********************************************************************
 *
@@ -137,7 +145,7 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 *	  cord_coluna		- coordenada para a coluna
 *
 *  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*	CondRetOK, se peça foi retirada, CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -166,8 +174,8 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *     id_Peca		    - ponteiro parao tipo de peca a ser obtida
 *     id_cor		    - ponteiro parao a cor da peca a ser obtida
 *
-*  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*	$FV Valor retornado
+*	CondRetOK, se peça foi obtida, CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -195,8 +203,8 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 *     pListaAmeacantes  - ponteiro para a lista ameacantes a ser obtida
 *
 *
-*  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*	$FV Valor retornado
+*	CondRetOK, se lista foi retornada por referencia, CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -224,8 +232,8 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 *     pListaAmeacados   - ponteiro para a lista de ameacados a ser obtida
 *
 *
-*  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
+*  	$FV Valor retornado
+*	CondRetOK, se lista foi retornada por referencia, CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.

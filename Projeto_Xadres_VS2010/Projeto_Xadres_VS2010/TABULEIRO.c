@@ -235,17 +235,18 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 *  Funcao: TAB  &Mover Peca
 *
 *  **************************************************************************/
-TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest) 
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest, char corDest, char corOrg) 
 {
-	char *id_cor_dest, *id_cor_origem;
 	void *peca_origem, *peca_dest;
 
-	if (cabeca_TAB == NULL) {
-		return TAB_CondRetListaVazia;
+	if (cabeca_TAB == NULL) 
+	{
+		return TAB_CondRetTabVazio;
 	}
 	
-	if (xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0) {
-		return TAB_CondRetFimLista;
+	if (xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0) 
+	{
+		return TAB_CondRetNaoAchou;
 	}
 
 	TAB_ObterPeca(cabeca_TAB, xOrg, yOrg, &peca_origem);
@@ -254,14 +255,23 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 	// TRAB 3: Conferir validade do movimento
 
 	// 
-	if (peca_dest == NULL) {
-
+	if ( peca_dest == NULL )
+	{
+		TAB_RetirarPeca(cabeca_TAB, xOrg, yOrg);
+		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
+		return TAB_CondRetOK;
 	}
 
-	if (id_cor_origem != id_cor_dest) {
-		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
+	if ( corOrg != corDest ) 
+	{	
+		TAB_RetirarPeca(cabeca_TAB, xOrg, yOrg);
 		TAB_RetirarPeca(cabeca_TAB, xDest, yDest);
-		return TAB_CondRetOK;
+		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
+		return TAB_CondRetComeu;
+	}
+	if ( corOrg == corDest )
+	{
+		return TAB_CondRetNaoPermitido;
 	}
 
 	return TAB_CondRetOK;
@@ -494,7 +504,6 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 	int numLinhas, numColunas;
 	LIS_tppLista listaColunas, aux, *listaAmeacantes,*listaAmeacados;
 	TAB_ppAncoraCasa aux_Casa;
-
 
 
 	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);

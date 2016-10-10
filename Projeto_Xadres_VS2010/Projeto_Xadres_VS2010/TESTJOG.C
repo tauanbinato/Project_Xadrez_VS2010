@@ -130,8 +130,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	char  CharDado ;
 	char* pCharDado;
 	char* CharDado_2;
-	//char* id_peca;
-	//char* id_cor;
+	char id_corDest;
+	char id_corOrg;
 	StringDado[0] = 0;
 
 
@@ -293,7 +293,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			"Condicao de retorno errada ao tentar obter peca de um tabuleiro");
 
 	} /* fim ativa: Testar ObterPeca */
-	
+
+	/* Testar Obter Lista Ameacantes */
 	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACANTES_CMD) == 0)
 	{
 		LIS_tppLista Lista;
@@ -313,6 +314,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar ObterListaAmeacantes */
 
+	/* Testar Obter Lista Ameacados */
 	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACADOS_CMD) == 0)
 	{
 		LIS_tppLista Lista;
@@ -340,25 +342,23 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		LIS_tppLista Lista;
 		int xOrg , yOrg , xDes , yDes;
 
-		numLidos = LER_LerParametros("iiiiii", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&CondRetEsp);
+		numLidos = LER_LerParametros("iiiiiicc", &inxMatriz,&xOrg,&yOrg,&xDes,&yDes,&id_corDest,&id_corOrg,&CondRetEsp);
 
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_TAB = TAB_MoverPeca(vtMatrizes[inxMatriz], xOrg, yOrg, xDes, yDes);
+		CondRet_TAB = TAB_MoverPeca(vtMatrizes[inxMatriz], xOrg, yOrg, xDes, yDes,id_corDest,id_corOrg);
  
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao mover peca");
 
-	} /* fim ativa: Testar ObterListaAmeacados */
+	} /* fim ativa: Testar Mover Peca */
 
 
-
-
-	} /* Fim função: TLIS &Testar jogo*/
+	} /* Fim função: TJOG &Testar jogo*/
 
 
 
