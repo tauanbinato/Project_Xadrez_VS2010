@@ -196,7 +196,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		
 		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna ,(void**)peca_PEC );
 
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,"Condicao de retorno errada ao inserir valor em Peca");
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,"Condicao de retorno errada ao inserir Peca");
 
 	} 
 	/* fim ativa: Testar Inserir Peca */
@@ -309,7 +309,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		CondRet_TAB = TAB_ObterListaAmeacantes(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista );
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao criar tabuleiro");
+			"Condicao de retorno errada ao obter lista ameacantes");
 
 	} /* fim ativa: Testar ObterListaAmeacantes */
 
@@ -328,7 +328,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		CondRet_TAB = TAB_ObterListaAmeacados(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &Lista);
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao criar tabuleiro");
+			"Condicao de retorno errada ao obter lista ameacados");
 
 	} /* fim ativa: Testar ObterListaAmeacados */
 	
@@ -351,7 +351,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
  
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao criar tabuleiro");
+			"Condicao de retorno errada ao mover peca");
 
 	} /* fim ativa: Testar ObterListaAmeacados */
 
