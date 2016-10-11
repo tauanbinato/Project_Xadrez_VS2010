@@ -139,12 +139,7 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	
 	if (peca == NULL)
 		return PEC_CondRetNaoAchou;
-	
-	printf("\nda free");
-	
-	free(peca);
 
-	printf("\nallal");
-	
+	free(peca);
 	return PEC_CondRetOK;
 }

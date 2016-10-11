@@ -93,9 +93,6 @@ typedef struct TAB_tagAncoraCasa {
 TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linhas , int *lado_colunas) {
 
 
-	/*SCRIPT PARA TESTA_LA : =criartabuleiro tabuleiro0	 lado_linhas	lado_colunas	OK  */
-
-
 	/* Declaracoes necessarias */
 	int numDoCaminho, numColunas;
 	LIS_tppLista  caminho_matriz;
@@ -119,11 +116,11 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_li
 	
 
 	/*Criando a lista de caminho e testando*/
-	printf("\nId enviado: %s\n" , idEnviado);
+	
 	LIS_CriarLista(&caminho_matriz, idEnviado);
 	aux_ancoraTAB->pCabecaLista = caminho_matriz;
 	LIS_ObterId(aux_ancoraTAB->pCabecaLista,idObtido );
-	printf("Id obtido: %s\n" , idObtido);
+
 
 	//Inicializando estrutura.
 	aux_ancoraTAB->num_de_linhas = 0;
@@ -157,8 +154,6 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_li
 
 			LIS_InserirNo(colunas_matriz, cabeca_casa);
 
-
-			printf("(%d,%d) - (%p,%p)\n", aux_ancoraTAB->num_de_linhas, aux_ancoraTAB->num_de_colunas , colunas_matriz , cabeca_casa);
 			free(aux_cabecaCasa);
 		}
 		
@@ -204,7 +199,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 			break;
 		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
-		//printf("avancou linha\n");
+	
 	}/*fim for*/
 	
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
@@ -315,7 +310,7 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 			break;
 		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
-		//printf("avancou linha\n");
+		
 	}/*fim for*/
 
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
@@ -329,7 +324,7 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 		}
 
 		LIS_AvancarElementoCorrente(aux_listaColuna);
-		//printf("avancou coluna\n");
+
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
@@ -369,7 +364,6 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 			break;
 		}
 		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
-		//printf("avancou linha\n");
 	}/*fim for*/
 
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
@@ -383,7 +377,6 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 		}
 
 		LIS_AvancarElementoCorrente(aux_listaColuna);
-		//printf("avancou coluna\n");
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
@@ -472,7 +465,6 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 
 	//Testa se esta OUT of RANGE
 	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
-		printf("out of range");
 		return TAB_CondRetNaoAchou;
 	}
 

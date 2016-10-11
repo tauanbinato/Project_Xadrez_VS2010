@@ -157,7 +157,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		CondRet_TAB = TAB_DestruirTabuleiro(vtMatrizes[inxMatriz]);
-		printf("\nsaiu");
 
 		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao destruir tabuleiro");
@@ -230,16 +229,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		if ((numLidos != 4)
 			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
-			printf("\n%d\n", numLidos);
-			printf("Entrou");
 			return TST_CondRetParm;
 		} /* if */
 
-		printf("\nANTES: %p , %d %d", vtMatrizes[inxMatriz] , lado_linhas , lado_colunas);
-
 		CondRet_TAB = TAB_CriaTabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
 		
-		printf("\nDEPOIS: %p", vtMatrizes[inxMatriz]);
 		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;
@@ -273,9 +267,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	
 		CondRet_TAB = TAB_ObterPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna ,(void**)peca_PEC);
 		PEC_obtemValoresdePeca(peca_PEC, &id_peca, &id_cor);
-		
-		printf("Peca obtida: nome:%c - cor:%c", id_peca, id_cor);
-
 		
 		if (CondRet_TAB == 6) {
 
