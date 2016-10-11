@@ -93,7 +93,8 @@ typedef enum {
 *	  peca_PEC			- ponteiro pra void de uma peca
 *
 *	$FV Valor retornado
-*	CondRetOK, se peça foi inserida, CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetOK, se peça foi inserida, 
+*   CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
@@ -117,7 +118,15 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *	Esta função deverá mover a peça recebida para a posição desejada no tabuleiro
 *	
 *	$EP Parâmetros
-*	- Coordenadas de origem e destino
+*	- Coordenadas de origem e destino e ancora do tabuleiro
+*
+*	$FV Valor retornado
+*	CondRetTabVazio, se o tabuleiro estiver vazio,
+*   CondRetNaoAchou, se o destino ou origem forem fora do tabuleiro
+*   CondRetCasaVazia, se a origem estiver vazia
+*   CondRetOK, se tiver executado o movimento com sucesso
+*   CondRetComeu, se a peça tiver comido uma peça do adversario
+*	CondRetNaoPermitido, se a origem e destino, fornecidos, forem iguais
 *
 *	$AE - Assertivas de entrada
 *	- Peça já foi criada, com suas informações preenchidas ( e não é vazia )
@@ -145,7 +154,8 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 *	  cord_coluna		- coordenada para a coluna
 *
 *  $FV Valor retornado
-*	CondRetOK, se peça foi retirada, CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetOK, se peça foi retirada,
+*	CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -175,7 +185,8 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *     id_cor		    - ponteiro parao a cor da peca a ser obtida
 *
 *	$FV Valor retornado
-*	CondRetOK, se peça foi obtida, CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetOK, se peça foi obtida, 
+*	CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -204,7 +215,8 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 *
 *
 *	$FV Valor retornado
-*	CondRetOK, se lista foi retornada por referencia, CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetOK, se lista foi retornada por referencia, 
+*	CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -233,7 +245,8 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 *
 *
 *  	$FV Valor retornado
-*	CondRetOK, se lista foi retornada por referencia, CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetOK, se lista foi retornada por referencia, 
+*	CondRetNaoAchou, se posicao for fora do tabuleiro
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
