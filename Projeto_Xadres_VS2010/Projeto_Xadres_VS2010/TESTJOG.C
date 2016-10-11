@@ -86,10 +86,10 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *     =resetteste                   - anula o vetor de listas. Provoca vazamento de memória
 *	  =criartabuleiro				inxLista  inxLista_2                                  CondRetEsp
 *	  =destruirtabuleiro			inxLista			                                  CondRetEsp
-*     =inserirpeca                  inxMatriz cordLinha  cordColuna   idPeca  idCor       CondRetEsp
+*     =inserirpeca                  inxMatriz cordLinha  cordColuna   TipoPeca  CorPeca   CondRetEsp
 *     =retirarpeca                  inxMatriz cordLinha  cordColuna                       CondRetEsp
 *	  =obterpeca
-*	  =moverpeca
+*	  =moverpeca					inxMatriz cordXorigem cordYorigem cordXdestino cordYdestino CorPecaDestino CorPecaorigem CondRetEsp
 *	  =obterlistaameacantes
 *	  =obterlistaameacados
 ***********************************************************************/
