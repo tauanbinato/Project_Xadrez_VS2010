@@ -86,12 +86,12 @@ static int ValidarInxMatriz(int inxLista, int Modo);
 *     =resetteste                   - anula o vetor de listas. Provoca vazamento de memória
 *	  =criartabuleiro				inxLista  inxLista_2                                  CondRetEsp
 *	  =destruirtabuleiro			inxLista			                                  CondRetEsp
-*     =inserirpeca                  inxMatriz cordLinha  cordColuna   TipoPeca  CorPeca   CondRetEsp
-*     =retirarpeca                  inxMatriz cordLinha  cordColuna                       CondRetEsp
-*	  =obterpeca
+*     =inserirpeca                  inxMatriz cordLinha   cordColuna   TipoPeca  CorPeca  CondRetEsp
+*     =retirarpeca                  inxMatriz cordLinha   cordColuna                      CondRetEsp
+*	  =obterpeca					inxMatriz cordLinha   cordColuna					  CondRetEsp
 *	  =moverpeca					inxMatriz cordXorigem cordYorigem cordXdestino cordYdestino CorPecaDestino CorPecaorigem CondRetEsp
-*	  =obterlistaameacantes
-*	  =obterlistaameacados
+*	  =obterlistaameacantes			inxMatriz cordLinha   cordColuna	inxLista		  CondRetEsp
+*	  =obterlistaameacados			inxMatriz cordLinha   cordColuna	inxLista		  CondRetEsp
 ***********************************************************************/
 
 TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
