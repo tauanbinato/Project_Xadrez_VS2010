@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CASA.H" />
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Arcabouco\arcabouc\Fontes\GENERICO.C" />
+    <ClCompile Include="CASA.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="PECA.c" />
     <ClCompile Include="TABULEIRO.c" />

@@ -26,12 +26,11 @@
 
 //Include de outros modulos
 #include   "lista.h"
+#include   "Casa.h"
 
 #define LISTA_OWN
 #include "Tabuleiro.h"
 #undef LISTA_OWN
-
-
 
 
 /***********************************************************************
@@ -54,20 +53,6 @@ typedef struct TAB_tagTabuleiro {
 
 } TAB_ancoraTabuleiro;
 
-/***********************************************************************
-*
-*  $TC Tipo de dados: TAB Descritor de uma estrutura casa
-*
-***********************************************************************/
-
-typedef struct TAB_tagCasa {
-
-	LIS_tppLista pListaAmeacantes;
-	LIS_tppLista pListaAmeacados;
-	void* pPeca;
-
-} TAB_casaMatriz;
-
 
 /***********************************************************************
 *
@@ -77,11 +62,10 @@ typedef struct TAB_tagCasa {
 
 typedef struct TAB_tagAncoraCasa {
 
-	TAB_casaMatriz * pCasaMatriz;
+	CAS_tppCasa pCasaMatriz;
 	/* Ponteiro para uma casa */
 
 } TAB_ancoraCasa;
-
 
 
 /***************************************************************************
@@ -419,13 +403,12 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 		}
 		LIS_AvancarElementoCorrente(aux_listaCaminho);
 	}
-
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
-	LIS_IrInicioLista(aux_listaColuna);
 
-	
+
 
 	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
+	LIS_IrInicioLista(aux_listaColuna);
 	for (corrente = 0; corrente < coluna; corrente++) {
 		if (corrente == coluna) {
 			break;

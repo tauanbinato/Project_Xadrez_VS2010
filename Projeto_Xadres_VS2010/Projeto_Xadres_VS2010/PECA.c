@@ -38,11 +38,13 @@
 typedef struct PEC_tagPeca {
 
 	char nome_peca;
-	/* Nome da peca especifica*/
+	/* Nome da peca especifica */
 
 	char cor_peca;
-	/* Cor da peca especifica*/
+	/* Cor da peca especifica */
+
 	char *movimento;
+	/* Movimento de uma peca */
 
 } PEC_Peca;
 
