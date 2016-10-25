@@ -46,8 +46,15 @@ typedef struct CAS_tagCasa {
 } CAS_Casa;
 
 
-CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa) {
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Cria Casa
+*
+***********************************************************************/
 
+CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
+
+	(PEC_tppPeca  *)pPeca;
 	CAS_Casa *aux_casa;
 	aux_casa = (CAS_Casa *)malloc(sizeof(CAS_Casa));
 	if (aux_casa == NULL) return CAS_CondRetFaltouMemoria;
@@ -55,11 +62,17 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa) {
 	/*Faz devidas inicializacoes*/
 	LIS_CriarLista(&aux_casa->pListaAmeacados, "Ameacados");
 	LIS_CriarLista(&aux_casa->pListaAmeacantes, "Ameacantes");
-	PEC_criaPeca(&aux_casa->pPeca);
+	aux_casa->pPeca = *pPeca;
 
-	*casa = aux_casa;
+	*pCasa = aux_casa;
 
 	return CAS_CondRetOK;
+}
+
+CAS_tpCondRet CAS_InserePecaEmCasa(CAS_tppCasa pCasa, void ** pPeca) {
+
+
+
 }
 
 

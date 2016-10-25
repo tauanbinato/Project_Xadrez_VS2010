@@ -165,6 +165,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 	int corrente;
 	char *nomePeca , *corPeca;
 	LIS_tppLista aux_listaCaminho, aux_listaColuna;
+	CAS_tppCasa aux_Casa;
 	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
 
 
@@ -197,12 +198,11 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 		}
 		
 		LIS_AvancarElementoCorrente(aux_listaColuna);
-		//printf("avancou coluna\n");
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	
-	aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = peca_PEC;
+	CAS_criaCasa(&aux_Casa , peca_PEC);
+	aux_Ancora_De_Uma_Casa->pCasaMatriz = aux_Casa;
 
 	return TAB_CondRetOK;
 

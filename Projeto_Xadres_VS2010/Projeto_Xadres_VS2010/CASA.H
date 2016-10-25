@@ -80,7 +80,6 @@ typedef struct CAS_tagCasa * CAS_tppCasa;
 *     casa          - ponteiro de ponteiro para a estrutura casa
 *					  a ser criada.
 *
-*
 *  $FV Valor retornado
 *     Se executou corretamente retorna a condição de retorno CAS_CondRetOK.
 *
@@ -98,7 +97,7 @@ typedef struct CAS_tagCasa * CAS_tppCasa;
 *
 *
 ***********************************************************************/
-CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa);
+CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa, void **pPeca);
 
 
 #undef CASA_EXT
