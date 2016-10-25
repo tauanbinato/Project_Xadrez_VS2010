@@ -72,7 +72,7 @@
          int numElem ;
                /* Numero de elementos da lista */
 
-		 char idLista[10];
+		 char idLista[15];
 			   /*Identificação da lista*/
 
 		// void(*ExcluirValor) (void * pValor);                                              Acho q n tem necessidade disso.
