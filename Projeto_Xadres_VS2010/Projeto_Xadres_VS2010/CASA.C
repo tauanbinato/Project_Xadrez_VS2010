@@ -59,7 +59,7 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa) {
 
 	*casa = aux_casa;
 
-	return PEC_CondRetOK;
+	return CAS_CondRetOK;
 }
 
 

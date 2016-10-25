@@ -1,25 +1,25 @@
-#pragma once
+Ôªø#pragma once
 #if ! defined( CASA_ )
 #define CASA_
 /***************************************************************************
 *
-*  $MCD MÛdulo de definiÁ„o: PEC  Estrutura de uma Casa
+*  $MCD M√≥dulo de defini√ß√£o: PEC  Estrutura de uma Casa
 *
 *  Arquivo gerado:              CASA.h
 *  Letras identificadoras:      CASA
 *
-*  Nome da base de software:    ArcabouÁo para a automaÁ„o de testes de programas redigidos em C
+*  Nome da base de software:    Arcabou√ßo para a automa√ß√£o de testes de programas redigidos em C
 *  Arquivo da base de software: D:\AUTOTEST\PROJETOS\CASA.BSW
 *
-*  Projeto: INF 1301 / 1628 AutomatizaÁ„o dos testes de mÛdulos C
+*  Projeto: INF 1301 / 1628 Automatiza√ß√£o dos testes de m√≥dulos C
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: Julia Aleixo , Lucas Palma , Tauan Binato
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o  Autor    Data     ObservaÁıes
-*     1       tbf,ja,lp   26/set/2016 inÌcio desenvolvimento.
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o  Autor    Data     Observa√ß√µes
+*     1       tbf,ja,lp   26/set/2016 in√≠cio desenvolvimento.
 *
-*  $ED DescriÁ„o do mÛdulo
+*  $ED Descri√ß√£o do m√≥dulo
 *
 *
 ***************************************************************************/
@@ -34,11 +34,11 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: CAS CondiÁıes de retorno
+*  $TC Tipo de dados: CAS Condi√ß√µes de retorno
 *
 *
-*  $ED DescriÁ„o do tipo
-*     CondiÁıes de retorno das funÁıes de uma CASA
+*  $ED Descri√ß√£o do tipo
+*     Condi√ß√µes de retorno das fun√ß√µes de uma CASA
 *
 ***********************************************************************/
 
@@ -48,16 +48,16 @@ typedef enum {
 	/* Concluiu corretamente  = 0*/
 
 	CAS_CondRetListaVazia,
-	/* A lista n„o contÈm elementos = 1 */
+	/* A lista n√£o cont√©m elementos = 1 */
 
 	CAS_CondRetFimLista,
 	/* Foi atingido o fim de lista  = 2*/
 
 	CAS_CondRetNaoAchou,
-	/* N„o encontrou o valor procurado = 3*/
+	/* N√£o encontrou o valor procurado = 3*/
 
 	CAS_CondRetFaltouMemoria
-	/* Faltou memÛria ao tentar criar um elemento de lista = 4 */
+	/* Faltou mem√≥ria ao tentar criar um elemento de lista = 4 */
 
 } CAS_tpCondRet;
 
@@ -66,10 +66,44 @@ typedef enum {
 typedef struct CAS_tagCasa * CAS_tppCasa;
 
 
+/*Fun√ß√µes de acesso*/
+
+
+/***********************************************************************
+*
+*  $FC Fun√ß√£o: LIS  &Criar Casa
+*
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Cria uma estrutura de uma casa com listas de ameacantes, ameacados e uma peca inicializadas.
+*
+*  $EP Par√¢metros
+*     casa          - ponteiro de ponteiro para a estrutura casa
+*					  a ser criada.
+*
+*
+*  $FV Valor retornado
+*     Se executou corretamente retorna a condi√ß√£o de retorno CAS_CondRetOK.
+*
+*     Se ocorreu algum erro, por exemplo falta de mem√≥ria ou dados errados,
+*     LIS_CondRetFaltouMemoria.
+*
+*     Se ocorreu algum erro na cria√ß√£o de uma peca sera retornado PEC_CondRetFaltouMemoria
+*
+*	$AE - Assertivas de entrada:
+*	-Recebe uma identidade de lista que √© um string de ate 4 caracteres v√°lidos
+*	$AS - Assertivas de sa√≠da:
+*	-Se pAnt ‚â† NULL, ent√£o pCorr->pAnt->pProx = pCorr ; Se pProx ‚â† NULL, ent√£o pCorr->pProx->pAnt->pCorr (essas s√£o as assertivas estruturais da lista duplamente encadeada com cabe√ßa)
+*	-Lista foi criada
+*	-Os ponteiros de inicio, fim e pElem corrente apontam para o mesmo local(origem da lista)
+*
+*
+***********************************************************************/
+CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa);
+
 
 #undef CASA_EXT
 
-/********** Fim do mÛdulo de definiÁ„o: TAB  Tabuleiro **********/
+/********** Fim do m√≥dulo de defini√ß√£o: TAB  Tabuleiro **********/
 
 #else
 #endif
