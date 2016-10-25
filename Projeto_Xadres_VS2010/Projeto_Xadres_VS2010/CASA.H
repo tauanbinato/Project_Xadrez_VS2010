@@ -32,7 +32,37 @@
 #define CASA_EXT extern
 #endif
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Condições de retorno
+*
+*
+*  $ED Descrição do tipo
+*     Condições de retorno das funções de uma CASA
+*
+***********************************************************************/
 
+typedef enum {
+
+	CAS_CondRetOK,
+	/* Concluiu corretamente  = 0*/
+
+	CAS_CondRetListaVazia,
+	/* A lista não contém elementos = 1 */
+
+	CAS_CondRetFimLista,
+	/* Foi atingido o fim de lista  = 2*/
+
+	CAS_CondRetNaoAchou,
+	/* Não encontrou o valor procurado = 3*/
+
+	CAS_CondRetFaltouMemoria
+	/* Faltou memória ao tentar criar um elemento de lista = 4 */
+
+} CAS_tpCondRet;
+
+
+/*Estruturas*/
 typedef struct CAS_tagCasa * CAS_tppCasa;
 
 

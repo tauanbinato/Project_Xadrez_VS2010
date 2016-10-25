@@ -29,6 +29,7 @@
 #include "Peca.h"
 #undef LISTA_OWN
 
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: PEC Descritor de uma estrutura Peca

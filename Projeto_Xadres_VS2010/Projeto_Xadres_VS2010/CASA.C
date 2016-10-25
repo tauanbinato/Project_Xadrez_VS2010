@@ -23,7 +23,7 @@
 #include   <malloc.h>
 #include   <assert.h>
 #include   "lista.h"
-#include   "PECA.h"
+#include   "Peca.h"
 
 
 #define LISTA_OWN
@@ -41,9 +41,28 @@ typedef struct CAS_tagCasa {
 
 	LIS_tppLista pListaAmeacantes;
 	LIS_tppLista pListaAmeacados;
-	void* pPeca;
+	PEC_tppPeca  pPeca;
 
-} CAS_casaMatriz;
+} CAS_Casa;
+
+
+CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *casa) {
+
+	CAS_Casa *aux_casa;
+	aux_casa = (CAS_Casa *)malloc(sizeof(CAS_Casa));
+	if (aux_casa == NULL) return CAS_CondRetFaltouMemoria;
+
+	/*Faz devidas inicializacoes*/
+	LIS_CriarLista(&aux_casa->pListaAmeacados, "Ameacados");
+	LIS_CriarLista(&aux_casa->pListaAmeacantes, "Ameacantes");
+	PEC_criaPeca(&aux_casa->pPeca);
+
+	*casa = aux_casa;
+
+	return PEC_CondRetOK;
+}
+
+
 
 
 
