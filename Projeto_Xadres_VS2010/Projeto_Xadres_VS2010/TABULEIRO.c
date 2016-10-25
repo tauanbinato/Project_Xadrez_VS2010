@@ -422,7 +422,7 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 	
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
 	
-	CAS_ObtemListaAmeacantes(aux_AncoraCasa->pCasaMatriz,(void**)&pListaAmeacantes);
+	CAS_obtemListaAmeacantes(aux_AncoraCasa->pCasaMatriz,(void**)&pListaAmeacantes);
 	
 	
 	return TAB_CondRetOK;
@@ -475,7 +475,7 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
-	CAS_ObtemListaAmeacados(aux_AncoraCasa->pCasaMatriz, (void**)&pListaAmeacados);
+	CAS_obtemListaAmeacados(aux_AncoraCasa->pCasaMatriz, (void**)&pListaAmeacados);
 	//LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados, (void**)&pListaAmeacados);
 
 	return TAB_CondRetOK;
