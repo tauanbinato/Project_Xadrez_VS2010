@@ -34,6 +34,7 @@
 #include    "Lista.h"
 #include	"Tabuleiro.h"
 #include    "Peca.h"
+#include	"Casa.h"
 
 /**************************COMANDOS SCRIPT**************************/  
 
