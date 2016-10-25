@@ -54,7 +54,7 @@ typedef struct CAS_tagCasa {
 
 CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 
-	(PEC_tppPeca  *)pPeca;
+	
 	CAS_Casa *aux_casa;
 	aux_casa = (CAS_Casa *)malloc(sizeof(CAS_Casa));
 	if (aux_casa == NULL) return CAS_CondRetFaltouMemoria;
@@ -62,19 +62,44 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 	/*Faz devidas inicializacoes*/
 	LIS_CriarLista(&aux_casa->pListaAmeacados, "Ameacados");
 	LIS_CriarLista(&aux_casa->pListaAmeacantes, "Ameacantes");
-	aux_casa->pPeca = *pPeca;
+	(PEC_tppPeca  *)pPeca;
+	aux_casa->pPeca = pPeca;
 
 	*pCasa = aux_casa;
 
 	return CAS_CondRetOK;
 }
 
-CAS_tpCondRet CAS_InserePecaEmCasa(CAS_tppCasa pCasa, void ** pPeca) {
+CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
+	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
+	pCasa->pPeca = NULL;
 
+	return CAS_CondRetOK;
+}
+
+CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
+
+	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
+
+	*pPeca = pCasa->pPeca;
+	return CAS_CondRetOK;
 
 }
 
+CAS_tpCondRet CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor) {
+
+	LIS_ObterNo(pCasa->pListaAmeacantes, &pValor);
+
+	return CAS_CondRetOK;
+}
+
+CAS_tpCondRet CAS_obtemListaAmeacados(CAS_tppCasa pCasa, void**pValor) {
+
+	LIS_ObterNo(pCasa->pListaAmeacados, &pValor);
+
+	return CAS_CondRetOK;
+}
 
 
 

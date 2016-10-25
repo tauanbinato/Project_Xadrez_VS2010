@@ -201,7 +201,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	CAS_criaCasa(&aux_Casa , peca_PEC);
+	CAS_criaCasa(&aux_Casa , &peca_PEC);
 	aux_Ancora_De_Uma_Casa->pCasaMatriz = aux_Casa;
 
 	return TAB_CondRetOK;
@@ -214,6 +214,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 *  Funcao: TAB  &Mover Peca
 *
 *  **************************************************************************/
+
 TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest, char corDest, char corOrg) 
 {
 	void *peca_origem, *peca_dest;
@@ -270,6 +271,7 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 *  Funcao: TAB  &Retirar Peca
 *
 *  **************************************************************************/
+
 TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
 {
 	/*Declaracoes*/
@@ -312,8 +314,8 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-
-	aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = NULL;
+	CAS_RetiraPecaDeCasa(aux_Ancora_De_Uma_Casa->pCasaMatriz);
+	//aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = NULL;
 
 	return TAB_CondRetOK;
 }/*Fim funcao: TAB &Retirar Peca*/
@@ -364,8 +366,9 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	
-	*peca = aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca;
+	CAS_obtemPecaDeCasa(aux_Ancora_De_Uma_Casa->pCasaMatriz, &peca);
+
+	//*peca = aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca;
 	
 	return TAB_CondRetOK;
 }/*Fim funcao: &TAB obter Peca*/
@@ -380,7 +383,7 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 {
 	int corrente;
 	char nomePeca, corPeca;
-	TAB_ppAncoraCasa aux_Casa;
+	TAB_ppAncoraCasa aux_AncoraCasa;
 	
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
@@ -417,9 +420,9 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 		
 	}
 	
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
+	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
 	
-	LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacantes,(void**)&pListaAmeacantes);
+	CAS_ObtemListaAmeacantes(aux_AncoraCasa->pCasaMatriz,(void**)&pListaAmeacantes);
 	
 	
 	return TAB_CondRetOK;
@@ -435,7 +438,7 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 {
 	int corrente;
 	char nomePeca, corPeca;
-	TAB_ppAncoraCasa aux_Casa;
+	TAB_ppAncoraCasa aux_AncoraCasa;
 	
 
 	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
@@ -471,8 +474,9 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 		LIS_AvancarElementoCorrente(aux_listaColuna);
 	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Casa);
-	LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados, (void**)&pListaAmeacados);
+	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
+	CAS_ObtemListaAmeacados(aux_AncoraCasa->pCasaMatriz, (void**)&pListaAmeacados);
+	//LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados, (void**)&pListaAmeacados);
 
 	return TAB_CondRetOK;
 }
@@ -508,5 +512,5 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 
 	return TAB_CondRetOK;
 }
-/*Fim funcao: &TAB Destruir Tabuleiro*/
+///*Fim funcao: &TAB Destruir Tabuleiro*/
 

@@ -100,6 +100,54 @@ typedef struct CAS_tagCasa * CAS_tppCasa;
 CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa, void **pPeca);
 
 
+/***********************************************************************
+*
+*  $FC Função: CAS  &RetirarPecaDeCasa
+*
+*  $ED Descrição da função
+*     Seta uma peca de uma casa pra NULL
+*
+*  $EP Parâmetros
+*     pCasa  - ponteiro para a estrutura a ser manipulada
+*
+*  $FV Valor retornado
+*	  CondRetNaoAchou      - a peça já é NULL
+*
+*  $AE - Assertivas de entrada
+*  - Recebe uma peça (pode ser nula ou não)
+*  $AS - Assertivas de saida
+*  - A os campos da peça foram substituidos por 'V' (se a peça nao fosse nula), caso fosse nula, recebe nao achou
+***********************************************************************/
+CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa);
+
+/***********************************************************************
+*
+*  $FC Função: CAS  &ObtemPecaDeCasa
+*
+*  $ED Descrição da função
+*     Obtem uma peca de uma casa
+*
+*  $EP Parâmetros
+*     pCasa  - ponteiro para a estrutura a ser manipulada
+*
+*	  pPeca	 - ponteiro generico que retornara uma peca da estrutura casa
+*
+*  $FV Valor retornado
+*	  CondRetNaoAchou      - a peça é NULL
+*	  CondRetOk				- sucesso!
+*
+*  $AE - Assertivas de entrada
+*  - Recebe uma peça (pode ser nula ou não)
+*  $AS - Assertivas de saida
+*  - A os campos da peça foram substituidos por 'V' (se a peça nao fosse nula), caso fosse nula, recebe nao achou
+***********************************************************************/
+CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca);
+
+CAS_tpCondRet CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor);
+
+CAS_tpCondRet CAS_obtemListaAmeacados(CAS_tppCasa pCasa, void**pValor);
+
+
 #undef CASA_EXT
 
 /********** Fim do módulo de definição: TAB  Tabuleiro **********/
