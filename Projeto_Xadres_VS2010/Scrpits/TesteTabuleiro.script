@@ -1,0 +1,93 @@
+// Script:    TesteListaT2.script
+// Autor:     Arndt von Staa, Júlia Aleixo, Lucas Palma, Tauan Binato
+// Data:      27/set/2016
+// Propósito: Testar o módulo lista genérica duplamente encadeada para todas as suas funções e retornos possíveis
+
+== Inicializar valores
+=declararparm   lista0         int   0
+=declararparm   lista1         int   1
+=declararparm tabuleiro0     int   0
+=declararparm tabuleiro1    int   1
+=declararparm   chr0           char 'P'
+=declararparm lado_linhas    int   8
+=declararparm lado_colunas   int   8
+=declararparm cordlinha      int   5
+=declararparm cordcoluna     char  'b'
+
+
+== Inicializa os respectivos id's
+=declararparm   idList0         string   "casa"
+=declararparm   idList1         string   "king"
+=declararparm idMatriz0  string  "idMt"
+=declararparm idBispo   char   'B'
+=declararparm idCor   char   'B'
+=declararparm idCor2   char   'P'
+
+== Declara as condicoes de retorno 
+=declararparm   OK      int  0
+=declararparm   CasaVazia      int  1
+=declararparm   FimLista       int  2
+=declararparm   NaoAchou       int  3
+=declararparm   FaltouMemoria  int  4
+=declararparm   Comeu     int  5
+=declararparm   TabVazio    int  6         
+=declararparm   NaoPermitido   int  7
+
+
+== Reset do teste
+=resetteste
+
+== Criar tabuleiro 0
+=criartabuleiro    tabuleiro0 lado_linhas lado_colunas OK
+
+== Inserir Peca Bispo Branca
+=inserirpeca tabuleiro0 cordlinha cordcoluna  idBispo    idCor    OK
+
+== Retirar Peca
+=retirarpeca tabuleiro0 cordlinha cordcoluna OK
+
+== Retirar Peca em coordenada fora do tabuleiro
+=retirarpeca tabuleiro0 8 'c' NaoAchou
+
+== Retirar Peca em tabuleiro que nao foi criado e recuperar o erro
+=retirarpeca tabuleiro1 1 'd' OK
+=recuperar
+
+== Obter Peca
+=obterpeca tabuleiro0 cordlinha cordcoluna OK
+
+==Obter Peca fora do tabuleiro
+=obterpeca  tabuleiro0 8 'b'   NaoAchou
+
+== Mover peca (comendo uma peca)
+=inserirpeca tabuleiro0 1 'c'  idBispo    idCor2    OK
+=inserirpeca tabuleiro0 cordlinha cordcoluna  idBispo    idCor    OK
+=moverpeca  tabuleiro0 1  'c' cordlinha cordcoluna idCor idCor2 Comeu
+
+== Mover peca (com peca da mesma cor no destino)
+=inserirpeca tabuleiro0 cordlinha cordcoluna  idBispo    idCor    OK
+=inserirpeca tabuleiro0 1 'c'  idBispo    idCor    OK
+=moverpeca  tabuleiro0 1  'c' cordlinha  cordcoluna  idCor  idCor  NaoPermitido
+
+== Mover peca (com coordenada do destino fora do tabuleiro)
+=moverpeca tabuleiro0  1  'b'  8  cordcoluna idCor  idCor  NaoAchou
+
+== Mover peca (com coordenada da origem fora do tabuleiro)
+=moverpeca tabuleiro0  1  'i' cordlinha  cordcoluna idCor  idCor  NaoAchou
+
+== Mover peca (sem uma peca na origem)
+=inserirpeca tabuleiro0 4 'e'  idBispo    idCor    OK
+=retirarpeca tabuleiro0 4 'e' OK
+=moverpeca tabuleiro0   4  'e'  1  'c' idCor  idCor2  CasaVazia
+
+== Mover peca no tab vazio
+=moverpeca tabuleiro1  1  'b'  3  'd'  idCor  idCor TabVazio
+
+== Obter lista ameacantes
+=obterlistaameacantes tabuleiro0  cordlinha  cordcoluna lista1 OK
+
+== Obter lista ameacados
+=obterlistaameacados   tabuleiro0  cordlinha  cordcoluna lista1 OK
+
+== Destruir tabuleiro 0
+=destruirtabuleiro tabuleiro0 OK

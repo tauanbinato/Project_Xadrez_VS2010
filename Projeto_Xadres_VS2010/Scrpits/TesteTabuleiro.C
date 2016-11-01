@@ -35,17 +35,18 @@
 #include	"Tabuleiro.h"
 #include    "Peca.h"
 #include	"Casa.h"
-#include	"CLASSE_PECA.H"
 
 /**************************COMANDOS SCRIPT**************************/  
 
-static const char CRIAR_CP_CMD[]	                =				"=criarcp"               ;
-static const char DESTRUIR_CP_CMD[]			        =				"=destruircp"            ;
-static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"     ;
-static const char CHECAR_MOVIMENTO_CMD[]            =				"=checarmovimento"       ;
-static const char OBTER_MOVIMENTO_CMD[]             =                "=obtermovimento"       ;
-static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
-static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
+static const char CRIAR_TABULEIRO_CMD[]	       =				"=criartabuleiro"      ;
+static const char MOVER_PECA_CMD[]			   =				"=moverpeca"           ;
+static const char OBTER_PECA_CMD[]			   =				"=obterpeca"		   ;
+static const char DESTRUIR_TABULEIRO_CMD[]     =				"=destruirtabuleiro"   ;
+static const char INSERIR_PECA_CMD[]		   =				"=inserirpeca"         ;
+static const char RETIRAR_PECA_CMD[]           =                "=retirarpeca"         ;
+static const char RESET_LISTA_CMD[]			   =				"=resetteste"          ;
+static const char OBTER_LISTA_AMEACANTES_CMD[] =				"=obterlistaameacantes";
+static const char OBTER_LISTA_AMEACADOS_CMD[]  =				"=obterlistaameacados" ;
 
 /************************FIM COMANDOS SCRIPT************************/
 
@@ -59,14 +60,12 @@ static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 #define DIM_VT_LISTA   10
 #define DIM_VT_TAB	   10
 #define DIM_VT_PEC	   10
-#define DIM_VT_CPC     10
 #define DIM_VALOR     100
-
 
 LIS_tppLista            vtListas[DIM_VT_LISTA];
 LIS_tppLista            vtListas_2[DIM_VT_LISTA];
 TAB_ppAncoraTabuleiro	vtMatrizes[DIM_VT_TAB];
-CPC_tppClassePeca       vtClasse[DIM_VT_CPC];
+
 
 /***** Protótipos das funções encapuladas no módulo *****/
 // void DestruirValor( void * pValor );
@@ -108,10 +107,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		ValEsp = -1,
 		i,
 		inxMatriz = -1;
-
-	int  movI, movJ, idxMovimento;
-	int* resposta, *pMovI, *pMovJ;
-	char nome;
+	int  cord_linha, cord_coluna;
+	char cord_coluna_char;
 
 
 
@@ -120,7 +117,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	LIS_tpCondRet CondRet_LIS;
 	TAB_tpCondRet CondRet_TAB;
 	PEC_tpCondRet CondRet_PEC;
-	CPC_tpCondRet CondRet_CPC;
 
 
 	/*Strings*/
@@ -149,57 +145,89 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	} /* fim ativa: Efetuar reset de teste de lista */
 
 
-	/* Testar DestruirClassePeca*/
+	/* Testar DestruirTabuleiro */
 
-	else if (strcmp(ComandoTeste, DESTRUIR_CP_CMD) == 0)
+	else if (strcmp(ComandoTeste, DESTRUIR_TABULEIRO_CMD) == 0)
 	{
 		//printf("\n%d", vtMatrizes[ inxMatriz ]);
 		numLidos = LER_LerParametros("ii", &inxMatriz, &CondRetEsp);
 		if ((numLidos != 2)
-			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
+			|| (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
+		printf("CRIAASDASD");
 
-		CondRet_CPC = CPC_DestruirClassePeca(vtClasse[inxMatriz]);
+		CondRet_TAB = TAB_DestruirTabuleiro(vtMatrizes[inxMatriz]);
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao destruir classe");
+		printf("CRIAASDASD");
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao destruir tabuleiro");
 
-	} /* fim ativa: Testar DestruirClassePeca */
+	} /* fim ativa: Testar DestruirTabuleiro */
 
 
 
-	  /* Testar AdicionarMovimento */
+	  /* Testar InserirPeca */
 
-	else if (strcmp(ComandoTeste, ADICIONAR_MOVIMENTO_CMD) == 0)
+	else if (strcmp(ComandoTeste, INSERIR_PECA_CMD) == 0)
 	{
+
 		/* Declaracoes Necessarias */
+		PEC_tppPeca  *peca_PEC;
 		char id_peca , id_cor;
 		
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz,&movI,&movJ, &CondRetEsp);
-
-		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
+		numLidos = LER_LerParametros("iiccci", &inxMatriz,&cord_linha,&cord_coluna_char, &id_peca,&id_cor,  &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
+		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} 
 
-		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz] , movI , movJ);
+		/*Parte da Tabuleiro*/
+		PEC_criaPeca(&peca_PEC);
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,"Condicao de retorno errada ao adicionar movimento");
+		PEC_insereValorEmPeca(&peca_PEC, &id_peca, &id_cor);
+		
+		CondRet_TAB = TAB_InserirPeca(vtMatrizes[inxMatriz] , cord_linha , cord_coluna ,(void**)peca_PEC );
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,"Condicao de retorno errada ao inserir Peca");
 
 	} 
-	/* fim ativa: Testar AdicionarMovimento */
+	/* fim ativa: Testar Inserir Peca */
 
-	  /* Testar CriarClassePeca */
 
-	else if (strcmp(ComandoTeste, CRIAR_CP_CMD) == 0)
+	/* Testar Retirar Peca */
+	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
+	{
+		/* Declaracoes Necessarias */
+		PEC_tppPeca  *peca_PEC;
+
+		numLidos = LER_LerParametros("iici", &inxMatriz, &cord_linha, &cord_coluna_char, &CondRetEsp) ;
+		cord_coluna = (int)(cord_coluna_char - 'a');
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		
+		CondRet_TAB = TAB_RetirarPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna);
+
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao retirar peca");
+
+	} /* fim ativa: Testar Retirar Peca */
+
+
+	  /* Testar CriarTabuleiro */
+
+	else if (strcmp(ComandoTeste, CRIAR_TABULEIRO_CMD) == 0)
 	{
 	
 		int lado_linhas, lado_colunas;
 	
-		numLidos = LER_LerParametros("icsi", &inxMatriz, &nome, &StringDado, &CondRetEsp);
+		numLidos = LER_LerParametros("iiii", &inxMatriz,&lado_linhas,&lado_colunas, &CondRetEsp);
 
 		if ((numLidos != 4)
 			|| (!ValidarInxMatriz(inxMatriz, VAZIO)))
@@ -207,83 +235,117 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC = CPC_CriarClassePeca(&vtClasse[inxMatriz], nome, StringDado);
+		CondRet_TAB = TAB_CriaTabuleiro(&vtMatrizes[inxMatriz], &lado_linhas , &lado_colunas);
 
-		if (CondRet_CPC == 6) {
+		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;
 
 		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao criar classe de epeca");
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao criar tabuleiro");
 
-	} /* fim ativa: Testar CriarClassePeca */
+	} /* fim ativa: Testar CriarTabuleiro */
 
 
-	/*Inicio teste Obter Movimento*/
-	else if (strcmp(ComandoTeste, OBTER_MOVIMENTO_CMD) == 0)
+	/*Inicio teste Obter Peca*/
+	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
 	{
-		printf("\nentrou");
-		numLidos = LER_LerParametros("iiiii", &inxMatriz, &idxMovimento, pMovI, pMovJ, &CondRetEsp);
-		printf("\nentroua");
-		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+
+		//Declaracoes
+		PEC_tppPeca* peca_PEC;
+		char id_peca, id_cor;
+
+
+		numLidos = LER_LerParametros("iici", &inxMatriz, &cord_linha, &cord_coluna_char, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
+		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
-			printf("\nentroadasdu");
 			return TST_CondRetParm;
 		} /* if */
-		printf("\nentrou");
-		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, pMovI, pMovJ) ;
+
+	
+		PEC_criaPeca(&peca_PEC);
+	
+		CondRet_TAB = TAB_ObterPeca(vtMatrizes[inxMatriz], cord_linha, cord_coluna ,(void**)peca_PEC);
+		PEC_obtemValoresdePeca(peca_PEC, &id_peca, &id_cor);
 		
-		if (CondRet_CPC == 6) {
+		if (CondRet_TAB == 6) {
 
 			return TST_CondRetMemoria;
 
 		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao tentar obter movimento de classe de peca");
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao tentar obter peca de um tabuleiro");
 
-	} /* fim ativa: Testar ObterMovimento */
+	} /* fim ativa: Testar ObterPeca */
 
-	/* Testar Obter Nome*/
-	else if (strcmp(ComandoTeste, OBTER_NOME_CMD) == 0)
+	/* Testar Obter Lista Ameacantes */
+	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACANTES_CMD) == 0)
 	{
 		//LIS_tppLista Lista;
 		int lado_linhas, lado_colunas;
 
-		numLidos = LER_LerParametros("ici", &inxMatriz, &pCharDado, &CondRetEsp);
-
-		if ((numLidos != 3) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		numLidos = LER_LerParametros("iicii", &inxMatriz, &cord_linha, &cord_coluna_char, &inxLista, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
+		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 		
-		CondRet_CPC = CPC_ObterNome(vtClasse[inxMatriz], pCharDado);
+		CondRet_TAB = TAB_ObterListaAmeacantes(vtMatrizes[inxMatriz], cord_linha, cord_coluna, &vtListas[inxLista] );
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
 			"Condicao de retorno errada ao obter lista ameacantes");
 
-	} /* fim ativa: Testar ObterNome */
+	} /* fim ativa: Testar ObterListaAmeacantes */
 
-	 /*Testar ChecarMovimento*/
-
-	else if (strcmp(ComandoTeste, CHECAR_MOVIMENTO_CMD) == 0)
+	/* Testar Obter Lista Ameacados */
+	else if (strcmp(ComandoTeste, OBTER_LISTA_AMEACADOS_CMD) == 0)
 	{
+		//LIS_tppLista Lista;
+		int lado_linhas, lado_colunas;
 
-		numLidos = LER_LerParametros("iiiii", &inxMatriz, &movI, &movJ, resposta, &CondRetEsp);
+		numLidos = LER_LerParametros("iicii", &inxMatriz, &cord_linha, &cord_coluna_char, &inxLista, &CondRetEsp);
+		cord_coluna = (int)(cord_coluna_char - 'a');
 
-		if (numLidos != 5)
+		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC = CPC_ChecarMovimento(vtClasse, movI, movJ, resposta);
- 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao checar movimento");
+		CondRet_TAB = TAB_ObterListaAmeacados(vtMatrizes[inxMatriz], lado_linhas, lado_colunas, &vtListas[inxLista] );
 
-	} /* fim ativa: TestarChecarMovimento */
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao obter lista ameacados");
+
+	} /* fim ativa: Testar ObterListaAmeacados */
+	
+
+	 /*Testar mover peca*/
+
+	else if (strcmp(ComandoTeste, MOVER_PECA_CMD) == 0)
+	{
+		LIS_tppLista Lista;
+		int xOrg , yOrg , xDes , yDes;
+		char yCharDes, yCharOrg; 
+
+		numLidos = LER_LerParametros("iiciccci", &inxMatriz,&xOrg,&yCharOrg,&xDes,&yCharDes,&id_corDest,&id_corOrg,&CondRetEsp);
+		yOrg = (int)(yCharOrg - 'a');
+		yDes = (int)(yCharDes- 'a');
+		if (numLidos != 8)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		CondRet_TAB = TAB_MoverPeca(vtMatrizes[inxMatriz], xOrg, yOrg, xDes, yDes,id_corDest,id_corOrg);
+ 
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao mover peca");
+
+	} /* fim ativa: Testar Mover Peca */
 
 
 	} /* Fim função: TJOG &Testar jogo*/

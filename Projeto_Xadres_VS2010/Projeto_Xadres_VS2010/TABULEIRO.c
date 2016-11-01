@@ -498,15 +498,18 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
 	
 	for(numLinhas = 0; numLinhas < cabeca_TAB->num_de_linhas; numLinhas++)
 	{
+		printf("\n entra for");
 		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listaColunas);
 		
 		for ( numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
 			TAB_RetirarPeca(cabeca_TAB, numLinhas, numColunas);
+			printf("\n ruim na retirar");
 		}
 
 		LIS_EsvaziarLista(listaColunas);
 	}
-		
+	printf("\nSAI FOR");
+
 	LIS_DestroiLista(cabeca_TAB->pCabecaLista);
 	free(cabeca_TAB);
 

@@ -89,7 +89,7 @@ CPC_tpCondRet CPC_DestruirClassePeca(CPC_tppClassePeca pClassePeca) {
 	}
 
 	LIS_DestroiLista(pClassePeca->movimentos);
-	free(pClassePeca->nome);
+
 	free(pClassePeca);
 
 	return CPC_CondRetOK;
@@ -121,9 +121,9 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	movimento->movI = movI;
 	movimento->movJ = movJ;
 
-	LIS_IrFinalLista(pClassePeca->movimentos);
-	if (LIS_InserirElementoApos(pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
-		return CPC_CondRetFaltouMemoria;
+	LIS_IrFinalLista(&pClassePeca->movimentos);
+	if (LIS_InserirNo(&pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
+		 return CPC_CondRetFaltouMemoria;
 	}
 
 	return CPC_CondRetOK;
@@ -144,6 +144,7 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 
 	if (movI > 7 || movJ > 7 || movI < -7 || movJ < -7) {
 		*resposta = 0;
+		return CPC_CondRetNaoAchou;
 	}
 
 	CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
@@ -156,7 +157,7 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 		}
 	}
 
-	return CPC_CondRetOK;
+	return CPC_CondRetNaoAchou;
 }
 
 /***********************************************************************

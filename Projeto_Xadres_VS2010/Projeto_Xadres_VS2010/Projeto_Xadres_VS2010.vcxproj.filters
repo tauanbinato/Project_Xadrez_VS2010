@@ -36,9 +36,6 @@
     <ClInclude Include="CASA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PRINCIPAL.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CLASSE_PECA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CASA.C">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PRINCIPAL.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLASSE_PECA.C">

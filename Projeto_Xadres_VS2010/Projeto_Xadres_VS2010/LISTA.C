@@ -446,10 +446,6 @@ int LIS_ObterNumElem(LIS_tppLista pLista) {
 void LIS_IrFinalLista(LIS_tppLista pLista)
 {
 
-#ifdef _DEBUG
-	assert(pLista != NULL);
-#endif
-
 	pLista->pElemCorr = pLista->pFimLista;
 
 } /* Fim função: LIS  &Ir para o elemento final */
