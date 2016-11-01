@@ -110,7 +110,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		inxMatriz = -1;
 
 	int  movI, movJ, idxMovimento;
-	int* resposta, *pMovI, *pMovJ;
+	int* resposta;
 	char nome;
 
 
@@ -178,7 +178,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		char id_peca , id_cor;
 		
 
-		numLidos = LER_LerParametros("iiii", &inxMatriz,&movI,&movJ, &CondRetEsp);
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &movI, &movJ, &CondRetEsp);
 
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
@@ -186,7 +186,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} 
 
 		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz] , movI , movJ);
-
+		printf("\n ADICIONOU");
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,"Condicao de retorno errada ao adicionar movimento");
 
 	} 
@@ -224,17 +224,16 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	/*Inicio teste Obter Movimento*/
 	else if (strcmp(ComandoTeste, OBTER_MOVIMENTO_CMD) == 0)
 	{
-		printf("\nentrou");
-		numLidos = LER_LerParametros("iiiii", &inxMatriz, &idxMovimento, pMovI, pMovJ, &CondRetEsp);
-		printf("\nentroua");
-		if ((numLidos != 5) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
+		numLidos = LER_LerParametros("iii", &inxMatriz, &idxMovimento, &CondRetEsp);
+		printf("\nidxMovimento: %d", idxMovimento);
+		if ((numLidos != 3) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
-			printf("\nentroadasdu");
 			return TST_CondRetParm;
 		} /* if */
 		printf("\nentrou");
-		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, pMovI, pMovJ) ;
-		
+		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
+		printf("\nmovI obtido: %d", movI);
+		printf("\nmovJ obtido: %d", movJ);
 		if (CondRet_CPC == 6) {
 
 			return TST_CondRetMemoria;
