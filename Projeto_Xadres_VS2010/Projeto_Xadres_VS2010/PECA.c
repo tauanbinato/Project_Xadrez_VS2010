@@ -44,7 +44,7 @@ typedef struct PEC_tagPeca {
 	char cor_peca;
 	/* Cor da peca especifica */
 
-	char *movimento;
+	//char *movimento;
 	/* Movimento de uma peca */
 
 } PEC_Peca;
@@ -146,3 +146,4 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	free(peca);
 	return PEC_CondRetOK;
 }
+

@@ -78,18 +78,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CASA.H" />
+    <ClInclude Include="CLASSE_PECA.H" />
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="PECA.h" />
+    <ClInclude Include="PRINCIPAL.H" />
     <ClInclude Include="TABULEIRO.h" />
     <ClInclude Include="TST_ESPC.H" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Arcabouco\arcabouc\Fontes\GENERICO.C" />
     <ClCompile Include="CASA.C" />
+    <ClCompile Include="CLASSE_PECA.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="PECA.c" />
+    <ClCompile Include="PRINCIPAL.c" />
     <ClCompile Include="TABULEIRO.c" />
     <ClCompile Include="TESTJOG.C" />
   </ItemGroup>
