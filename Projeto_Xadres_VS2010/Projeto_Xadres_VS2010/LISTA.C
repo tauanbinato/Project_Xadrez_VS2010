@@ -426,6 +426,35 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 
    } /* Fim função: LIS  &Ir para o elemento inicial */
 
+/***********************************************************************
+*
+*  Função: LIS  &Obter numero de elementos
+***********************************************************************/
+
+int LIS_ObterNumElem(LIS_tppLista pLista) {
+	if (pLista == NULL) {
+		return -1;
+	}
+
+	return pLista->numElem;
+}
+
+/***********************************************************************
+*
+*  Função: LIS  &Ir para o elemento final
+***********************************************************************/
+void LIS_IrFinalLista(LIS_tppLista pLista)
+{
+
+#ifdef _DEBUG
+	assert(pLista != NULL);
+#endif
+
+	pLista->pElemCorr = pLista->pFimLista;
+
+} /* Fim função: LIS  &Ir para o elemento final */
+
+
 /***************************************************************************
 *
 *  $FC Funcao: LIS  -Liberar elemento da lista (ESTATICA)

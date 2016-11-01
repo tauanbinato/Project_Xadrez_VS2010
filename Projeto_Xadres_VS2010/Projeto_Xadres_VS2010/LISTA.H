@@ -393,6 +393,42 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    LIS_tpCondRet LIS_IrInicioLista(LIS_tppLista pLista) ;
 
+/***********************************************************************
+*
+*  $FC Função: LIS  &Obter Numero de Elementos
+*
+*  $ED Descrição da função
+*     Obtem o numero de elementos de uma lista fornecida.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+*	$AE - Assertivas de entrada
+*	- valem assertivas estruturais de lista duplamente encadeada
+*
+***********************************************************************/
+
+   int LIS_ObterNumElem(LIS_tppLista pLista);
+  /***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o elemento final
+*
+*  $ED Descrição da função
+*     Torna corrente o ultimo elemento da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+*	$AE - Assertivas de entrada
+*	- valem assertivas estruturais de lista duplamente encadeada
+*	$AS - Assertivas de saída:
+*	- O elemento corrente da lista agora aponta para o elemento final
+*
+***********************************************************************/
+  
+   void LIS_IrFinalLista(LIS_tppLista pLista);
+
 #undef LISTA_EXT
 
 /********** Fim do módulo de definição: LIS  Lista duplamente encadeada **********/                 
