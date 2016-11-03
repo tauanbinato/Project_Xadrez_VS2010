@@ -57,19 +57,19 @@ CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, c
 		return CPC_CondRetFaltouMemoria;
 	}
 
-	cp->nome = (char)malloc(sizeof(char));
+	//cp->nome = (char)malloc(sizeof(char)); ->acho que nao precisa alocar isso tb
 
-	if (cp->nome == NULL) {
-		free(cp);
-		return CPC_CondRetFaltouMemoria;
-	}
+	//if (cp->nome == NULL) {
+	//	free(cp);
+	//	return CPC_CondRetFaltouMemoria;
+	//}
 
 	cp->nome = nome;
 
 	LIS_CriarLista(&cp->movimentos, idEnviado);
 
 	if (cp->movimentos == NULL) {
-		free(cp->nome);
+		//free(cp->nome);
 		free(cp);
 		return CPC_CondRetFaltouMemoria;
 	}
