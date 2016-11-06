@@ -36,6 +36,9 @@
     <ClInclude Include="CASA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CLASSE_PECA.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LISTA.C">
@@ -54,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CASA.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLASSE_PECA.C">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

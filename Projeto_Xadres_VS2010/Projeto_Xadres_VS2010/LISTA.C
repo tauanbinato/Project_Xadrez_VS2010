@@ -196,7 +196,6 @@
 
       /* Criar elemento a inserir ap�s */
          pElem = CriarElemento( pLista , pValor ) ;
-
          if ( pElem == NULL )
          {
             return LIS_CondRetFaltouMemoria ;
@@ -208,13 +207,15 @@
          {
             pLista->pOrigemLista = pElem ;
             pLista->pFimLista = pElem ;
-         } else
+         } 
+		 else
          {
             if ( pLista->pElemCorr->pProx != NULL )
             {
                pElem->pProx  = pLista->pElemCorr->pProx ;
                pLista->pElemCorr->pProx->pAnt = pElem ;
-            } else
+            } 
+			else
             {
                pLista->pFimLista = pElem ;
             } /* if */
@@ -425,6 +426,31 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
       return LIS_CondRetOK ;
 
    } /* Fim função: LIS  &Ir para o elemento inicial */
+
+/***********************************************************************
+*
+*  Função: LIS  &Obter numero de elementos
+***********************************************************************/
+
+int LIS_ObterNumElem(LIS_tppLista pLista) {
+	if (pLista == NULL) {
+		return -1;
+	}
+	printf("\nLIS_ObterNumElementos: %d", pLista->numElem);
+	return pLista->numElem;
+}
+
+/***********************************************************************
+*
+*  Função: LIS  &Ir para o elemento final
+***********************************************************************/
+void LIS_IrFinalLista(LIS_tppLista pLista)
+{
+
+	pLista->pElemCorr = pLista->pFimLista;
+
+} /* Fim função: LIS  &Ir para o elemento final */
+
 
 /***************************************************************************
 *

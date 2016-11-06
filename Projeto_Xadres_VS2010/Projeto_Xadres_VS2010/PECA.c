@@ -22,13 +22,11 @@
 #include   <memory.h>
 #include   <malloc.h>
 #include   <assert.h>
-#include   "lista.h"
 
 
 #define LISTA_OWN
 #include "Peca.h"
 #undef LISTA_OWN
-
 
 /***********************************************************************
 *
@@ -39,13 +37,11 @@
 typedef struct PEC_tagPeca {
 
 	char nome_peca;
-	/* Nome da peca especifica */
+	/* Nome da peca especifica*/
 
 	char cor_peca;
-	/* Cor da peca especifica */
-
+	/* Cor da peca especifica*/
 	char *movimento;
-	/* Movimento de uma peca */
 
 } PEC_Peca;
 
@@ -64,6 +60,7 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 
 	aux_peca->cor_peca = 'V';
 	aux_peca->nome_peca = 'V';
+	aux_peca->movimento = NULL;
 
 	*peca = aux_peca;
 	
@@ -76,26 +73,26 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char *cor_peca) {
+PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char cor_peca) {
 
 	/*Aloca nome*/
 	char* aux_nome;
 	char* aux_cor;
 
-	aux_nome = (char *)malloc(sizeof(char));
+	aux_nome = (char *)malloc(sizeof(char)*5);
 	if (aux_nome == NULL) return PEC_CondRetFaltouMemoria;
 
 	aux_nome = nome_peca;
 
 	/*Aloca cor*/
-	aux_cor = (char *)malloc(sizeof(char));
-	if (aux_cor == NULL) return PEC_CondRetFaltouMemoria;
+	//aux_cor = (char *)malloc(sizeof(char));
+	//if (aux_cor == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_cor = cor_peca;
+	//aux_cor = cor_peca;
 
 
-	peca->cor_peca = *aux_cor;
-	peca->nome_peca = *aux_nome;
+	peca->cor_peca = cor_peca;
+	strcpy(&peca->nome_peca , aux_nome);
 	
 	return PEC_CondRetOK;
 }
@@ -107,10 +104,8 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char *c
 ***********************************************************************/
 
 PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca , char *cor_peca) {
-
-	*nome_peca = peca->nome_peca;
-	*cor_peca = peca->cor_peca;
-	
+	strcpy(nome_peca, &peca->nome_peca);
+	cor_peca = peca->cor_peca;
 	return PEC_CondRetOK;
 }
 
