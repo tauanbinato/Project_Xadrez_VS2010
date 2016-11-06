@@ -175,7 +175,6 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		PEC_tppPeca  *peca_PEC;
 		char id_peca , id_cor;
 		
-
 		numLidos = LER_LerParametros("iiccci", &inxMatriz,&cord_linha,&cord_coluna_char, &id_peca,&id_cor,  &CondRetEsp);
 		cord_coluna = (int)(cord_coluna_char - 'a');
 		if ((numLidos != 6) || (!ValidarInxMatriz(inxMatriz, NAO_VAZIO)))
