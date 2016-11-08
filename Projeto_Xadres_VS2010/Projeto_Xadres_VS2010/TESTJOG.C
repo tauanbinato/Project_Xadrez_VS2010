@@ -186,7 +186,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} 
 
 		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz] , movI , movJ);
-		printf("\n ADICIONOU");
+		printf("\n\t\t****ADICIONOU****");
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,"Condicao de retorno errada ao adicionar movimento");
 
 	} 
@@ -231,15 +231,16 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 		printf("\nentrou");
-		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
+		CondRet_CPC = CPC_ObterMovimento(&vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
 		printf("\nCondRet_CPC: %d", CondRet_CPC);
-		printf("\nmovI obtido: %d", movI);
-		printf("\nmovJ obtido: %d", movJ);
+		printf("\nmovI obtido(teste): %d", movI);
+		printf("\nmovJ obtido(teste): %d", movJ);
 		if (CondRet_CPC == 6) {
 
 			return TST_CondRetMemoria;
 
 		}
+		printf("\n\t\t****OBTEVE****");
 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
 			"Condicao de retorno errada ao tentar obter movimento de classe de peca");

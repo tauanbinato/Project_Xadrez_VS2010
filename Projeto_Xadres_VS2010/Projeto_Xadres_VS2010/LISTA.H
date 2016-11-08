@@ -297,10 +297,11 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *  $FC Função: LIS  &AvancarElementoCorrente
 *
 *  $ED Descrição da função
-*     Avança o elemento corrente um elemento na lista
+*     Avança o elemento corrente numElem elementos na lista
 *
 *  $EP Parâmetros
 *     pLista  - ponteiro para a lista a ser manipulada
+*	  numElem - numero de elementos a serem andados
 *
 *  $FV Valor retornado
 *     CondRetOK         - se um elemento tiver sido andado
@@ -312,11 +313,11 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *	- Valem as assertivas estruturais da lista duplamente encadeada com cabeça
 *	$AS - Assertivas de saída:
 *	- Valem as assertivas estruturais da lista duplamente encadeada com cabeça
-*	- O ponteiro corrente aponta para o próximo, no caso que era o último, ele continua apontando para o mesmo elemento
+*	- O ponteiro corrente aponta para o elemento após numElem elementos, no caso que era o último, ele continua apontando para o mesmo elemento
 *
 ***********************************************************************/
 
-   LIS_tpCondRet LIS_AvancarElementoCorrente(LIS_tppLista pLista);
+   LIS_tpCondRet LIS_AvancarElementoCorrente(LIS_tppLista pLista, int numElem);
 
 
 /***********************************************************************
