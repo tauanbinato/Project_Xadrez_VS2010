@@ -216,7 +216,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		}
 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao criar classe de epeca");
+			"Condicao de retorno errada ao criar classe de peca");
 
 	} /* fim ativa: Testar CriarClassePeca */
 
