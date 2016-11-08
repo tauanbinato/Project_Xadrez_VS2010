@@ -41,9 +41,9 @@
 
 static const char CRIAR_CP_CMD[]	                =				"=criarcp"               ;
 static const char DESTRUIR_CP_CMD[]			        =				"=destruircp"            ;
-static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"     ;
+static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"    ;
 static const char CHECAR_MOVIMENTO_CMD[]            =				"=checarmovimento"       ;
-static const char OBTER_MOVIMENTO_CMD[]             =                "=obtermovimento"       ;
+static const char OBTER_MOVIMENTO_CMD[]             =               "=obtermovimento"		 ;
 static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
 static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 
