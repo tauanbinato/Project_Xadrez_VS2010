@@ -174,10 +174,10 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	else if (strcmp(ComandoTeste, ADICIONAR_MOVIMENTO_CMD) == 0)
 	{
+
 		/* Declaracoes Necessarias */
 		char id_peca , id_cor;
 		
-
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &movI, &movJ, &CondRetEsp);
 
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))

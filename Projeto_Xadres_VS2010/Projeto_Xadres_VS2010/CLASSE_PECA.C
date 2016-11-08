@@ -14,7 +14,6 @@
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data     Observações
 *     1       tb,ja,lp   31/out/2016 início desenvolvimento.
-
 *
 ***************************************************************************/
 
@@ -49,20 +48,13 @@ typedef struct CPC_tagMovimento {
 ***********************************************************************/
 
 CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, char* idEnviado) {
-	CPC_tpClassePeca * cp;
 
+	CPC_tpClassePeca * cp;
 	cp = (CPC_tppClassePeca)malloc(sizeof(CPC_tpClassePeca));
 
 	if (cp == NULL) {
 		return CPC_CondRetFaltouMemoria;
 	}
-
-	//cp->nome = (char)malloc(sizeof(char)); ->acho que nao precisa alocar isso tb
-
-	//if (cp->nome == NULL) {
-	//	free(cp);
-	//	return CPC_CondRetFaltouMemoria;
-	//}
 
 	cp->nome = nome;
 
@@ -84,6 +76,7 @@ CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, c
 ***********************************************************************/
 
 CPC_tpCondRet CPC_DestruirClassePeca(CPC_tppClassePeca pClassePeca) {
+
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
@@ -100,7 +93,9 @@ CPC_tpCondRet CPC_DestruirClassePeca(CPC_tppClassePeca pClassePeca) {
 ***********************************************************************/
 
 CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, int movJ) {
+
 	CPC_tpMovimento * movimento;
+
 	int resp = 0, numMovimentos, a;
 
 	if (pClassePeca == NULL) {
@@ -118,18 +113,18 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 		return CPC_CondRetFaltouMemoria;
 	}
 
-	printf("\nmovI ADICIONADO: %d", movI);
-	printf("\nmovJ adicionado: %d", movJ);
-
 	movimento->movI = movI;
 	movimento->movJ = movJ;
+
+	printf("\nmovI ADICIONADO: %d", movI);
+	printf("\nmovJ adicionado: %d", movJ);
 
 	LIS_IrFinalLista(&pClassePeca->movimentos);
 	if( LIS_InserirNo(&pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
 		 return CPC_CondRetFaltouMemoria;
 	}
 
-	CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
+	//CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
 
 	return CPC_CondRetOK;
 }
@@ -139,6 +134,7 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int movJ, int * resposta) {
+
 	int numMovimentos;
 	int i = 0;
 	int movIObtido, movJObtido;
@@ -173,11 +169,16 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * numMovimentos) {
+
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
 
 	*numMovimentos = LIS_ObterNumElem(pClassePeca->movimentos);
+	if (*numMovimentos == -1) {
+		return CPC_CondRetNaoAchou;
+	}
+
 	printf("\n *numMovimentos: %d", *numMovimentos);
 	return CPC_CondRetOK;
 }
@@ -187,6 +188,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento, int * pMovI, int * pMovJ) {
+
 	int numElem, i = 0;
 	CPC_tpMovimento *movimento;
 
