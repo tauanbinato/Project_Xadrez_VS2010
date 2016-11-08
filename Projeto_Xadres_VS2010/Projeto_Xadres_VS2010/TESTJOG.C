@@ -269,9 +269,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	else if (strcmp(ComandoTeste, CHECAR_MOVIMENTO_CMD) == 0)
 	{
 
-		numLidos = LER_LerParametros("iiiii", &inxMatriz, &movI, &movJ, resposta, &CondRetEsp);
+		numLidos = LER_LerParametros("iiii", &inxMatriz, &movI, &movJ, &CondRetEsp);
 
-		if (numLidos != 5)
+		if (numLidos != 4)
 		{
 			return TST_CondRetParm;
 		} /* if */
