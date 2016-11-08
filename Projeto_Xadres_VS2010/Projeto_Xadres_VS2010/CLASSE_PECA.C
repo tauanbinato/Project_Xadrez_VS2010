@@ -77,12 +77,12 @@ CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, c
 
 CPC_tpCondRet CPC_DestruirClassePeca(CPC_tppClassePeca pClassePeca) {
 
+
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
 
 	LIS_DestroiLista(pClassePeca->movimentos);
-
 	free(pClassePeca);
 
 	return CPC_CondRetOK;
@@ -176,7 +176,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 }
 
 /***********************************************************************
-*  $FC Função: CPC Obter movimento de classe de peça
+*  $FC Função: CPC Obter movimento de classe de peça  *
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento, int * pMovI, int * pMovJ) {
@@ -205,6 +205,7 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 	*pMovJ = movimento->movJ;
 
 	return CPC_CondRetOK;
+
 }
 
 /***********************************************************************

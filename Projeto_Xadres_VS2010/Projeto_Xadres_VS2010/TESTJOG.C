@@ -283,6 +283,30 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: TestarChecarMovimento */
 
+	/*TESTES DO MODULO CASA (PROVISÓRIO SÓ PRA N TER QUE FAZER OUTRO MODULO TESTE)*/
+
+	else if (strcmp(ComandoTeste, CHECAR_MOVIMENTO_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("iiiii", &inxMatriz, &movI, &movJ, resposta, &CondRetEsp);
+
+		if (numLidos != 5)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		CondRet_CPC = CPC_ChecarMovimento(vtClasse, movI, movJ, resposta);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CPC,
+			"Condicao de retorno errada ao checar movimento");
+
+	} /* fim ativa: TestarChecarMovimento */
+
+
+
+
+
+
 
 	} /* Fim função: TJOG &Testar jogo*/
 
