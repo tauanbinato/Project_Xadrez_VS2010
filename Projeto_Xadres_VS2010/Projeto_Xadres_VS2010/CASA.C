@@ -70,6 +70,12 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 	return CAS_CondRetOK;
 }
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Retira Peca de Casa
+*
+***********************************************************************/
+
 CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
 	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
@@ -77,6 +83,12 @@ CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
 	return CAS_CondRetOK;
 }
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Obtem Peca de Casa
+*
+***********************************************************************/
 
 CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
 
@@ -87,12 +99,24 @@ CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
 
 }
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Obtem Lista Ameacantes
+*
+***********************************************************************/
+
 CAS_tpCondRet CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor) {
 
 	LIS_ObterNo(pCasa->pListaAmeacantes, &pValor);
 
 	return CAS_CondRetOK;
 }
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: CAS Obtem Lista Ameacados
+*
+***********************************************************************/
 
 CAS_tpCondRet CAS_obtemListaAmeacados(CAS_tppCasa pCasa, void**pValor) {
 
