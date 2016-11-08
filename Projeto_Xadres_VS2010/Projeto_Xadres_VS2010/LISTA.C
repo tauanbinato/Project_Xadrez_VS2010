@@ -303,39 +303,84 @@ LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 *
 *  ************************************************************************/
 
-   LIS_tpCondRet LIS_AvancarElementoCorrente( LIS_tppLista pLista)
-   {
+LIS_tpCondRet LIS_AvancarElementoCorrente(LIS_tppLista pLista, int numElem)
+{
 
-      int i ;
+	int i;
 
-      #ifdef _DEBUG
-         assert( pLista != NULL ) ;
-      #endif
+	tpElemLista * pElem;
 
-      /* Tratar lista vazia */
+#ifdef _DEBUG
+	assert(pLista != NULL);
+#endif
 
-         if ( pLista->pElemCorr == NULL )
-         {
+	/* Tratar lista vazia */
 
-            return LIS_CondRetListaVazia ;
+	if (pLista->pElemCorr == NULL)
+	{
 
-         } /* fim ativa: Tratar lista vazia */
+		return LIS_CondRetListaVazia;
 
-      /* Tratar avan�ar para frente */
-		 if (pLista->pElemCorr->pProx != NULL) {
+	} /* fim ativa: Tratar lista vazia */
 
-			 pLista->pElemCorr = pLista->pElemCorr->pProx;
+	  /* Tratar avançar para frente */
 
-			 return LIS_CondRetOK;
-		 }
+	if (numElem > 0)
+	{
 
-		 /* fim ativa: Tratar avan�ar para frente */
-		 
-		 /* Tratar No corrente é o ultimo */
-		 else if (pLista->pElemCorr->pProx == NULL)
-			 return LIS_CondRetFimLista;
+		pElem = pLista->pElemCorr;
+		for (i = numElem; i > 0; i--)
+		{
+			if (pElem == NULL)
+			{
+				break;
+			} /* if */
+			pElem = pElem->pProx;
+		} /* for */
 
-   } /* Fim fun��o: LIS  &Avan�ar elemento */
+		if (pElem != NULL)
+		{
+			pLista->pElemCorr = pElem;
+			return LIS_CondRetOK;
+		} /* if */
+
+		pLista->pElemCorr = pLista->pFimLista;
+		return LIS_CondRetFimLista;
+
+	} /* fim ativa: Tratar avançar para frente */
+
+	  /* Tratar avançar para trás */
+
+	else if (numElem < 0)
+	{
+
+		pElem = pLista->pElemCorr;
+		for (i = numElem; i < 0; i++)
+		{
+			if (pElem == NULL)
+			{
+				break;
+			} /* if */
+			pElem = pElem->pAnt;
+		} /* for */
+
+		if (pElem != NULL)
+		{
+			pLista->pElemCorr = pElem;
+			return LIS_CondRetOK;
+		} /* if */
+
+		pLista->pElemCorr = pLista->pOrigemLista;
+		return LIS_CondRetFimLista;
+
+	} /* fim ativa: Tratar avançar para trás */
+
+	  /* Tratar não avançar */
+
+	return LIS_CondRetOK;
+
+} /* Fim função: LIS  &Avançar elemento */
+
 
 /***************************************************************************
 *

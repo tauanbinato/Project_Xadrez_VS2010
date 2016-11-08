@@ -41,9 +41,9 @@
 
 static const char CRIAR_CP_CMD[]	                =				"=criarcp"               ;
 static const char DESTRUIR_CP_CMD[]			        =				"=destruircp"            ;
-static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"     ;
+static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"    ;
 static const char CHECAR_MOVIMENTO_CMD[]            =				"=checarmovimento"       ;
-static const char OBTER_MOVIMENTO_CMD[]             =                "=obtermovimento"       ;
+static const char OBTER_MOVIMENTO_CMD[]             =               "=obtermovimento"		 ;
 static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
 static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 
@@ -186,7 +186,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} 
 
 		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz] , movI , movJ);
-		printf("\n ADICIONOU");
+		printf("\n\t\t****ADICIONOU****");
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,"Condicao de retorno errada ao adicionar movimento");
 
 	} 
@@ -231,15 +231,16 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 		printf("\nentrou");
-		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
+		CondRet_CPC = CPC_ObterMovimento(&vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
 		printf("\nCondRet_CPC: %d", CondRet_CPC);
-		printf("\nmovI obtido: %d", movI);
-		printf("\nmovJ obtido: %d", movJ);
+		printf("\nmovI obtido(teste): %d", movI);
+		printf("\nmovJ obtido(teste): %d", movJ);
 		if (CondRet_CPC == 6) {
 
 			return TST_CondRetMemoria;
 
 		}
+		printf("\n\t\t****OBTEVE****");
 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
 			"Condicao de retorno errada ao tentar obter movimento de classe de peca");

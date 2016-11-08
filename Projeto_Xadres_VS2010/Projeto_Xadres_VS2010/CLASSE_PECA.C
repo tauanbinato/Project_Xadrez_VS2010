@@ -117,9 +117,6 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	movimento->movI = movI;
 	movimento->movJ = movJ;
 
-	printf("\nmovI ADICIONADO: %d", movimento->movI);
-	printf("\nmovJ adicionado: %d", movimento->movJ);
-
 	LIS_IrFinalLista(&pClassePeca->movimentos);
 	if( LIS_InserirNo(&pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
 		 return CPC_CondRetFaltouMemoria;
@@ -153,8 +150,6 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 
 	for (i = 0; i < numMovimentos; i++) {
 		CPC_ObterMovimento(pClassePeca, i, &movIObtido, &movJObtido);
-		printf("\nmovIObtdio: %d", movIObtido);
-		printf("\nmovJObtido: %d", movJObtido);
 
 		if (movIObtido == movI && movJObtido == movJ) {
 			*resposta = 1;
@@ -189,8 +184,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento, int * pMovI, int * pMovJ) {
-
-	int numElem, i = 0;
+	int numElem;
 	CPC_tpMovimento *movimento;
 
 	if (pClassePeca == NULL) {
@@ -198,22 +192,20 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 	}
 
 	CPC_ObterNumeroMovimentos(pClassePeca, &numElem);
-	printf("\nCPC_ObtemNumMov: %d", numElem);
+
 	if (idxMovimento < 0 || idxMovimento > numElem) {
 		return CPC_CondRetNaoAchou;
 	}
 
 	LIS_IrInicioLista(pClassePeca->movimentos);
 
-	for(i=0; i< idxMovimento; i++)
-		LIS_AvancarElementoCorrente(pClassePeca->movimentos);
-	printf("\nvalor de i %d --------- valor de idxMov: %d", i, idxMovimento);
-	printf("\navancou elem corrente");
-	LIS_ObterNo(pClassePeca->movimentos, &movimento);
-	printf("\n obteve no");
-	pMovI = movimento->movI;
-	pMovJ = movimento->movJ;
-	printf("\n fez tudo");
+	LIS_AvancarElementoCorrente(&pClassePeca->movimentos, numElem);
+
+	LIS_ObterNo(&pClassePeca->movimentos, (void**)&movimento);
+
+	*pMovI = movimento->movI;
+	*pMovJ = movimento->movJ;
+
 	return CPC_CondRetOK;
 
 }
