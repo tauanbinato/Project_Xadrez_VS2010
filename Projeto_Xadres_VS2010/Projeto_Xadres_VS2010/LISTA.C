@@ -227,8 +227,6 @@
 
 		 pLista->pElemCorr = pElem ;
 
-		 printf("\n inserirNo: %d", pLista->numElem);
-
          return LIS_CondRetOK ;
 		 
    } /* Fim fun��o: LIS  &Inserir elemento ap�s */
@@ -483,7 +481,7 @@ int LIS_ObterNumElem(LIS_tppLista pLista) {
 	if (pLista == NULL) {
 		return -1;
 	}
-	printf("\nLIS_ObterNumElementos: %d", pLista->numElem);
+
 	return pLista->numElem;
 }
 

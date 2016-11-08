@@ -183,7 +183,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 		if (corrente == cord_linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
 	
 	}/*fim for*/
 	
@@ -197,7 +197,7 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 			break;
 		}
 		
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
@@ -295,7 +295,7 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 		if (corrente == cord_linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
 		
 	}/*fim for*/
 
@@ -309,7 +309,7 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 			break;
 		}
 
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
 
 	}
 
@@ -349,7 +349,7 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 		if (corrente == cord_linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista);
+		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
 	}/*fim for*/
 
 	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
@@ -362,7 +362,7 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 			break;
 		}
 
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
@@ -404,7 +404,7 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 		if (corrente == linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(aux_listaCaminho);
+		LIS_AvancarElementoCorrente(aux_listaCaminho, 1);
 	}
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
 
@@ -416,7 +416,7 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 		if (corrente == coluna) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
 		
 	}
 	
@@ -459,7 +459,7 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 		if (corrente == linha) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(aux_listaCaminho);
+		LIS_AvancarElementoCorrente(aux_listaCaminho, 1);
 	}
 
 	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
@@ -471,7 +471,7 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 		if (corrente == coluna) {
 			break;
 		}
-		LIS_AvancarElementoCorrente(aux_listaColuna);
+		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
 	}
 
 	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
