@@ -227,6 +227,8 @@
 
 		 pLista->pElemCorr = pElem ;
 
+		 printf("\n inserirNo: %d", pLista->numElem);
+
          return LIS_CondRetOK ;
 		 
    } /* Fim fun��o: LIS  &Inserir elemento ap�s */

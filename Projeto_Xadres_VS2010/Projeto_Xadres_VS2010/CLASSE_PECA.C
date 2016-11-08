@@ -102,7 +102,8 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 		return CPC_CondRetPonteiroNulo;
 	}
 	
-	CPC_ChecarMovimento(&pClassePeca, movI, movJ, &resp);
+	CPC_ChecarMovimento(pClassePeca, movI, movJ, &resp);
+
 	if (resp == 1) {
 		return CPC_CondRetNaoAchou;
 	}
@@ -116,8 +117,8 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	movimento->movI = movI;
 	movimento->movJ = movJ;
 
-	printf("\nmovI ADICIONADO: %d", movI);
-	printf("\nmovJ adicionado: %d", movJ);
+	printf("\nmovI ADICIONADO: %d", movimento->movI);
+	printf("\nmovJ adicionado: %d", movimento->movJ);
 
 	LIS_IrFinalLista(&pClassePeca->movimentos);
 	if( LIS_InserirNo(&pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
@@ -196,9 +197,9 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 		return CPC_CondRetPonteiroNulo;
 	}
 
-	CPC_ObterNumeroMovimentos(&pClassePeca, &numElem);
+	CPC_ObterNumeroMovimentos(pClassePeca, &numElem);
 	printf("\nCPC_ObtemNumMov: %d", numElem);
-	if (idxMovimento < 0 || idxMovimento >= numElem) {
+	if (idxMovimento < 0 || idxMovimento > numElem) {
 		return CPC_CondRetNaoAchou;
 	}
 
@@ -210,8 +211,8 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 	printf("\navancou elem corrente");
 	LIS_ObterNo(pClassePeca->movimentos, &movimento);
 	printf("\n obteve no");
-	*pMovI = movimento->movI;
-	*pMovJ = movimento->movJ;
+	pMovI = movimento->movI;
+	pMovJ = movimento->movJ;
 	printf("\n fez tudo");
 	return CPC_CondRetOK;
 }

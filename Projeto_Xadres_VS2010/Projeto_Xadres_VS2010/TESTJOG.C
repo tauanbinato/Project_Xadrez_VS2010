@@ -216,7 +216,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		}
 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao criar classe de epeca");
+			"Condicao de retorno errada ao criar classe de peca");
 
 	} /* fim ativa: Testar CriarClassePeca */
 
@@ -232,6 +232,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 		printf("\nentrou");
 		CondRet_CPC = CPC_ObterMovimento(vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
+		printf("\nCondRet_CPC: %d", CondRet_CPC);
 		printf("\nmovI obtido: %d", movI);
 		printf("\nmovJ obtido: %d", movJ);
 		if (CondRet_CPC == 6) {
