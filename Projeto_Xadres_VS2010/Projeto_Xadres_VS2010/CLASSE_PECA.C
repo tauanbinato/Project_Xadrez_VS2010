@@ -170,12 +170,8 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 		return CPC_CondRetPonteiroNulo;
 	}
 
-	*numMovimentos = LIS_ObterNumElem(pClassePeca->movimentos);
-	if (*numMovimentos == -1) {
-		return CPC_CondRetNaoAchou;
-	}
+	*numMovimentos = LIS_ObterNumElem(&pClassePeca->movimentos);
 
-	printf("\n *numMovimentos: %d", *numMovimentos);
 	return CPC_CondRetOK;
 }
 
@@ -193,7 +189,9 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 
 	CPC_ObterNumeroMovimentos(pClassePeca, &numElem);
 
+
 	if (idxMovimento < 0 || idxMovimento > numElem) {
+
 		return CPC_CondRetNaoAchou;
 	}
 
