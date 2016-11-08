@@ -47,6 +47,9 @@ static const char OBTER_MOVIMENTO_CMD[]             =               "=obtermovim
 static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
 static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 
+//Para Modulo Casa
+static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
+
 /************************FIM COMANDOS SCRIPT************************/
 
 
@@ -67,6 +70,7 @@ LIS_tppLista            vtListas[DIM_VT_LISTA];
 LIS_tppLista            vtListas_2[DIM_VT_LISTA];
 TAB_ppAncoraTabuleiro	vtMatrizes[DIM_VT_TAB];
 CPC_tppClassePeca       vtClasse[DIM_VT_CPC];
+CAS_tppCasa				vtCasas[DIM_VT_TAB];
 
 /***** Protótipos das funções encapuladas no módulo *****/
 // void DestruirValor( void * pValor );
@@ -107,12 +111,13 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		numElem = -1,
 		ValEsp = -1,
 		i,
-		inxMatriz = -1;
+		inxMatriz = -1,
+		inxCasa = -1,
+		inxPeca = -1;
 
 	int  movI, movJ, idxMovimento;
 	int* resposta;
 	char nome;
-
 
 
 	/*Condicoes de Retorno*/
@@ -121,6 +126,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	TAB_tpCondRet CondRet_TAB;
 	PEC_tpCondRet CondRet_PEC;
 	CPC_tpCondRet CondRet_CPC;
+	CAS_tpCondRet CondRet_CAS;
 
 
 	/*Strings*/
@@ -285,22 +291,30 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	/*TESTES DO MODULO CASA (PROVISÓRIO SÓ PRA N TER QUE FAZER OUTRO MODULO TESTE)*/
 
-	else if (strcmp(ComandoTeste, CHECAR_MOVIMENTO_CMD) == 0)
+	  /* inicio:  TestarCriarCasa*/
+
+	else if (strcmp(ComandoTeste, CRIAR_CASA_CMD) == 0)
 	{
 
-		numLidos = LER_LerParametros("iiiii", &inxMatriz, &movI, &movJ, resposta, &CondRetEsp);
+		/* Declaracoes Necessarias */
+	    PEC_tppPeca  *peca_PEC;
 
-		if (numLidos != 5)
+		numLidos = LER_LerParametros("iii", &inxCasa, &inxPeca, &CondRetEsp);
+
+		if (numLidos != 3)
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC = CPC_ChecarMovimento(vtClasse, movI, movJ, resposta);
+		PEC_criaPeca(&peca_PEC);
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao checar movimento");
+		CondRet_CAS = CAS_criaCasa(&vtCasas[inxCasa], (void**)peca_PEC);
 
-	} /* fim ativa: TestarChecarMovimento */
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao criar casa");
+
+
+	} /* fim ativa: TestarCriarCasa */
 
 
 
