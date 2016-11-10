@@ -83,9 +83,9 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 
 CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
-	
 	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
 	pCasa->pPeca = NULL;
+	printf("\nEnd peca casa: %p , End Casa: %p\n", pCasa->pPeca , pCasa);
 
 	return CAS_CondRetOK;
 }
@@ -101,11 +101,8 @@ CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
 	printf("\nOBTER End peca casa: %p\n", pCasa->pPeca);
 	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
 
-	printf("1\n");
-
 	*pPeca = pCasa->pPeca;
 
-	printf("2\n");
 	return CAS_CondRetOK;
 
 }

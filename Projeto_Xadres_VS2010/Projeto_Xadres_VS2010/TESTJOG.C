@@ -50,6 +50,7 @@ static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 //Para Modulo Casa
 static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
 static const char OBTER_PECA_CMD[]					=				"=obterpeca"			 ;
+static const char RETIRAR_PECA_CMD[]			    =			    "=retirarpeca"			 ;
 
 /************************FIM COMANDOS SCRIPT************************/
 
@@ -347,7 +348,28 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: TestarObterPecaDeUmaCasa */
 
-	//CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca)
+	  /* inicio:  RetirarPecaDeUmaCasa*/
+
+	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("ii", &inxCasa,&CondRetEsp);
+
+		if (numLidos != 2)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		
+		CondRet_CAS = CAS_RetiraPecaDeCasa(vtCasas[inxCasa]);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao retirar peca de uma casa.\n");
+
+
+	} /* fim ativa: RetirarPecaDeUmaCasa */
+
+	
 
 
 
