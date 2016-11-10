@@ -1,0 +1,96 @@
+/*TESTES DO MODULO CASA (PROVISÓRIO SÓ PRA N TER QUE FAZER OUTRO MODULO TESTE)*/
+
+	  /* inicio:  TestarCriarCasa*/
+
+	else if (strcmp(ComandoTeste, CRIAR_CASA_CMD) == 0)
+	{
+
+		/* Declaracoes Necessarias */
+	    PEC_tppPeca  *peca_PEC;
+
+		numLidos = LER_LerParametros("iii", &inxCasa, &inxPeca, &CondRetEsp);
+
+		if (numLidos != 3)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		PEC_criaPeca(&peca_PEC);
+
+		CondRet_CAS = CAS_criaCasa(&vtCasas[inxCasa], (void**)peca_PEC);
+
+		printf("\nEndereço vetor de casas: %p\n", vtCasas[inxCasa]);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao criar casa.\n");
+
+
+	} /* fim ativa: TestarCriarCasa */
+
+
+	  /* inicio:  TestarObterPecaDeUmaCasa*/
+
+	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("iii", &inxCasa, &inxPeca, &CondRetEsp);
+
+		if (numLidos != 3)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		printf("\nEndereço vetor de casas: %p\n", vtCasas[inxCasa]);
+		CondRet_CAS = CAS_obtemPecaDeCasa(vtCasas[inxCasa], &vtPecas[inxPeca]);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao obter peca de uma casa.\n");
+
+
+	} /* fim ativa: TestarObterPecaDeUmaCasa */
+
+	  /* inicio:  RetirarPecaDeUmaCasa*/
+
+	else if (strcmp(ComandoTeste, RETIRAR_PECA_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("ii", &inxCasa,&CondRetEsp);
+
+		if (numLidos != 2)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		
+		CondRet_CAS = CAS_RetiraPecaDeCasa(vtCasas[inxCasa]);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao retirar peca de uma casa.\n");
+
+
+	} /* fim ativa: RetirarPecaDeUmaCasa */
+
+	  /* inicio:  ObtemListaDeAmeacantes*/
+
+	else if (strcmp(ComandoTeste, OBTEM_AMEACANTES_CMD) == 0)
+	{
+
+		LIS_tppLista * pListaAmeacantes = NULL;
+
+		numLidos = LER_LerParametros("ii", &inxCasa, &CondRetEsp);
+
+		if (numLidos != 2)
+		{
+			return TST_CondRetParm;
+		} /* if */
+		printf("\nEndereço lista de ameacantes: %p\n", pListaAmeacantes);
+
+		CondRet_CAS = CAS_obtemListaAmeacantes(vtCasas[inxCasa] , (void**)&pListaAmeacantes);
+
+		printf("\nEndereço lista de ameacantes: %p\n", pListaAmeacantes);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao obter lista de ameacantes.\n");
+		//CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor)
+
+	} /* fim ativa: ObtemListaDeAmeacantes */
