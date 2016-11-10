@@ -51,7 +51,7 @@ static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
 static const char OBTER_PECA_CMD[]					=				"=obterpeca"			 ;
 static const char RETIRAR_PECA_CMD[]			    =			    "=retirarpeca"			 ;
-
+static const char OBTEM_AMEACANTES_CMD[]			=			    "=obtemameacantes"		 ;
 /************************FIM COMANDOS SCRIPT************************/
 
 
@@ -368,6 +368,31 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 
 	} /* fim ativa: RetirarPecaDeUmaCasa */
+
+	  /* inicio:  ObtemListaDeAmeacantes*/
+
+	else if (strcmp(ComandoTeste, OBTEM_AMEACANTES_CMD) == 0)
+	{
+
+		LIS_tppLista * pListaAmeacantes = NULL;
+
+		numLidos = LER_LerParametros("ii", &inxCasa, &CondRetEsp);
+
+		if (numLidos != 2)
+		{
+			return TST_CondRetParm;
+		} /* if */
+		printf("\nEndereço lista de ameacantes: %p\n", pListaAmeacantes);
+
+		CondRet_CAS = CAS_obtemListaAmeacantes(vtCasas[inxCasa] , (void**)&pListaAmeacantes);
+
+		printf("\nEndereço lista de ameacantes: %p\n", pListaAmeacantes);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao obter lista de ameacantes.\n");
+		//CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor)
+
+	} /* fim ativa: ObtemListaDeAmeacantes */
 
 	
 

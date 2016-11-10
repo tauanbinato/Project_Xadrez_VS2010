@@ -115,7 +115,11 @@ CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
 
 CAS_tpCondRet CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor) {
 
-	LIS_ObterNo(pCasa->pListaAmeacantes, &pValor);
+	if (pCasa->pListaAmeacantes == NULL) return CAS_CondRetListaVazia;
+
+	if (LIS_ObterNo(pCasa->pListaAmeacantes, &pValor) != CAS_CondRetOK) {
+		return CAS_CondRetNaoAchou;
+	}
 
 	return CAS_CondRetOK;
 }
@@ -128,7 +132,11 @@ CAS_tpCondRet CAS_obtemListaAmeacantes(CAS_tppCasa pCasa, void**pValor) {
 
 CAS_tpCondRet CAS_obtemListaAmeacados(CAS_tppCasa pCasa, void**pValor) {
 
-	LIS_ObterNo(pCasa->pListaAmeacados, &pValor);
+	if (pCasa->pListaAmeacados == NULL) return CAS_CondRetListaVazia;
+
+	if (LIS_ObterNo(pCasa->pListaAmeacados, &pValor) != CAS_CondRetOK) {
+		return CAS_CondRetNaoAchou;
+	}
 
 	return CAS_CondRetOK;
 }
