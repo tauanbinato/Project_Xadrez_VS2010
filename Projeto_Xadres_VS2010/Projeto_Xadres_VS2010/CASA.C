@@ -31,6 +31,7 @@
 #undef LISTA_OWN
 
 
+
 /***********************************************************************
 *
 *  $TC Tipo de dados: TAB Descritor de uma estrutura casa
@@ -40,7 +41,9 @@
 typedef struct CAS_tagCasa {
 
 	LIS_tppLista pListaAmeacantes;
+
 	LIS_tppLista pListaAmeacados;
+
 	PEC_tppPeca  pPeca;
 
 } CAS_Casa;
@@ -65,6 +68,8 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 	(PEC_tppPeca  *)pPeca;
 	aux_casa->pPeca = pPeca;
 
+	printf("\nEnd peca casa: %p  - End peca: %p",aux_casa->pPeca , pPeca);
+
 	*pCasa = aux_casa;
 
 	return CAS_CondRetOK;
@@ -78,6 +83,7 @@ CAS_tpCondRet CAS_criaCasa(CAS_tppCasa *pCasa , void **pPeca) {
 
 CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
+	
 	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
 	pCasa->pPeca = NULL;
 
@@ -92,9 +98,14 @@ CAS_tpCondRet CAS_RetiraPecaDeCasa(CAS_tppCasa pCasa) {
 
 CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca) {
 
+	printf("\nOBTER End peca casa: %p\n", pCasa->pPeca);
 	if (pCasa->pPeca == NULL) return CAS_CondRetNaoAchou;
 
+	printf("1\n");
+
 	*pPeca = pCasa->pPeca;
+
+	printf("2\n");
 	return CAS_CondRetOK;
 
 }

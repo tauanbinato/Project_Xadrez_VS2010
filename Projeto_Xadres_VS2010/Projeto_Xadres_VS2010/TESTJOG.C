@@ -49,6 +49,7 @@ static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
 
 //Para Modulo Casa
 static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
+static const char OBTER_PECA_CMD[]					=				"=obterpeca"			 ;
 
 /************************FIM COMANDOS SCRIPT************************/
 
@@ -71,6 +72,7 @@ LIS_tppLista            vtListas_2[DIM_VT_LISTA];
 TAB_ppAncoraTabuleiro	vtMatrizes[DIM_VT_TAB];
 CPC_tppClassePeca       vtClasse[DIM_VT_CPC];
 CAS_tppCasa				vtCasas[DIM_VT_TAB];
+PEC_tppPeca				vtPecas[DIM_VT_PEC];
 
 /***** Protótipos das funções encapuladas no módulo *****/
 // void DestruirValor( void * pValor );
@@ -289,6 +291,11 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: TestarChecarMovimento */
 
+
+
+
+
+
 	/*TESTES DO MODULO CASA (PROVISÓRIO SÓ PRA N TER QUE FAZER OUTRO MODULO TESTE)*/
 
 	  /* inicio:  TestarCriarCasa*/
@@ -310,13 +317,37 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 		CondRet_CAS = CAS_criaCasa(&vtCasas[inxCasa], (void**)peca_PEC);
 
+		printf("\nEndereço vetor de casas: %p\n", vtCasas[inxCasa]);
+
 		return TST_CompararInt(CondRetEsp, CondRet_CAS,
-			"Condicao de retorno errada ao criar casa");
+			"Condicao de retorno errada ao criar casa.\n");
 
 
 	} /* fim ativa: TestarCriarCasa */
 
 
+	  /* inicio:  TestarObterPecaDeUmaCasa*/
+
+	else if (strcmp(ComandoTeste, OBTER_PECA_CMD) == 0)
+	{
+
+		numLidos = LER_LerParametros("iii", &inxCasa, &inxPeca, &CondRetEsp);
+
+		if (numLidos != 3)
+		{
+			return TST_CondRetParm;
+		} /* if */
+
+		printf("\nEndereço vetor de casas: %p\n", vtCasas[inxCasa]);
+		CondRet_CAS = CAS_obtemPecaDeCasa(vtCasas[inxCasa], &vtPecas[inxPeca]);
+
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao obter peca de uma casa.\n");
+
+
+	} /* fim ativa: TestarObterPecaDeUmaCasa */
+
+	//CAS_tpCondRet CAS_obtemPecaDeCasa(CAS_tppCasa pCasa, void **pPeca)
 
 
 
