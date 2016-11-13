@@ -36,7 +36,6 @@
 #include    "Peca.h"
 #include	"Casa.h"
 #include	"CLASSE_PECA.H"
-#include    "PRINCIPAL.H"
 
 /**************************COMANDOS SCRIPT**************************/  
 
@@ -47,13 +46,10 @@ static const char CHECAR_MOVIMENTO_CMD[]            =				"=checarmovimento"     
 static const char OBTER_MOVIMENTO_CMD[]             =               "=obtermovimento"		 ;
 static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
 static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
-static const char CARREGAR_MOVIMENTOS_CMD[]			=				"=carregarmovimento"	 ;
 
 //Para Modulo Casa
 static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
-static const char OBTER_PECA_CMD[]					=				"=obterpeca"			 ;
-static const char RETIRAR_PECA_CMD[]			    =			    "=retirarpeca"			 ;
-static const char OBTEM_AMEACANTES_CMD[]			=			    "=obtemameacantes"		 ;
+
 /************************FIM COMANDOS SCRIPT************************/
 
 
@@ -75,7 +71,6 @@ LIS_tppLista            vtListas_2[DIM_VT_LISTA];
 TAB_ppAncoraTabuleiro	vtMatrizes[DIM_VT_TAB];
 CPC_tppClassePeca       vtClasse[DIM_VT_CPC];
 CAS_tppCasa				vtCasas[DIM_VT_TAB];
-PEC_tppPeca				vtPecas[DIM_VT_PEC];
 
 /***** Protótipos das funções encapuladas no módulo *****/
 // void DestruirValor( void * pValor );
@@ -293,27 +288,37 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			"Condicao de retorno errada ao checar movimento");
 
 	} /* fim ativa: TestarChecarMovimento */
-	else if (strcmp(ComandoTeste, CARREGAR_MOVIMENTOS_CMD) == 0)
-	{
-		numLidos = LER_LerParametros("i", &CondRetEsp);
 
-		if ((numLidos != 1))
+	/*TESTES DO MODULO CASA (PROVISÓRIO SÓ PRA N TER QUE FAZER OUTRO MODULO TESTE)*/
+
+	  /* inicio:  TestarCriarCasa*/
+
+	else if (strcmp(ComandoTeste, CRIAR_CASA_CMD) == 0)
+	{
+
+		/* Declaracoes Necessarias */
+	    PEC_tppPeca  *peca_PEC;
+
+		numLidos = LER_LerParametros("iii", &inxCasa, &inxPeca, &CondRetEsp);
+
+		if (numLidos != 3)
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC = PRI_CarregarArquivoMovimento("MOVIMENTOS.txt");
+		PEC_criaPeca(&peca_PEC);
 
-		if (CondRet_CPC == 6) {
+		CondRet_CAS = CAS_criaCasa(&vtCasas[inxCasa], (void**)peca_PEC);
 
-			return TST_CondRetMemoria;
+		return TST_CompararInt(CondRetEsp, CondRet_CAS,
+			"Condicao de retorno errada ao criar casa");
 
-		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao tentar obter movimento de classe de peca");
+	} /* fim ativa: TestarCriarCasa */
 
-	} /* fim ativa: Testar ObterMovimento */
+
+
+
 
 
 

@@ -83,6 +83,7 @@
     <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
     <ClInclude Include="PECA.h" />
+    <ClInclude Include="PRINCIPAL.H" />
     <ClInclude Include="TABULEIRO.h" />
     <ClInclude Include="TST_ESPC.H" />
   </ItemGroup>
@@ -92,11 +93,15 @@
     <ClCompile Include="CLASSE_PECA.C" />
     <ClCompile Include="LISTA.C" />
     <ClCompile Include="PECA.c" />
+    <ClCompile Include="PRINCIPAL.c" />
     <ClCompile Include="TABULEIRO.c" />
     <ClCompile Include="TESTJOG.C" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="ArcaboucoTeste.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MOVIMENTOS.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

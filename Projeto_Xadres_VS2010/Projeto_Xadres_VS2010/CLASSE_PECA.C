@@ -170,7 +170,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 		return CPC_CondRetPonteiroNulo;
 	}
 
-	*numMovimentos = LIS_ObterNumElem(&pClassePeca->movimentos);
+	*numMovimentos = LIS_ObterNumElem(pClassePeca->movimentos);
 
 	return CPC_CondRetOK;
 }

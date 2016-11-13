@@ -39,6 +39,9 @@
     <ClInclude Include="CLASSE_PECA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PRINCIPAL.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LISTA.C">
@@ -62,10 +65,18 @@
     <ClCompile Include="CLASSE_PECA.C">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PRINCIPAL.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="ArcaboucoTeste.lib">
       <Filter>Header Files</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MOVIMENTOS.txt">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

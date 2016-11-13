@@ -1,0 +1,81 @@
+// Script:    TesteListaT2.script
+// Autor:     Arndt von Staa, Júlia Aleixo, Lucas Palma, Tauan Binato
+// Data:      27/set/2016
+// Propósito: Testar o módulo lista genérica duplamente encadeada para todas as suas funções e retornos possíveis
+
+== Inicializar valores
+=declararparm   classe0        int   0
+=declararparm   lista1         int   1
+=declararparm tabuleiro0       int   0
+=declararparm tabuleiro1       int   1
+=declararparm   chr0           char 'P'
+=declararparm lado_linhas      int   8
+=declararparm lado_colunas     int   8
+=declararparm cordlinha        int   5
+=declararparm cordcoluna       char  'b'
+
+
+== Inicializa os respectivos id's
+=declararparm   idList0         string   "casa"
+=declararparm   idList1         string   "king"
+=declararparm   idMatriz0 	string  "idMt"
+=declararparm   idBispo   	char   'B'
+=declararparm   idCor   	char   'B'
+=declararparm   idCor2   	char   'P'
+
+== Declara as condicoes de retorno 
+=declararparm   OK     		int  0
+=declararparm   PonteiroNulo    int  1
+=declararparm   NaoAchou        int  2
+=declararparm   FaltouMemoria   int  3
+
+
+== Reset do teste
+=resetteste
+
+== Recriar Classe de Peca 0
+=criarcp classe0 chr0 idList0 OK
+
+== Adicionar Movimento 0 1 a Classe de Peca 0
+=adicionarmovimento classe0 0 1 OK
+
+== Obter Movimento 0 1 da Classe Peca 0
+=obtermovimento classe0  0 OK
+
+== Adicionar Movimento 1 1 a Classe de Peca 0
+=adicionarmovimento classe0 1 1 OK
+
+== Obter Movimento 1 1 da Classe Peca 0
+=obtermovimento classe0 1 OK
+
+== Adicionar Movimento 2 0 a Classe de Peca 0
+=adicionarmovimento classe0 2 0 OK
+
+== Obter Movimento 1 0 da Classe Peca 0
+=obtermovimento classe0 2 OK
+
+== Adicionar Movimento adicionado anteriormente (2 0) a Classe Peca 0
+=adicionarmovimento classe0 2 0 NaoAchou
+
+== Obtem Movimento idxMovimento < 0
+=obtermovimento classe0 -1 NaoAchou
+
+== Obtem Movimento idx > numero de elementos na classe
+=obtermovimento classe0 65 NaoAchou
+
+== Checar Movimento Linha errada (>7)
+=checarmovimento classe0 8 0 NaoAchou
+
+== Checar Movimento Linha errada (< -7)
+=checarmovimento classe0 -8 0 NaoAchou
+
+== Checar Movimento Coluna errada (> 7)
+=checarmovimento classe0 0 8 NaoAchou
+
+== Checar Movimento Coluna errada (< -7)
+=checarmovimento classe0 0 -8 NaoAchou
+
+
+
+
+
