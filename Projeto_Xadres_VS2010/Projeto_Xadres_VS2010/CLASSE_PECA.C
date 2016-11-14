@@ -118,7 +118,7 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	movimento->movJ = movJ;
 
 	LIS_IrFinalLista(&pClassePeca->movimentos);
-	if( LIS_InserirNo(&pClassePeca->movimentos, movimento) == LIS_CondRetFaltouMemoria) {
+	if( LIS_InserirNo(&pClassePeca->movimentos, (void *)movimento) == LIS_CondRetFaltouMemoria) {
 		 return CPC_CondRetFaltouMemoria;
 	}
 

@@ -183,53 +183,59 @@
 
    } /* Fim fun��o: LIS  &Esvaziar lista */
 
-/***************************************************************************
-*
-*  Funcao: LIS  &Inserir elemento apos
-*
-*  *************************************************************************/
+	 /***************************************************************************
+	 *
+	 *  Função: LIS  &Inserir elemento após
+	 *  ****/
 
-   LIS_tpCondRet LIS_InserirNo(LIS_tppLista pLista ,void* pValor)
-      
+   LIS_tpCondRet LIS_InserirNo(LIS_tppLista pLista,
+	   void * pValor)
+
    {
-      tpElemLista * pElem ;
 
-      /* Criar elemento a inserir ap�s */
-         pElem = CriarElemento( pLista , pValor ) ;
-         if ( pElem == NULL )
-         {
-            return LIS_CondRetFaltouMemoria ;
-         } /* if */
+	   tpElemLista * pElem;
 
-      /* Encadear o elemento ap�s o elemento */
-		
-         if ( pLista->pElemCorr == NULL )
-         {
-            pLista->pOrigemLista = pElem ;
-            pLista->pFimLista = pElem ;
-         } 
-		 else
-         {
-            if ( pLista->pElemCorr->pProx != NULL )
-            {
-               pElem->pProx  = pLista->pElemCorr->pProx ;
-               pLista->pElemCorr->pProx->pAnt = pElem ;
-            } 
-			else
-            {
-               pLista->pFimLista = pElem ;
-            } /* if */
+#ifdef _DEBUG
+	   assert(pLista != NULL);
+#endif
 
-            pElem->pAnt = pLista->pElemCorr ;
-            pLista->pElemCorr->pProx = pElem ;
+	   /* Criar elemento a inerir após */
 
-         } /* if */
+	   pElem = CriarElemento(pLista, pValor);
+	   if (pElem == NULL)
+	   {
+		   return LIS_CondRetFaltouMemoria;
+	   } /* if */
 
-		 pLista->pElemCorr = pElem ;
+		 /* Encadear o elemento após o elemento */
 
-         return LIS_CondRetOK ;
-		 
-   } /* Fim fun��o: LIS  &Inserir elemento ap�s */
+	   if (pLista->pElemCorr == NULL)
+	   {
+		   pLista->pOrigemLista = pElem;
+		   pLista->pFimLista = pElem;
+	   }
+	   else
+	   {
+		   if (pLista->pElemCorr->pProx != NULL)
+		   {
+			   pElem->pProx = pLista->pElemCorr->pProx;
+			   pLista->pElemCorr->pProx->pAnt = pElem;
+		   }
+		   else
+		   {
+			   pLista->pFimLista = pElem;
+		   } /* if */
+
+		   pElem->pAnt = pLista->pElemCorr;
+		   pLista->pElemCorr->pProx = pElem;
+
+	   } /* if */
+
+	   pLista->pElemCorr = pElem;
+
+	   return LIS_CondRetOK;
+
+   } /* Fim função: LIS  &Inserir elemento após */
 
 /***************************************************************************
 *
