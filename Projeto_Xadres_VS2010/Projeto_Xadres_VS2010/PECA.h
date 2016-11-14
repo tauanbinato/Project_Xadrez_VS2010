@@ -56,62 +56,66 @@ typedef enum {
 	PEC_CondRetNaoAchou,
 	/* Não encontrou o valor procurado = 3*/
 
-	PEC_CondRetFaltouMemoria
+	PEC_CondRetFaltouMemoria,
 	/* Faltou memória ao tentar criar um elemento de lista = 4 */
+
+	PEC_CondRetPonteiroNulo
+	/* Ponteiro para elemento passado é Nulo = 5 */
 
 } PEC_tpCondRet;
 
 
 //Estruturas-----------------------------------------
-typedef struct PEC_tagPeca * PEC_tppPeca;
-//Estruturas-----------------------------------------
 
-
+	typedef struct PEC_tagPeca * PEC_tppPeca ;
 
 /***********************************************************************
 *
-*  $FC Função: PEC  &Insere Valor em Peca
+*  $FC Função: PEC  &Insere Classe em Peca
 *
 *  $ED Descrição da função
-*     Insere um nome e uma cor em uma estrutura peca
+*     Insere uma classe a estrutura peça
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
-*     cor_peca   - cor de uma peca
-*	  nome_peca  - nome de uma peca
+*	  ClassePeca - ponteiro para Classe peça a ser inserida
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
+*	  CondRetPonteiroNulo  - se ou peça ou Classe Peça estiverem vazios
 *
 *  $AE - Assertivas de entrada
-*  - Recebe um ponteiro para peça (criada) e um nome e cor válidos a serem inseridos nela
+*  - Recebe um ponteiro para peça (criada) e uma classe peça a ser inserida
 *  $AS - Assertivas de saida
-*  - É passado por referencia o ponteiro preenchido com a cor e nome desejados
+*  - É passado por referencia o ponteiro preenchido com a classe desejada
 ***********************************************************************/
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca *peca, char *nome_peca, char *cor_peca);
 
-/***********************************************************************
+	PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca, CPC_tppClassePeca ClassePeca) ;
+
+/**********************************************************************
 *
 *  $FC Função: PEC  &Obtem Valores de Peca
 *
 *  $ED Descrição da função
-*     Funcao de acesso para obter nome e cor de uma estrutura peca
+*     Funcao de acesso para obter Classe e cor de uma estrutura peca
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
-*	  cor_peca  - cor de uma peca
-*	  nome_peca  - nome de uma peca
+*	  ClassePeca  - ponteiro para uma classePeca a ser manipulada
+*	  cor_Peca  - cor da Peça a ser manipulada
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
+*	  CondRetPonteiroNulo  - se a peça passada for nula
 *
 *  $AE - Assertivas de entrada
 *  - Recebe uma peça criada
-*  - Recebe ponteiros para serem preenchidos com nome e cor da peça
+*  - Recebe ponteiros para serem preenchidos com classe e cor da peça
 *  $AS - Assertivas de saida
 *  - Ponteiros estao preencidos com os valores da peça enviada
 ***********************************************************************/
-PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *cor_peca);
+
+	PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca) ;
 
 /***********************************************************************
 *
@@ -122,7 +126,7 @@ PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *co
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
-*	  nome_peca  - nome de uma peca
+*	  ClassePeca  - ponteiro para classe da peça a ser inserida
 *	  cor_peca - nome da cor de uma peca
 *
 *  $FV Valor retornado
@@ -130,33 +134,11 @@ PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca, char *co
 *  $AE - Assertivas de entrada
 *  - Recebe ponteiro para esse tipo de estrutura
 *  $AS - Assertivas de saida
-*  - Foi criado a estrutura com seus respectivos campos (nome, cor e movimento- todos preenchidos com nome ‘V’, cor: NULL e movimento: NULL)
+*  - Foi criado a estrutura com seus respectivos campos passados
 *  
 ***********************************************************************/
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca);
-
-/***********************************************************************
-*
-*  $FC Função: PEC  &EsvaziaPeca
-*
-*  $ED Descrição da função
-*     Esvazia a Peça
-*
-*  $EP Parâmetros
-*     peca  - ponteiro para a estrutura a ser manipulada
-*
-*  $FV Valor retornado
-*	  CondRetNaoAchou      - se a peça nao existir
-*     CondRetOK            - se um elemento tiver sido esvaziado
-*
-*  $AE - Assertivas de entrada
-*  - Recebe uma peça (pode ser nula ou não)
-*  $AS - Assertivas de saida
-*  - A os campos da peça foram substituidos por 'V' (se a peça nao fosse nula), caso fosse nula, recebe nao achou
-***********************************************************************/
-
-PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) ;
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char cor_peca) ;
 
 /***********************************************************************
 *
@@ -176,7 +158,8 @@ PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) ;
 *  $AS - Assertivas de saida
 *  - Se ela fosse nula, retorna que nao achou, caso contrario, seu espaco é liberado 
 ***********************************************************************/
-PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
+
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) ;
 
 #undef PECA_EXT
 
