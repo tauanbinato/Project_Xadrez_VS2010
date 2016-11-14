@@ -43,6 +43,8 @@ int main(void) {
 	PRI_Inicializa();
 	PRI_CarregarArquivoMovimento("./MOVIMENTOS.txt");
 
+	
+
 	return 0;
 
 

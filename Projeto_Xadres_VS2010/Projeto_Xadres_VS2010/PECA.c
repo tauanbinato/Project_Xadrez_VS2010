@@ -23,6 +23,8 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+#include "CLASSE_PECA.H"
+
 
 #define LISTA_OWN
 #include "Peca.h"
@@ -36,12 +38,11 @@
 
 typedef struct PEC_tagPeca {
 
-	char nome_peca;
+	CPC_tppClassePeca ClassePeca;
 	/* Nome da peca especifica*/
 
 	char cor_peca;
 	/* Cor da peca especifica*/
-	char *movimento;
 
 } PEC_Peca;
 
@@ -52,15 +53,15 @@ typedef struct PEC_tagPeca {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char cor_peca) {
 
 	PEC_Peca *aux_peca;
+
 	aux_peca = (PEC_Peca *)malloc(sizeof(PEC_Peca));
 	if (aux_peca == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_peca->cor_peca = 'V';
+	aux_peca->cor_peca = cor_peca;
 	aux_peca->nome_peca = 'V';
-	aux_peca->movimento = NULL;
 
 	*peca = aux_peca;
 	
