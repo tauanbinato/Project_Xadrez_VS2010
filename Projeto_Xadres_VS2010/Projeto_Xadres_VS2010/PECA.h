@@ -95,15 +95,14 @@ PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca, CPC_tppClassePeca ClassePe
 
 /**********************************************************************
 *
-*  $FC Função: PEC  &Obtem Valores de Peca
+*  $FC Função: PEC  &Obtem Classe de Peca
 *
 *  $ED Descrição da função
-*     Funcao de acesso para obter Classe e cor de uma estrutura peca
+*     Funcao de acesso para obter Classe de uma estrutura peca
 *
 *  $EP Parâmetros
 *     peca  - ponteiro para a estrutura a ser manipulada
 *	  ClassePeca  - ponteiro para uma classePeca a ser manipulada
-*	  cor_Peca  - cor da Peça a ser manipulada
 *
 *  $FV Valor retornado
 *     CondRetOK            - se um elemento tiver sido voltado
@@ -111,12 +110,12 @@ PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca, CPC_tppClassePeca ClassePe
 *
 *  $AE - Assertivas de entrada
 *  - Recebe uma peça criada
-*  - Recebe ponteiros para serem preenchidos com classe e cor da peça
+*  - Recebe ponteiros para serem preenchidos com classe da peça
 *  $AS - Assertivas de saida
-*  - Ponteiros estao preencidos com os valores da peça enviada
+*  - Ponteiros estao preencidos com a classe da peça enviada
 ***********************************************************************/
 
-PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca);
+PEC_tpCondRet PEC_ObterClasseDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca) ;
 
 /***********************************************************************
 *
@@ -161,6 +160,30 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char
 ***********************************************************************/
 
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
+
+/**********************************************************************
+*
+*  $FC Função: PEC  &Obtem Cor de Peca
+*
+*  $ED Descrição da função
+*     Funcao de acesso para obter cor de uma estrutura peca
+*
+*  $EP Parâmetros
+*     peca  - ponteiro para a estrutura a ser manipulada
+*	  cor_peca  - ponteiro para uma cor de peca a ser manipulada
+*
+*  $FV Valor retornado
+*     CondRetOK            - se um elemento tiver sido voltado
+*	  CondRetPonteiroNulo  - se a peça passada for nula
+*
+*  $AE - Assertivas de entrada
+*  - Recebe uma peça criada
+*  - Recebe ponteiros para serem preenchidos com cor da peça
+*  $AS - Assertivas de saida
+*  - Ponteiros estao preencidos com a cor da peça enviada
+***********************************************************************/
+
+PEC_tpCondRet PEC_ObterCorDePeca(PEC_tppPeca pPeca, char * cor_peca);
 
 #undef PECA_EXT
 

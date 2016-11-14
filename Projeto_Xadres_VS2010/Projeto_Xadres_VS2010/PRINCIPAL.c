@@ -113,3 +113,163 @@ void PRI_Inicializa(void) {
 		exit(1);
 	}
 }
+
+/***********************************************************************
+*
+*  $FC Função: PRN checar legalidade de movimento
+*
+*  $ED Descrição da função
+*     Checa se um movimento é legal, CHECANDO SOMENTE OBSTACULOS NO CAMINHO
+*       E CONFLITOS DE DESTINO COM PEÇAS DO MESMO JOGADOR.
+*     ASSUME-SE QUE O MOVIMENTO PRIMITIVO É UM MOVIMENTO VÁLIDO PARA A
+*       CLASSE DA PEÇA NA ORIGEM.
+*
+*  $FV Valor retornado
+*     1 se o movimento é legal
+*     0 se o movimento é ilegal
+*
+***********************************************************************/
+
+/*int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino) {
+	PEC_tppPeca defensor;
+	char jogadorDefensor;
+	PEC_tppPeca obstaculo;
+	int movI, movJ;
+	char i; int j;
+
+	movI = iDestino - iOrigem;
+	movJ = jDestino - jOrigem;
+
+	TAB_ObterValorDeCasa(simulacao.pTab, &defensor, iDestino, jDestino);
+
+	// Se tentar mover uma peça de um jogador para uma casa que está ocupada por
+	// uma peça do mesmo jogador, não é um movimento legal.
+	// (não é permitido comer peças próprias)
+	if (defensor != NULL) {
+		PEC_ObterJogador(defensor, &jogadorDefensor);
+		if (jogadorDefensor == jogador) {
+			return 0;
+		}
+	}
+
+	//
+	if (PRN_ChecarMovimentoPulo(movI, movJ) == 1) {
+		// Sendo um movimento de pulo, não há necessidade de checar obstáculos
+		// Logo, o movimento é válido
+
+		return 1;
+	}
+
+	// Não sendo um movimento de pulo, precisamos saber se há obstáculos.
+
+	if (movJ == 0) {
+		if (movI > 0) {
+			// movimento de letra crescente
+			j = jOrigem; // = jDestino;
+
+			for (i = iOrigem + 1; i < iDestino; i++) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+		if (movI < 0) {
+			// movimento de letra decrescente
+			j = jOrigem; // = jDestino;
+
+			for (i = iOrigem - 1; i > iDestino; i--) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+	}
+
+	if (movI == 0) {
+		if (movJ > 0) {
+			// movimento de numero crescente
+			i = iOrigem; // = iDestino;
+
+			for (j = jOrigem + 1; j < jDestino; j++) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+		if (movJ < 0) {
+			// movimento de numero decrescente
+			i = iOrigem; // = iDestino;
+
+			for (j = jOrigem - 1; j > jDestino; j--) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+	}
+
+	if (movJ > 0) {
+		if (movI > 0) {
+			// movimento de letra e numero crescente
+			for (i = iOrigem + 1, j = jOrigem + 1; i < iDestino && j < jDestino; i++, j++) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+		else {
+			//movimento de letra crescente e numero decrescente
+			for (i = iOrigem - 1, j = jOrigem + 1; i > iDestino && j < jDestino; i--, j++) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+	}
+
+	else {
+		if (movI > 0) {
+			// movimento de letra decrescente e numero crescente
+			for (i = iOrigem + 1, j = jOrigem - 1; i < iDestino && j > jDestino; i++, j--) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+		else {
+			// movimento de letra e numero decrescente
+			for (i = iOrigem - 1, j = jOrigem - 1; i > iDestino && j > jDestino; i--, j--) {
+				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
+				if (obstaculo != NULL) {
+					return 0;
+				}
+			}
+
+			return 1;
+		}
+	}
+
+	return 1;
+}*/
+

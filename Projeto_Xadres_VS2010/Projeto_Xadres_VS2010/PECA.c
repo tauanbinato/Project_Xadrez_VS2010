@@ -86,16 +86,14 @@ PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca , CPC_tppClassePeca ClasseP
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: PEC Obtem Valor de Peca
+*  $TC Tipo de dados: PEC Obtem Classe de Peca
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca) {
+PEC_tpCondRet PEC_ObterClasseDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca) {
 	if (peca == NULL) return PEC_CondRetPonteiroNulo;
 
 	*ClassePeca = peca->ClassePeca;
-
-	*cor_peca = peca->cor_peca;
 
 	return PEC_CondRetOK;
 }
@@ -112,6 +110,22 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 		return PEC_CondRetPonteiroNulo;
 
 	free(peca);
+
+	return PEC_CondRetOK;
+}
+
+/***********************************************************************
+*
+*  $FC Função: PEC &Obter jogador ao qual pertence a peça
+*
+***********************************************************************/
+
+PEC_tpCondRet PEC_ObterCorDePeca(PEC_tppPeca pPeca, char * cor_peca) {
+	if (pPeca == NULL) {
+		return PEC_CondRetPonteiroNulo;
+	}
+
+	*cor_peca = pPeca->cor_peca;
 
 	return PEC_CondRetOK;
 }
