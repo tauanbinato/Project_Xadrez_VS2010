@@ -409,7 +409,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 ***********************************************************************/
 
-   int LIS_ObterNumElem(LIS_tppLista pLista);
+   LIS_tpCondRet LIS_ObterNumElementos(LIS_tppLista pLista, int *numElementos);
   /***********************************************************************
 *
 *  $FC Função: LIS  &Ir para o elemento final
@@ -420,6 +420,7 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 *
 *  $EP Parâmetros
 *     pLista - ponteiro para a lista a manipular
+*	  numElementos - ponteiro para numero de elementos na lista
 *
 *	$AE - Assertivas de entrada
 *	- valem assertivas estruturais de lista duplamente encadeada

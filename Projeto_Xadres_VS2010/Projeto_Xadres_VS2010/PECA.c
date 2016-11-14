@@ -23,6 +23,8 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+#include "CLASSE_PECA.H"
+
 
 #define LISTA_OWN
 #include "Peca.h"
@@ -36,12 +38,11 @@
 
 typedef struct PEC_tagPeca {
 
-	char nome_peca;
+	CPC_tppClassePeca ClassePeca;
 	/* Nome da peca especifica*/
 
 	char cor_peca;
 	/* Cor da peca especifica*/
-	char *movimento;
 
 } PEC_Peca;
 
@@ -52,15 +53,15 @@ typedef struct PEC_tagPeca {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char cor_peca) {
 
 	PEC_Peca *aux_peca;
+
 	aux_peca = (PEC_Peca *)malloc(sizeof(PEC_Peca));
 	if (aux_peca == NULL) return PEC_CondRetFaltouMemoria;
 
-	aux_peca->cor_peca = 'V';
-	aux_peca->nome_peca = 'V';
-	aux_peca->movimento = NULL;
+	aux_peca->cor_peca = cor_peca;
+	aux_peca->ClassePeca = ClassePeca;
 
 	*peca = aux_peca;
 	
@@ -73,27 +74,13 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca) {
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char cor_peca) {
+PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca , CPC_tppClassePeca ClassePeca) {
+	if (peca == NULL || ClassePeca == NULL) {
+		return PEC_CondRetPonteiroNulo;
+	}
 
-	/*Aloca nome*/
-	char* aux_nome;
-	char* aux_cor;
+	peca->ClassePeca = ClassePeca;
 
-	aux_nome = (char *)malloc(sizeof(char)*5);
-	if (aux_nome == NULL) return PEC_CondRetFaltouMemoria;
-
-	aux_nome = nome_peca;
-
-	/*Aloca cor*/
-	//aux_cor = (char *)malloc(sizeof(char));
-	//if (aux_cor == NULL) return PEC_CondRetFaltouMemoria;
-
-	//aux_cor = cor_peca;
-
-
-	peca->cor_peca = cor_peca;
-	strcpy(&peca->nome_peca , aux_nome);
-	
 	return PEC_CondRetOK;
 }
 
@@ -103,28 +90,14 @@ PEC_tpCondRet PEC_insereValorEmPeca(PEC_tppPeca peca , char *nome_peca , char co
 *
 ***********************************************************************/
 
-PEC_tpCondRet PEC_obtemValoresdePeca(PEC_tppPeca peca, char *nome_peca , char *cor_peca) {
-	strcpy(nome_peca, &peca->nome_peca);
-	cor_peca = peca->cor_peca;
-	return PEC_CondRetOK;
-}
+PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca) {
+	if (peca == NULL) return PEC_CondRetPonteiroNulo;
 
-/***********************************************************************
-*
-*  $TC Tipo de dados: PEC Esvazia peca
-*
-***********************************************************************/
+	*ClassePeca = peca->ClassePeca;
 
-PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
-	
-	if (peca == NULL)
-		return PEC_CondRetNaoAchou;
-
-	peca->cor_peca  = 'V' ;
-	peca->nome_peca = 'V' ;
+	*cor_peca = peca->cor_peca;
 
 	return PEC_CondRetOK;
-
 }
 
 /***********************************************************************
@@ -136,8 +109,9 @@ PEC_tpCondRet PEC_EsvaziaPeca(PEC_tppPeca peca) {
 PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) {
 	
 	if (peca == NULL)
-		return PEC_CondRetNaoAchou;
+		return PEC_CondRetPonteiroNulo;
 
 	free(peca);
+
 	return PEC_CondRetOK;
 }

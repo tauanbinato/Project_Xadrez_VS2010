@@ -58,10 +58,9 @@ CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, c
 
 	cp->nome = nome;
 
-	LIS_CriarLista(&cp->movimentos, idEnviado);
+	LIS_CriarLista(&(cp->movimentos), idEnviado);
 
 	if (cp->movimentos == NULL) {
-		//free(cp->nome);
 		free(cp);
 		return CPC_CondRetFaltouMemoria;
 	}
@@ -96,7 +95,7 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 
 	CPC_tpMovimento * movimento;
 
-	int resp = 0, numMovimentos, a;
+	int resp = 0, numMovimentos;
 
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
@@ -117,8 +116,8 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	movimento->movI = movI;
 	movimento->movJ = movJ;
 
-	LIS_IrFinalLista(&pClassePeca->movimentos);
-	if( LIS_InserirNo(&pClassePeca->movimentos, (void *)movimento) == LIS_CondRetFaltouMemoria) {
+	LIS_IrFinalLista(pClassePeca->movimentos);
+	if( LIS_InserirNo(pClassePeca->movimentos, (CPC_tpMovimento*)movimento) == LIS_CondRetFaltouMemoria) {
 		 return CPC_CondRetFaltouMemoria;
 	}
 
@@ -170,7 +169,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 		return CPC_CondRetPonteiroNulo;
 	}
 
-	*numMovimentos = LIS_ObterNumElem(pClassePeca->movimentos);
+	LIS_ObterNumElementos(pClassePeca->movimentos, numMovimentos);
 
 	return CPC_CondRetOK;
 }
@@ -181,7 +180,12 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 
 CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento, int * pMovI, int * pMovJ) {
 	int numElem;
-	CPC_tpMovimento *movimento;
+	CPC_tpMovimento **movimento;
+
+	movimento = (CPC_tpMovimento**)malloc(sizeof(CPC_tpMovimento));
+	if (movimento == NULL) {
+		return CPC_CondRetFaltouMemoria;
+	}
 
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
@@ -197,12 +201,12 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 
 	LIS_IrInicioLista(pClassePeca->movimentos);
 
-	LIS_AvancarElementoCorrente(&pClassePeca->movimentos, numElem);
+	LIS_AvancarElementoCorrente(pClassePeca->movimentos, numElem);
 
-	LIS_ObterNo(&pClassePeca->movimentos, (void**)&movimento);
+	LIS_ObterNo(pClassePeca->movimentos, (CPC_tpMovimento**)movimento);
 
-	*pMovI = movimento->movI;
-	*pMovJ = movimento->movJ;
+	*pMovI = (*movimento)->movI;
+	*pMovJ = (*movimento)->movJ;
 
 	return CPC_CondRetOK;
 

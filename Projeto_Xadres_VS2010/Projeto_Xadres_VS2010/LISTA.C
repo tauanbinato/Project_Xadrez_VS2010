@@ -296,7 +296,6 @@ LIS_tpCondRet LIS_ObterNo (LIS_tppLista pLista, void** pValor ) {
 				   return LIS_CondRetListaVazia;
 	   } /* if */
 	  *pValor = pLista->pElemCorr->pValor;
-	  printf("\nEnd pVlor 1: %p\n", *pValor);
 
 	  return LIS_CondRetOK;
 
@@ -484,13 +483,15 @@ LIS_tpCondRet LIS_AlterarElementoCorrente(LIS_tppLista pLista, void* pValor)
 *  Função: LIS  &Obter numero de elementos
 ***********************************************************************/
 
-int LIS_ObterNumElem(LIS_tppLista pLista) {
+LIS_tpCondRet LIS_ObterNumElementos(LIS_tppLista pLista, int *numElementos) {
 	if (pLista == NULL) {
-		return -1;
+		 return LIS_CondRetListaNaoExiste;
 	}
 
-	return pLista->numElem;
-}
+	*numElementos = pLista->numElem;
+
+	return LIS_CondRetOK;
+} /* Fim função: LIS  -Obter numero de elementos */
 
 /***********************************************************************
 *
