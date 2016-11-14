@@ -1,4 +1,3 @@
-#pragma once
 #if ! defined( PECA_ )
 #define PECA_
 /***************************************************************************
@@ -23,6 +22,8 @@
 *
 *
 ***************************************************************************/
+
+#include "CLASSE_PECA.h"
 
 
 #if defined( PECA_OWN )
@@ -67,7 +68,7 @@ typedef enum {
 
 //Estruturas-----------------------------------------
 
-	typedef struct PEC_tagPeca * PEC_tppPeca ;
+typedef struct PEC_tagPeca * PEC_tppPeca;
 
 /***********************************************************************
 *
@@ -90,7 +91,7 @@ typedef enum {
 *  - É passado por referencia o ponteiro preenchido com a classe desejada
 ***********************************************************************/
 
-	PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca, CPC_tppClassePeca ClassePeca) ;
+PEC_tpCondRet PEC_InserirClassePeca(PEC_tppPeca peca, CPC_tppClassePeca ClassePeca);
 
 /**********************************************************************
 *
@@ -115,7 +116,7 @@ typedef enum {
 *  - Ponteiros estao preencidos com os valores da peça enviada
 ***********************************************************************/
 
-	PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca) ;
+PEC_tpCondRet PEC_ObtemValoresDePeca(PEC_tppPeca peca, CPC_tppClassePeca *ClassePeca, char *cor_peca);
 
 /***********************************************************************
 *
@@ -138,7 +139,7 @@ typedef enum {
 *  
 ***********************************************************************/
 
-PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char cor_peca) ;
+PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char cor_peca);
 
 /***********************************************************************
 *
@@ -159,7 +160,7 @@ PEC_tpCondRet PEC_criaPeca(PEC_tppPeca *peca, CPC_tppClassePeca ClassePeca, char
 *  - Se ela fosse nula, retorna que nao achou, caso contrario, seu espaco é liberado 
 ***********************************************************************/
 
-PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca) ;
+PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
 
 #undef PECA_EXT
 

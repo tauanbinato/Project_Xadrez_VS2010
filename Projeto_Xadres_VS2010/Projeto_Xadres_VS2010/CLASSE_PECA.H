@@ -1,26 +1,4 @@
-/***************************************************************************
-*
-*  $MCD Módulo de definição: CPC Estrutura de uma Classe de Peca
-*
-*  Arquivo gerado:              CLASE_PECA.h
-*  Letras identificadoras:      CPC
-*
-*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
-*  Arquivo da base de software: D:\AUTOTEST\PROJETOS\CLASSE_PECA.BSW
-*
-*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
-*  Gestor:  LES/DI/PUC-Rio
-*  Autores: Julia Aleixo , Lucas Palma , Tauan Binato
-*
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data     Observações
-*     1       tbf,ja,lp   31/out/2016 início desenvolvimento.
-*
-*  $ED Descrição do módulo
-*	Cria funções para implementar as classes de peça.
-*	Ex: Peão (P), Cavalo (H), Rei (K)...
-*
-***************************************************************************/
+#pragma once
 /* Estruturas */
 
 typedef struct CPC_tagClassePeca * CPC_tppClassePeca ;
