@@ -44,11 +44,14 @@ typedef struct TAB_tagTabuleiro {
 	LIS_tppLista pCabecaLista;
 	/* Ponteiro para um ponteiro de uma cabeça da lista que representa o caminho das linhas */
 
-	int num_de_linhas;
-	/*Numero de linhas do tabuleiro(matriz)*/
+	int i;
+	/*Coordenada i do corrente*/
 
-	int num_de_colunas;
-	/*Numero de colunas do tabuleiro(matriz)*/
+	char j;
+	/*Coordenada j do corrente*/
+
+	int tam;
+	/*Tamanho do tabuleiro*/
 
 
 } TAB_ancoraTabuleiro;
@@ -60,12 +63,14 @@ typedef struct TAB_tagTabuleiro {
 *
 ***********************************************************************/
 
-typedef struct TAB_tagAncoraCasa {
+typedef struct TAB_tagCasa {
 
-	CAS_tppCasa pCasaMatriz;
-	/* Ponteiro para uma casa */
+	void*	 pPeca; /* Ponteiro para a estrutura da peca */
+	int		 cor; /* Cor da peca, que define o jogador */
+	LIS_tppLista pAmeacantes; /* Lista de pecas ameacantes na dada casa */
+	LIS_tppLista pAmeacados; /* Lista de pecas ameacadas na dada casa */
 
-} TAB_ancoraCasa;
+} TAB_tpCasa;
 
 
 /***************************************************************************
@@ -74,82 +79,145 @@ typedef struct TAB_tagAncoraCasa {
 *
 *  **************************************************************************/
 
-TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_linhas , int *lado_colunas) {
+TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam) {
+	TAB_ppAncoraTabuleiro pTabuleiro;
+	int linhaCorrente;
+	int colunaCorrente;
 
+	if (tam <= 0) {
+		return TAB_CondRetInvalido;
+	}
 
-	/* Declaracoes necessarias */
-	int numDoCaminho, numColunas;
-	LIS_tppLista  caminho_matriz;
-	LIS_tppLista  colunas_matriz ;
-	TAB_ppAncoraCasa *cabeca_casa;
-	char idObtido[5];
-	char idEnviado[5] = "Cami";
+	if (ppTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-	//Auxiliares
-	LIS_tppLista   aux_colunasMatriz;
-	TAB_ancoraCasa *aux_cabecaCasa;
-	TAB_ppAncoraTabuleiro aux_ancoraTAB;
-
-
-	// - Alocando cabeça da Tabuleiro.
-	aux_ancoraTAB = (TAB_ancoraTabuleiro *)malloc(sizeof(TAB_ancoraTabuleiro));
-	if (aux_ancoraTAB == NULL) {
-	
+	pTabuleiro = (TAB_ancoraTabuleiro*)malloc(sizeof(TAB_ancoraTabuleiro));
+	if (pTabuleiro == NULL) {
 		return TAB_CondRetFaltouMemoria;
 	}
-	
 
-	/*Criando a lista de caminho e testando*/
-	
-	LIS_CriarLista(&caminho_matriz, idEnviado);
-	aux_ancoraTAB->pCabecaLista = caminho_matriz;
-	LIS_ObterId(aux_ancoraTAB->pCabecaLista,idObtido );
+	if (LIS_CriarLista("tab", &pTabuleiro->pCabecaLista) == LIS_CondRetFaltouMemoria) {
+		free(pTabuleiro);
+		return TAB_CondRetFaltouMemoria;
+	}
+	pTabuleiro->tam = tam;
 
-
-	//Inicializando estrutura.
-	aux_ancoraTAB->num_de_linhas = 0;
-	aux_ancoraTAB->num_de_colunas = 0;
-	
-	
-	//Cria 8 caminhos (linhas)
-	for (aux_ancoraTAB->num_de_linhas = 0; aux_ancoraTAB->num_de_linhas < *lado_linhas ; aux_ancoraTAB->num_de_linhas++)
-	{
-	
-		LIS_CriarLista(&colunas_matriz, "test");
-		LIS_InserirNo(aux_ancoraTAB->pCabecaLista, colunas_matriz);
-		
-	
-		//Cria 8 elementos para cada linha e aponta para uma casa
-		for (aux_ancoraTAB->num_de_colunas = 0; aux_ancoraTAB->num_de_colunas < *lado_colunas ; aux_ancoraTAB->num_de_colunas++)
-		{
-			
-			cabeca_casa = (TAB_ppAncoraCasa *)malloc(sizeof(TAB_ancoraCasa));
-			if (cabeca_casa == NULL) {
+	for (linhaCorrente = 0; linhaCorrente < tam; linhaCorrente++) {
+		for (colunaCorrente = 0; colunaCorrente < tam; colunaCorrente++) {
+			if (LIS_InserirNo(pTabuleiro->pCabecaLista, NULL) != LIS_CondRetOK) {
+				LIS_DestroiLista(pTabuleiro->pCabecaLista);
+				free(pTabuleiro);
 				return TAB_CondRetFaltouMemoria;
 			}
-			
-			aux_cabecaCasa = (TAB_ancoraCasa *)malloc(sizeof(TAB_ancoraCasa));
-			if (aux_cabecaCasa == NULL) {
-			
-				return TAB_CondRetFaltouMemoria;
-			}
-
-			*cabeca_casa = aux_cabecaCasa;
-
-			LIS_InserirNo(colunas_matriz, cabeca_casa);
-
-			free(aux_cabecaCasa);
 		}
-		
+	}
 
-	} /* endFor */
+	LIS_IrInicioLista(pTabuleiro->pCabecaLista);
 
+	pTabuleiro->i = 0;
+	pTabuleiro->j = 'A';
 
-	*cabeca_TAB = aux_ancoraTAB;
+	*ppTabuleiro = pTabuleiro;
+
 	return TAB_CondRetOK;
 
 }
-/* Fim funcao: TAB  &Criar tabuleiro */
+/***********************************************************************
+*  $FC Função: TAB Checar Posicao Valida
+***********************************************************************/
+TAB_tpCondRet TAB_ChecarPosicaoValida(int i, char j) {
+	if (j < 'A' || j > 'H' || i < 1 || i > 8) {
+		return TAB_CondRetNaoAchou;
+	}
+
+	return TAB_CondRetOK;
+}
+
+/***********************************************************************
+*
+*  $FC Função: TAB Definir Posicao Corrente
+*
+***********************************************************************/
+TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
+	int qtdParaAndar;
+	int k;
+
+	qtdParaAndar = i*(pTabuleiro->tam) + j;
+
+	if (i < 0 || i > (pTabuleiro->tam - 1) || j < 0 || j > (pTabuleiro->tam - 1)) {
+		return TAB_CondRetInvalido;
+	}
+	
+	if (pTabuleiro == NULL) {
+		TAB_CondRetPonteiroNulo;
+	}
+
+	if (TAB_ChecarPosicaoValida(i, j) == TAB_CondRetNaoAchou ) {
+		return TAB_CondRetNaoAchou;
+	}
+
+	LIS_IrInicioLista(pTabuleiro->pCabecaLista);
+
+	if (LIS_AvancarElementoCorrente(pTabuleiro->pCabecaLista, qtdParaAndar) == LIS_CondRetFimLista) {
+		return TAB_CondRetInvalido;
+	}
+
+	pTabuleiro->i = i;
+	pTabuleiro->j = j;
+
+	return TAB_CondRetOK;
+}
+
+/***********************************************************************
+*  $FC Função: TAB Obter Posicao Corrente
+***********************************************************************/
+TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, char* j) {
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
+
+	*i = (int)pTabuleiro->i;
+	*j = (char)pTabuleiro->j;
+
+	return TAB_CondRetOK;
+
+}
+
+/***********************************************************************
+*  $FC Função: TAB Atribuir Valor Corrente
+***********************************************************************/
+TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, CAS_tppCasa pCasa) {
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
+
+	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, (void*)pCasa);
+
+	return TAB_CondRetOK;
+}
+
+/***********************************************************************
+*  $FC Função: TAB Obter Peca corrente
+***********************************************************************/
+TAB_tpCondRet TAB_ObterPecaCorrente(TAB_ppAncoraTabuleiro pTabuleiro, void** pPeca, int* cor) {
+	TAB_tpCasa* pCasa;
+
+	pCasa = (TAB_tpCasa*)malloc(sizeof(TAB_tpCasa));
+	if (pCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
+	}
+
+	TAB_ObterValorCorrente(pTabuleiro, &pCasa);
+
+	if (pCasa != NULL) {
+		*pPeca = pCasa->pPeca;
+		*cor = pCasa->cor;
+		return TAB_CondRetOK;
+	}
+
+	return TAB_CondRetCasaVazia;
+}
 
 
 
@@ -158,51 +226,31 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB , int *lado_li
 *  Funcao: TAB &inserir Peca
 *
 *  *************************************************************************/
-TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha , int cord_coluna , void** peca_PEC)
+TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void* pPeca, int i, char j, int cor)
 {
+	TAB_tpCasa* pCasa;
 
-	/*Declaracoes*/
-	int corrente;
-	char *nomePeca , *corPeca;
-	LIS_tppLista aux_listaCaminho, aux_listaColuna;
-	CAS_tppCasa aux_Casa;
-	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
-
-	//Testa se esta OUT of RANGE
-	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || (cord_linha < 0 || cord_coluna < 0)) {
+	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
 	}
 
-	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	for(corrente = 0; corrente < cord_linha; corrente++) {
-		if (corrente == cord_linha) {
-			break;
-		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
-	
-	}/*fim for*/
-	
-	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
-	
-
-	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(aux_listaColuna);
-	for (corrente = 0; corrente < cord_coluna; corrente++) {
-		if (corrente == cord_coluna) {
-			break;
-		}
-		
-		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
+	pCasa = (TAB_tpCasa*)malloc(sizeof(TAB_tpCasa));
+	if (pCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
 	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	CAS_criaCasa(&aux_Casa , &peca_PEC);
-	aux_Ancora_De_Uma_Casa->pCasaMatriz = aux_Casa;
+	TAB_DefinirPosCorrente(pTabuleiro, i, j);
+
+	pCasa->pPeca = pPeca;
+	pCasa->cor = cor;
+	pCasa->pAmeacados = NULL;
+	pCasa->pAmeacantes = NULL;
+
+	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, (void*)pCasa);
 
 	return TAB_CondRetOK;
 
@@ -215,56 +263,70 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha ,
 *
 *  **************************************************************************/
 
-TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest, char corDest, char corOrg) 
-{
-	void *peca_origem, *peca_dest;
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iOrig, char jDest, int iDest, void** PecaComida, int* jogadorComido) {
+	int jogador1, jogador2;
+	TAB_tpCasa *pCasaOrig, *pCasaDest;
 
-	if (cabeca_TAB == NULL) 
-	{
-		return TAB_CondRetTabVazio;
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
 	}
+
+	// Checa se a posicao de origem e destino dadas sao validas.
+	if (TAB_ChecarPosicaoValida(iOrig, jOrig) == TAB_CondRetNaoAchou ||
+		TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetNaoAchou) {
+		return TAB_CondRetNaoAchou;
+	}
+
+	pCasaOrig = (TAB_tppCasa*)malloc(sizeof(TAB_tppCasa));
+	if (pCasaOrig == NULL) {
+		return TAB_CondRetFaltouMemoria;
+	}
+
+	pCasaDest = (TAB_tppCasa*)malloc(sizeof(TAB_tppCasa));
+	if (pCasaDest == NULL) {
+		return TAB_CondRetFaltouMemoria;
+	}
+
+	TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
+
+	TAB_ObterValorCorrente(pTabuleiro, &pCasaOrig);
+
+	TAB_DefinirPosCorrente(pTabuleiro, iDest, jDest);
+
+	TAB_ObterValorCorrente(pTabuleiro, &pCasaDest);
+
+	if (pCasaDest != NULL) {
+		jogador1 = pCasaOrig->cor;
+		
+		jogador2 = pCasaDest->cor;
+
+		if (jogador1 != jogador2) {
+			TAB_ObterPeca(pTabuleiro, iDest, jDest, PecaComida, &jogadorComido);
+			
+			TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
+		
+			TAB_RetirarPeca(pTabuleiro, iOrig, jOrig);
+		
+			TAB_DefinirPosCorrente(pTabuleiro, iDest, jDest);
+		
+			TAB_AtribuirValorCorrente(pTabuleiro, pCasaOrig);
+		}
+	}
+	else {
+		TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
 	
-	if ( xDest > 7 || xDest < 0|| yDest > 7 || yDest < 0 ) 
-	{
-		return TAB_CondRetNaoAchou;
-	}
-	if ( xOrg > 7 || xOrg < 0|| yOrg > 7 || yOrg < 0 ) 
-	{
-		return TAB_CondRetNaoAchou;
-	}
-
-	TAB_ObterPeca(cabeca_TAB, xOrg, yOrg, &peca_origem);
-	TAB_ObterPeca(cabeca_TAB, xDest, yDest, &peca_dest);
-
-	// TRAB 3: Conferir validade do movimento
-
-	//
-	if ( peca_origem == NULL )
-	{
-		return TAB_CondRetCasaVazia;
-	}
-
-	if ( peca_dest == NULL )
-	{
-		TAB_RetirarPeca(cabeca_TAB, xOrg, yOrg);
-		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
-		return TAB_CondRetOK;
-	}
-
-	if ( corOrg != corDest ) 
-	{	
-		TAB_RetirarPeca(cabeca_TAB, xOrg, yOrg);
-		TAB_RetirarPeca(cabeca_TAB, xDest, yDest);
-		TAB_InserirPeca(cabeca_TAB, xDest , yDest, &peca_origem);
-		return TAB_CondRetComeu;
-	}
-	if ( corOrg == corDest )
-	{
-		return TAB_CondRetNaoPermitido;
+		TAB_ObterValorCorrente(pTabuleiro, pCasaOrig);
+	
+		TAB_DefinirPosCorrente(pTabuleiro, iDest, jDest);
+	
+		TAB_AtribuirValorCorrente(pTabuleiro, pCasaOrig);
+	
+		TAB_RetirarPeca(pTabuleiro, iOrig, jOrig);
 	}
 
 	return TAB_CondRetOK;
-}/*Fim funcao: TAB &Mover Peca*/
+}
+
 
 /***************************************************************************
 *
@@ -272,106 +334,94 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 *
 *  **************************************************************************/
 
-TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna )
-{
-	/*Declaracoes*/
-	int corrente;
-	char *nomePeca, *corPeca;
-	LIS_tppLista aux_listaCaminho, aux_listaColuna;
-	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
+TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
+	TAB_tppCasa* ppCasa;
 
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
-
-	//Testa se esta OUT of RANGE
-	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || (cord_linha < 0 || cord_coluna < 0)) {
+	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
 	}
 
-	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	for (corrente = 0; corrente < cord_linha; corrente++) {
-		if (corrente == cord_linha) {
-			break;
-		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
-		
-	}/*fim for*/
-
-	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
-
-
-	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(aux_listaColuna);
-	for (corrente = 0; corrente < cord_coluna; corrente++) {
-		if (corrente == cord_coluna) {
-			break;
-		}
-
-		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
-
+	ppCasa = (TAB_tppCasa*)malloc(sizeof(TAB_tppCasa));
+	if (ppCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
 	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	CAS_RetiraPecaDeCasa(aux_Ancora_De_Uma_Casa->pCasaMatriz);
-	//aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca = NULL;
+	TAB_DefinirPosCorrente(pTabuleiro, i, j);
+	TAB_ObterValorCorrente(pTabuleiro, ppCasa);
+
+	if (ppCasa == NULL) {
+		return TAB_CondRetCasaVazia;
+	}
+
+	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, NULL);
 
 	return TAB_CondRetOK;
-}/*Fim funcao: TAB &Retirar Peca*/
+}
 
+ /***********************************************************************
+ *  $FC Função: TAB Desmover Peca
+ ***********************************************************************/
+TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig, char jOrig, int iDest, char jDest, void** pPecaComida) {
+	void** pPeca;
 
-/***************************************************************************
-*
-*  Funcao: TAB  &Obter Peca
-*
-*  **************************************************************************/
-TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca)
-{
-	int corrente;
-	char nomePeca, corPeca;
-	TAB_ppAncoraCasa aux_Ancora_De_Uma_Casa;
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho, aux_listaColuna;
-	
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	aux_listaCaminho = &cabeca_TAB->pCabecaLista;
-
-	//Testa se esta OUT of RANGE
-	if (cord_linha >= cabeca_TAB->num_de_linhas || cord_coluna >= cabeca_TAB->num_de_colunas || (cord_linha < 0 || cord_coluna < 0)) {
+	if (TAB_ChecarPosicaoValida(iOrig, jOrig) == TAB_CondRetNaoAchou
+		|| TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetNaoAchou) {
 		return TAB_CondRetNaoAchou;
 	}
 
-	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	for (corrente = 0; corrente < cord_linha; corrente++) {
-		if (corrente == cord_linha) {
-			break;
-		}
-		LIS_AvancarElementoCorrente(cabeca_TAB->pCabecaLista, 1);
-	}/*fim for*/
+	TAB_DefinirPosCorrente(pTabuleiro, iDest, jDest);
+	TAB_ObterValorCorrente(pTabuleiro, &pPeca);
+	TAB_AtribuirValorCorrente(pTabuleiro, pPecaComida);
+	TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
+	TAB_AtribuirValorCorrente(pTabuleiro, pPeca);
 
-	LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&aux_listaColuna);
+	return TAB_CondRetOK;
+}
 
 
-	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(aux_listaColuna);
-	for (corrente = 0; corrente < cord_coluna; corrente++) {
-		if (corrente == cord_coluna) {
-			break;
-		}
+ /***********************************************************************
+ *  $FC Função: TAB Obter Peca
+ ***********************************************************************/
+TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, void** pPeca, int* cor) {
+	int iOrig;
+	char jOrig;
+	TAB_tpCasa** ppCasa;
 
-		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
 	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_Ancora_De_Uma_Casa);
-	CAS_obtemPecaDeCasa(aux_Ancora_De_Uma_Casa->pCasaMatriz, &peca);
+	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
+		return TAB_CondRetInvalido;
+	}
 
-	//*peca = aux_Ancora_De_Uma_Casa->pCasaMatriz->pPeca;
-	
+	ppCasa = (TAB_tpCasa**)malloc(sizeof(TAB_tpCasa));
+	if (ppCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
+	}
+
+	TAB_ObterPosCorrente(pTabuleiro, &iOrig, &jOrig);
+	TAB_DefinirPosCorrente(pTabuleiro, i, j);
+	TAB_ObterValorCorrente(pTabuleiro, ppCasa);
+	TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
+
+	if ((*ppCasa) == NULL) {
+		return TAB_CondRetCasaVazia;
+	}
+
+	*pPeca = (*ppCasa)->pPeca;
+	*cor = (*ppCasa)->cor;
+
 	return TAB_CondRetOK;
-}/*Fim funcao: &TAB obter Peca*/
+}
 
 
 /***************************************************************************
@@ -379,104 +429,74 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 *  Funcao: TAB  &Obter Lista Ameacantes
 *
 *  **************************************************************************/
-TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes )
-{
-	int corrente;
-	char nomePeca, corPeca;
-	TAB_ppAncoraCasa aux_AncoraCasa;
-	
+TAB_tpCondRet ObterListaAmeacantes(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, LIS_tppLista* pLista) {
+	TAB_tppCasa pCasa;
 
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho, aux_listaColuna;
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-	aux_listaCaminho = cabeca_TAB->pCabecaLista;
-
-	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	LIS_IrInicioLista(aux_listaCaminho);
-
-	//Testa se esta OUT of RANGE
-	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
+	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
 	}
 
-	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 0; corrente < linha; corrente++) {
-		if (corrente == linha) {
-			break;
-		}
-		LIS_AvancarElementoCorrente(aux_listaCaminho, 1);
+	pCasa = (TAB_tppCasa)malloc(sizeof(TAB_tpCasa));
+	if (pCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
 	}
-	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
 
+	TAB_DefinirPosCorrente(pTabuleiro, i, j);
+	TAB_ObterValorCorrente(pTabuleiro, &pCasa);
 
-
-	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	LIS_IrInicioLista(aux_listaColuna);
-	for (corrente = 0; corrente < coluna; corrente++) {
-		if (corrente == coluna) {
-			break;
+	if (pCasa != NULL) {
+		pCasa->pAmeacantes = (LIS_tppLista)malloc(sizeof(LIS_tppLista));
+		if (pCasa->pAmeacantes == NULL) {
+			return TAB_CondRetPonteiroNulo;
 		}
-		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
-		
+
+		pLista = pCasa->pAmeacantes;
 	}
-	
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
-	
-	CAS_obtemListaAmeacantes(aux_AncoraCasa->pCasaMatriz,(void**)&pListaAmeacantes);
-	
-	
+	else {
+		return TAB_CondRetPonteiroNulo;
+	}
+
 	return TAB_CondRetOK;
 }
-/*Fim funcao: &TAB obter Lista Ameacantes*/
 
 /***************************************************************************
 *
 *  Funcao: TAB  &Obter Lista Ameacados
 *
 *  **************************************************************************/
-TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados )
-{
-	int corrente;
-	char nomePeca, corPeca;
-	TAB_ppAncoraCasa aux_AncoraCasa;
-	
+TAB_tpCondRet ObterListaAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, LIS_tppLista* pLista) {
+	TAB_tppCasa pCasa;
 
-	/*Crio um ponteiro para a primeira lista que a cabeca aponta*/
-	LIS_tppLista aux_listaCaminho, aux_listaColuna;
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
 
-	aux_listaCaminho = cabeca_TAB->pCabecaLista;
-
-	/*Coloco o pElemCorrente no inicio da lista que iremos caminhar*/
-	LIS_IrInicioLista(aux_listaCaminho);
-
-	//Testa se esta OUT of RANGE
-	if (linha >= cabeca_TAB->num_de_linhas || coluna >= cabeca_TAB->num_de_colunas || linha < 0 || coluna < 0) {
+	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
 	}
 
-	/*Anda atraves da cabeça ate encontrar a linha desejada*/
-	for (corrente = 0; corrente < linha; corrente++) {
-		if (corrente == linha) {
-			break;
-		}
-		LIS_AvancarElementoCorrente(aux_listaCaminho, 1);
+	pCasa = (TAB_tppCasa)malloc(sizeof(TAB_tpCasa));
+	if (pCasa == NULL) {
+		return TAB_CondRetFaltouMemoria;
 	}
 
-	LIS_ObterNo(aux_listaCaminho, (void**)&aux_listaColuna);
-	LIS_IrInicioLista(aux_listaColuna);
+	TAB_DefinirPosCorrente(pTabuleiro, i, j);
+	TAB_ObterValorCorrente(pTabuleiro, &pCasa);
 
-
-	/*Anda atraves dos elementos de uma linha ate encontrar a coluna desejada*/
-	for (corrente = 0; corrente < coluna; corrente++) {
-		if (corrente == coluna) {
-			break;
+	if (pCasa != NULL) {
+		if (LIS_CriarLista("ameacados", pCasa->pAmeacados) == LIS_CondRetFaltouMemoria) {
+			return TAB_CondRetFaltouMemoria;
 		}
-		LIS_AvancarElementoCorrente(aux_listaColuna, 1);
-	}
 
-	LIS_ObterNo(aux_listaColuna, (void**)&aux_AncoraCasa);
-	CAS_obtemListaAmeacados(aux_AncoraCasa->pCasaMatriz, (void**)&pListaAmeacados);
-	//LIS_ObterNo(aux_Casa->pCasaMatriz->pListaAmeacados, (void**)&pListaAmeacados);
+		pLista = pCasa->pAmeacados;
+	}
+	else {
+		return TAB_CondRetPonteiroNulo;
+	}
 
 	return TAB_CondRetOK;
 }
@@ -487,33 +507,66 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 *  Funcao: TAB  &Destruir Tabuleiro
 *
 *  **************************************************************************/
-TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB){
-
-	int numLinhas, numColunas;
-	LIS_tppLista listaColunas, aux, *listaAmeacantes,*listaAmeacados;
-	TAB_ppAncoraCasa aux_Casa;
-
-
-	LIS_IrInicioLista(cabeca_TAB->pCabecaLista);
-	
-	for(numLinhas = 0; numLinhas < cabeca_TAB->num_de_linhas; numLinhas++)
-	{
-		printf("\n entra for");
-		LIS_ObterNo(cabeca_TAB->pCabecaLista, (void**)&listaColunas);
-		
-		for ( numColunas = 0; numColunas < cabeca_TAB->num_de_colunas; numColunas++){
-			TAB_RetirarPeca(cabeca_TAB, numLinhas, numColunas);
-			printf("\n ruim na retirar");
-		}
-
-		LIS_EsvaziarLista(listaColunas);
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro pTabuleiro){
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
 	}
-	printf("\nSAI FOR");
 
-	LIS_DestroiLista(cabeca_TAB->pCabecaLista);
-	free(cabeca_TAB);
+	LIS_DestroiLista(pTabuleiro->pCabecaLista);
+	free(pTabuleiro);
 
 	return TAB_CondRetOK;
 }
 ///*Fim funcao: &TAB Destruir Tabuleiro*/
+
+/***********************************************************************
+*  $FC Função: TAB Adicionar Lista Ameacantes e Ameaçados
+***********************************************************************/
+
+TAB_tpCondRet AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int iAmeacante, char jAmeacante, int iAmeacado, char jAmeacado) {
+	LIS_tpCondRet condRet1, condRet2;
+	int iOrig;
+	char jOrig;
+	TAB_tppCasa pCasaAmeacante, pCasaAmeacada;
+
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
+
+	TAB_ObterPosCorrente(pTabuleiro, &iOrig, &jOrig);
+	TAB_DefinirPosCorrente(pTabuleiro, iAmeacante, jAmeacante);
+	TAB_ObterValorCorrente(pTabuleiro, &pCasaAmeacante);
+	TAB_DefinirPosCorrente(pTabuleiro, iAmeacado, jAmeacado);
+	TAB_ObterValorCorrente(pTabuleiro, &pCasaAmeacada);
+	TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
+
+	condRet1 = LIS_InserirNo(pCasaAmeacante->pAmeacados, pCasaAmeacada);
+	condRet2 = LIS_InserirNo(pCasaAmeacada->pAmeacantes, pCasaAmeacante);
+
+	if (condRet1 == LIS_CondRetFaltouMemoria || condRet2 == LIS_CondRetFaltouMemoria) {
+		return TAB_CondRetFaltouMemoria;
+	}
+
+	if (condRet1 == LIS_CondRetListaNaoExiste || condRet2 == LIS_CondRetListaNaoExiste) {
+		return TAB_CondRetPonteiroNulo;
+	}
+
+	return TAB_CondRetOK;
+}
+
+
+/*****  Código das funções encapsuladas no módulo  *****/
+
+/***********************************************************************
+*  $FC Função: TAB Obter Valor Corrente
+***********************************************************************/
+static TAB_tpCondRet TAB_ObterValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, CAS_tppCasa* ppCasa) {
+	if (pTabuleiro == NULL) {
+		return TAB_CondRetPonteiroNulo;
+	}
+
+	LIS_ObterNo(pTabuleiro->pCabecaLista, (void**)ppCasa);
+
+	return TAB_CondRetOK;
+}
 

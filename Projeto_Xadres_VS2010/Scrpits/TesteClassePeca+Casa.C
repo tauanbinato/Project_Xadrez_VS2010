@@ -38,22 +38,22 @@
 #include	"CLASSE_PECA.H"
 #include    "PRINCIPAL.H"
 
-/**************************COMANDOS SCRIPT**************************/
+/**************************COMANDOS SCRIPT**************************/  
 
-static const char CRIAR_CP_CMD[] = "=criarcp";
-static const char DESTRUIR_CP_CMD[] = "=destruircp";
-static const char ADICIONAR_MOVIMENTO_CMD[] = "=adicionarmovimento";
-static const char CHECAR_MOVIMENTO_CMD[] = "=checarmovimento";
-static const char OBTER_MOVIMENTO_CMD[] = "=obtermovimento";
-static const char OBTER_NOME_CMD[] = "=obternome";
-static const char RESET_LISTA_CMD[] = "=resetteste";
-static const char CARREGAR_MOVIMENTOS_CMD[] = "=carregarmovimento";
+static const char CRIAR_CP_CMD[]	                =				"=criarcp"               ;
+static const char DESTRUIR_CP_CMD[]			        =				"=destruircp"            ;
+static const char ADICIONAR_MOVIMENTO_CMD[]		    =				"=adicionarmovimento"    ;
+static const char CHECAR_MOVIMENTO_CMD[]            =				"=checarmovimento"       ;
+static const char OBTER_MOVIMENTO_CMD[]             =               "=obtermovimento"		 ;
+static const char OBTER_NOME_CMD[]			        =				"=obternome"             ;
+static const char RESET_LISTA_CMD[]					=				"=resetteste"			 ;
+static const char CARREGAR_MOVIMENTOS_CMD[]			=				"=carregarmovimento"	 ;
 
 //Para Modulo Casa
-static const char CRIAR_CASA_CMD[] = "=criarcasa";
-static const char OBTER_PECA_CMD[] = "=obterpeca";
-static const char RETIRAR_PECA_CMD[] = "=retirarpeca";
-static const char OBTEM_AMEACANTES_CMD[] = "=obtemameacantes";
+static const char CRIAR_CASA_CMD[]				    =				"=criarcasa"			 ;
+static const char OBTER_PECA_CMD[]					=				"=obterpeca"			 ;
+static const char RETIRAR_PECA_CMD[]			    =			    "=retirarpeca"			 ;
+static const char OBTEM_AMEACANTES_CMD[]			=			    "=obtemameacantes"		 ;
 /************************FIM COMANDOS SCRIPT************************/
 
 
@@ -135,9 +135,9 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 
 	/*Strings*/
-	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR], CharObtido;
+	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR] , CharObtido;
 	char* pDado;
-	char  CharDado;
+	char  CharDado ;
 	char* pCharDado;
 	char* CharDado_2;
 	char id_corDest;
@@ -160,7 +160,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	} /* fim ativa: Efetuar reset de teste de lista */
 
 
-	  /* Testar DestruirClassePeca*/
+	/* Testar DestruirClassePeca*/
 
 	else if (strcmp(ComandoTeste, DESTRUIR_CP_CMD) == 0)
 	{
@@ -187,29 +187,29 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	{
 
 		/* Declaracoes Necessarias */
-		char id_peca, id_cor;
-
+		char id_peca , id_cor;
+		
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &movI, &movJ, &CondRetEsp);
 
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
 			return TST_CondRetParm;
-		}
+		} 
 
-		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz], movI, movJ);
+		CondRet_CPC = CPC_AdicionarMovimento(&vtClasse[inxMatriz] , movI , movJ);
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC, "Condicao de retorno errada ao adicionar movimento");
+		return TST_CompararInt(CondRetEsp, CondRet_CPC,"Condicao de retorno errada ao adicionar movimento");
 
-	}
+	} 
 	/* fim ativa: Testar AdicionarMovimento */
 
-	/* Testar CriarClassePeca */
+	  /* Testar CriarClassePeca */
 
 	else if (strcmp(ComandoTeste, CRIAR_CP_CMD) == 0)
 	{
-
+	
 		int lado_linhas, lado_colunas;
-
+	
 		numLidos = LER_LerParametros("icsi", &inxMatriz, &nome, &StringDado, &CondRetEsp);
 
 		if ((numLidos != 4)
@@ -232,7 +232,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	} /* fim ativa: Testar CriarClassePeca */
 
 
-	  /*Inicio teste Obter Movimento*/
+	/*Inicio teste Obter Movimento*/
 	else if (strcmp(ComandoTeste, OBTER_MOVIMENTO_CMD) == 0)
 	{
 		numLidos = LER_LerParametros("iii", &inxMatriz, &idxMovimento, &CondRetEsp);
@@ -242,7 +242,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC = CPC_ObterMovimento(&vtClasse[inxMatriz], idxMovimento, &movI, &movJ);
+		CondRet_CPC = CPC_ObterMovimento(&vtClasse[inxMatriz], idxMovimento, &movI, &movJ) ;
 
 		if (CondRet_CPC == 6) {
 
@@ -255,7 +255,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar ObterMovimento */
 
-	  /* Testar Obter Nome*/
+	/* Testar Obter Nome*/
 	else if (strcmp(ComandoTeste, OBTER_NOME_CMD) == 0)
 	{
 		//LIS_tppLista Lista;
@@ -267,7 +267,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		{
 			return TST_CondRetParm;
 		} /* if */
-
+		
 		CondRet_CPC = CPC_ObterNome(vtClasse[inxMatriz], pCharDado);
 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
@@ -275,7 +275,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 	} /* fim ativa: Testar ObterNome */
 
-	  /*Testar ChecarMovimento*/
+	 /*Testar ChecarMovimento*/
 
 	else if (strcmp(ComandoTeste, CHECAR_MOVIMENTO_CMD) == 0)
 	{
@@ -288,7 +288,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		} /* if */
 
 		CondRet_CPC = CPC_ChecarMovimento(vtClasse, movI, movJ, resposta);
-
+ 
 		return TST_CompararInt(CondRetEsp, CondRet_CPC,
 			"Condicao de retorno errada ao checar movimento");
 
@@ -317,7 +317,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 
 
 
-} /* Fim função: TJOG &Testar jogo*/
+	} /* Fim função: TJOG &Testar jogo*/
 
 
 

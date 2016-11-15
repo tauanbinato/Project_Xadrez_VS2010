@@ -94,7 +94,7 @@ void PRI_Inicializa(void) {
 	int* linha = 8;
 	int* coluna = 8;
 
-	if (TAB_CriaTabuleiro(&simulacao.pTab, &linha, &coluna) != TAB_CondRetOK) {
+	if (TAB_CriaTabuleiro(&simulacao.pTab, 8) != TAB_CondRetOK) {
 		printf("ERRO DE MEMORIA AO CRIAR TABULEIRO");
 		exit(1);
 	}

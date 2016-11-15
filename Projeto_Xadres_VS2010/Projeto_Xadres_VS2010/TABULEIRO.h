@@ -35,7 +35,7 @@
 //Estruturas-----------------------------------------
 
 typedef struct TAB_tagTabuleiro * TAB_ppAncoraTabuleiro;
-typedef struct TAB_tagAncoraCasa * TAB_ppAncoraCasa;
+typedef struct TAB_tagCasa*	TAB_tppCasa;
 
 //FIM Estruturas-----------------------------------------
 
@@ -74,8 +74,15 @@ typedef enum {
 	TAB_CondRetTabVazio,
 	/*peca foi comida = 6 */
 
-	TAB_CondRetNaoPermitido
+	TAB_CondRetNaoPermitido,
 	/*movimento nao permitido = 7 */
+
+	TAB_CondRetPonteiroNulo,
+	/* Ponteiro passado é nulo = 8*/
+
+	TAB_CondRetInvalido
+	/* Informação passada não é valida = 9*/
+
 
 } TAB_tpCondRet;
 
