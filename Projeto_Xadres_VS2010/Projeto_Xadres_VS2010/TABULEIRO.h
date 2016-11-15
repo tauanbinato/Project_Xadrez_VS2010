@@ -94,14 +94,17 @@ typedef enum {
 *     insere Peça por referencia na casa passada
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser inserida
-*	  cord_linha		- coordenada para a linha
-*	  cord_coluna		- coordenada para a coluna
-*	  peca_PEC			- ponteiro pra void de uma peca
+*     pTabuleiro		- cabeça do tabuleiro a ser inserida
+*	  i					- coordenada para a linha
+*	  j					- coordenada para a coluna
+*	  pPeca 			- ponteiro pra void de uma peca
+*	  cor				- cor do dono da peca
 *
 *	$FV Valor retornado
 *	CondRetOK, se peça foi inserida, 
 *   CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetPonteiroNulo, se o tabuleiro passado estiver nulo
+*	CondRetFaltouMemoria, se nao conseguir alocar a estrutura de casa
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
@@ -109,13 +112,13 @@ typedef enum {
 *	- Recebe número da linha e da coluna válidos (menores ou iguais a 8)
 *	- A posição da casa no encontro da linha com a coluna está vazia
 *	- Tabuleiro já foi criado
-*	- Recebe cor valida (‘P’ ou ‘B’) e identidade (string de 4 caracteres)
+*	- Recebe cor valida (‘P’ ou ‘B’)
 *	$AS - Assertivas de saída:
 *	- Peça foi criada e inserida na posição desejada do tabuleiro
 *
 ***********************************************************************/
 
-TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca_PEC);
+TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void* pPeca, int i, char j, int cor);
 
 /***********************************************************************
 *
@@ -126,27 +129,27 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *	
 *	$EP Parâmetros
 *	- Coordenadas de origem e destino e ancora do tabuleiro
+*   PecaComida    - ponteiro duplo para void com a Peça Comida, se for o caso
+*   jogadorComido - ponteiro para a cor da peça comida, se for o caso
 *
 *	$FV Valor retornado
-*	CondRetTabVazio, se o tabuleiro estiver vazio,
 *   CondRetNaoAchou, se o destino ou origem forem fora do tabuleiro
-*   CondRetCasaVazia, se a origem estiver vazia
 *   CondRetOK, se tiver executado o movimento com sucesso
-*   CondRetComeu, se a peça tiver comido uma peça do adversario
-*	CondRetNaoPermitido, se a origem e destino, fornecidos, forem iguais
+*	CondRetFaltouMemoria, se alguma estrutura nao tiver sido alocada
+*	CondRetPonteiroNulo, se a ancora estiver vazia
 *
 *	$AE - Assertivas de entrada
 *	- Peça já foi criada, com suas informações preenchidas ( e não é vazia )
-*	- Posição para qual ela vai se mover está vazia, além de ser uma posição valida (contida dentro do tabuleiro)
 *	- Movimento é permitido para aquela peça
 *	- Tabuleiro já foi criado
+*
 *	$AS - Assertivas de saída:
 *	- Peca agora está na posição desejada
-*	- Sua posição antiga agora está vazia (‘V’)
+*	- Sua posição antiga agora está vazia 
 *
 ***********************************************************************/
 
-TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg, int xDest, int yDest,char corDest, char corOrg);
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iOrig, char jDest, int iDest, void** PecaComida, char* jogadorComido);
 
 /***********************************************************************
 *
@@ -156,26 +159,29 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int xOrg, int yOrg
 *     Retira a peca que ocupa a coordenada passada
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
-*	  cord_linha		- coordenada para a linha
-*	  cord_coluna		- coordenada para a coluna
+*     pTabuleiro		- cabeça do tabuleiro a ser retirada a peça
+*	  i					- coordenada para a linha
+*	  j					- coordenada para a coluna
 *
 *  $FV Valor retornado
 *	CondRetOK, se peça foi retirada,
 *	CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetCasaVazia, se a casa estiver vazia
+*	CondRetPonteiroNulo, se a ancora estiver vazia
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
+*
 *	$AE - Assertivas de entrada
 *	- Existe uma peça na coordenada enviada
-*	- Tabuleiro existe
+*
 *	$AS - Assertivas de saída:
 *	- Peça foi retirada
 *	- Posição (casa) que ela estava agora está vazia
 *
 ***********************************************************************/
 
-TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna);
+TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j);
 
 /***********************************************************************
 *
@@ -185,15 +191,18 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *     Obtem a peca que ocupa a coordenada passada
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
-*	  cord_linha		- coordenada para a linha
-*	  cord_coluna		- coordenada para a coluna
-*     id_Peca		    - ponteiro parao tipo de peca a ser obtida
-*     id_cor		    - ponteiro parao a cor da peca a ser obtida
+*     pTabuleiro		- cabeça do tabuleiro a ser destruido
+*	  i					- coordenada para a linha
+*	  j					- coordenada para a coluna
+*     pPeca 		    - ponteiro para void, que representa a peca a ser obtida
+*     cor		        - ponteiro para a cor da peca a ser obtida
 *
 *	$FV Valor retornado
 *	CondRetOK, se peça foi obtida, 
 *	CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetCasaVazia, se a casa estiver vazia
+*	CondRetPonteiroNulo, se a ancora estiver vazia
+*	CondRetFaltouMemoria, se alguma estrutura nao tiver sido alocada
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -205,7 +214,7 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, 
 *	- Ponteiro agora contem informação sobre a peça que estava na posição inserida (pode ser uma peça ou ‘V’-vazio)
 ***********************************************************************/
 
-TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, int cord_coluna, void** peca);
+TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, void** pPeca, char* cor);
 
 /***********************************************************************
 *
@@ -215,15 +224,17 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 *     Obtem a Lista de Ameaçantes àquela casa
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
-*	  linha				- coordenada para a linha
-*	  coluna			- coordenada para a coluna
-*     pListaAmeacantes  - ponteiro para a lista ameacantes a ser obtida
+*     pTabuleiro		- cabeça do tabuleiro a ser destruido
+*	  i					- coordenada para a linha
+*	  j					- coordenada para a coluna
+*     pLista		    - ponteiro para a lista ameacantes a ser obtida
 *
 *
 *	$FV Valor retornado
 *	CondRetOK, se lista foi retornada por referencia, 
 *	CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetPonteiroNulo, se a ancora estiver vazia
+*	CondRetFaltouMemoria, se alguma estrutura nao tiver sido alocada
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -235,7 +246,7 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro cabeca_TAB, int cord_linha, in
 *	- Foi obtido a lista ameaçantes que estava na posição dos índices recebidos
 ***********************************************************************/
 
-TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacantes);
+TAB_tpCondRet ObterListaAmeacantes(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, LIS_tppLista* pLista);
 
 /***********************************************************************
 *
@@ -245,15 +256,17 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 *     Obtem a Lista de elementos que ameacam aquela casa
 *
 *  $EP Parâmetros
-*     cabeca_TAB		- cabeça do tabuleiro a ser destruido
-*	  linha				- coordenada para a linha
-*	  coluna			- coordenada para a coluna
-*     pListaAmeacados   - ponteiro para a lista de ameacados a ser obtida
+*     pTabuleiro		- cabeça do tabuleiro a ser destruido
+*	  i					- coordenada para a linha
+*	  j					- coordenada para a coluna
+*     pLista		    - ponteiro para a lista ameacantes a ser obtida
 *
 *
 *  	$FV Valor retornado
-*	CondRetOK, se lista foi retornada por referencia, 
+*	CondRetOK, se lista foi retornada por referencia,
 *	CondRetNaoAchou, se posicao for fora do tabuleiro
+*	CondRetPonteiroNulo, se a ancora estiver vazia
+*	CondRetFaltouMemoria, se alguma estrutura nao tiver sido alocada
 *
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
@@ -267,17 +280,17 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro cabeca_TAB, int lin
 *	 
 ***********************************************************************/
 
-TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linha, int coluna, LIS_tppLista * pListaAmeacados);
+TAB_tpCondRet ObterListaAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, LIS_tppLista* pLista);
 
 /***********************************************************************
 *
 *  $FC Função: TAB  &Destruir Tabuleiro
 *
 *  $ED Descrição da função
-*     Destroi o tabuleiro (as listas que a compoe e o tudo que está contido nelas) 
+*     Destroi o tabuleiro  
 *
 *  $EP Parâmetros
-*     cabeca_TAB - cabeça do tabuleiro a ser destruido
+*     pTabuleiro - cabeça do tabuleiro a ser destruido
 *	
 *
 *  $FV Valor retornado
@@ -292,7 +305,7 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro cabeca_TAB, int linh
 *	- Tabuleiro foi destruído, e todos seus componentes também. Além disso, toda a memória alocada antes por ele e seus componentes foram liberadas
 ***********************************************************************/
 
-TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
+TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro pTabuleiro);
 
 /***********************************************************************
 *
@@ -305,14 +318,14 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 *
 *  $EP Parâmetros
 *     $EP Parâmetros
-*     cabeca_TAB - cabeça do tabuleiro a ser destruido
-*	
+*     ppTabuleiro - cabeça do tabuleiro a ser destruido
+*	  tam		  - tamanho do tabuleiro quadrado (tam*tam) a ser criado	
 *
 *  $FV Valor retornado
-*     Se executou corretamente retorna a condição de retorno LIS_CondRetOK.
-*
-*     Se ocorreu algum erro, por exemplo falta de memória ou dados errados,
-*     LIS_CondRetFaltouMemoria.
+*	  CondRetOK, se lista foi retornada por referencia,
+*	  CondRetInvalido, se o tamanho fornecido for invalido
+*     CondRetPonteiroNulo, se a ancora estiver vazia
+*	  CondRetFaltouMemoria, se alguma estrutura nao tiver sido alocada
 *
 *     Não será dada mais informação quanto ao problema ocorrido.
 *
@@ -323,7 +336,31 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro cabeca_TAB);
 *	- Ponteiro agora foi preenchido para a estrutura criada, que é uma matriz composta por listas ( com 8 linhas e 8 colunas )
 ***********************************************************************/
 
-TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro *cabeca_TAB, int *lado_linhas, int *lado_colunas);
+TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam);
+
+/***/
+
+TAB_tpCondRet TAB_ChecarPosicaoValida(int i, char j);
+
+TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j);
+
+TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, char* j);
+
+TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa pCasa);
+
+TAB_tpCondRet TAB_ObterPecaCorrente(TAB_ppAncoraTabuleiro pTabuleiro, void** pPeca, int* cor);
+
+TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig, char jOrig, int iDest, char jDest, void** pPecaComida);
+
+TAB_tpCondRet AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int iAmeacante, char jAmeacante, int iAmeacado, char jAmeacado);
+
+
+
+
+
+
+
+
 
 
 

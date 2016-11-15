@@ -66,12 +66,15 @@ typedef struct TAB_tagTabuleiro {
 typedef struct TAB_tagCasa {
 
 	void*	 pPeca; /* Ponteiro para a estrutura da peca */
-	int		 cor; /* Cor da peca, que define o jogador */
+	char	 cor; /* Cor da peca, que define o jogador */
 	LIS_tppLista pAmeacantes; /* Lista de pecas ameacantes na dada casa */
 	LIS_tppLista pAmeacados; /* Lista de pecas ameacadas na dada casa */
 
 } TAB_tpCasa;
 
+/*Funções encapsuladas no modulo*/
+
+	static TAB_tpCondRet TAB_ObterValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa* ppCasa);
 
 /***************************************************************************
 *
@@ -187,7 +190,7 @@ TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, cha
 /***********************************************************************
 *  $FC Função: TAB Atribuir Valor Corrente
 ***********************************************************************/
-TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, CAS_tppCasa pCasa) {
+TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa pCasa) {
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
 	}
@@ -263,8 +266,8 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void* pPeca, int
 *
 *  **************************************************************************/
 
-TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iOrig, char jDest, int iDest, void** PecaComida, int* jogadorComido) {
-	int jogador1, jogador2;
+TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iOrig, char jDest, int iDest, void** PecaComida, char* jogadorComido) {
+	char jogador1, jogador2;
 	TAB_tpCasa *pCasaOrig, *pCasaDest;
 
 	if (pTabuleiro == NULL) {
@@ -390,7 +393,7 @@ TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig,
  /***********************************************************************
  *  $FC Função: TAB Obter Peca
  ***********************************************************************/
-TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, void** pPeca, int* cor) {
+TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, void** pPeca, char* cor) {
 	int iOrig;
 	char jOrig;
 	TAB_tpCasa** ppCasa;
@@ -560,7 +563,7 @@ TAB_tpCondRet AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabuleiro
 /***********************************************************************
 *  $FC Função: TAB Obter Valor Corrente
 ***********************************************************************/
-static TAB_tpCondRet TAB_ObterValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, CAS_tppCasa* ppCasa) {
+static TAB_tpCondRet TAB_ObterValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa* ppCasa) {
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
 	}
