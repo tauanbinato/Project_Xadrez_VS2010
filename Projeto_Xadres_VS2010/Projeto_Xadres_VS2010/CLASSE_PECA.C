@@ -100,11 +100,12 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
-	
+
 	CPC_ChecarMovimento(pClassePeca, movI, movJ, &resp);
 
 	if (resp == 1) {
 		return CPC_CondRetNaoAchou;
+	
 	}
 
 	movimento = (CPC_tpMovimento*)malloc(sizeof(CPC_tpMovimento));
@@ -139,17 +140,16 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
-
+	
 	if (movI > 7 || movJ > 7 || movI < -7 || movJ < -7) {
 		*resposta = 0;
 		return CPC_CondRetNaoAchou;
 	}
-
 	CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
-
-	for (i = 0; i < numMovimentos; i++) {
+	
+	for (i = 0; i < numMovimentos; i++) {	
 		CPC_ObterMovimento(pClassePeca, i, &movIObtido, &movJObtido);
-
+		
 		if (movIObtido == movI && movJObtido == movJ) {
 			*resposta = 1;
 			return CPC_CondRetOK;
@@ -161,6 +161,7 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 
 /***********************************************************************
 *  $FC Função: CPC Obter número de movimentos de classe de peça
+*
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * numMovimentos) {
@@ -175,7 +176,7 @@ CPC_tpCondRet CPC_ObterNumeroMovimentos(CPC_tppClassePeca pClassePeca, int * num
 }
 
 /***********************************************************************
-*  $FC Função: CPC Obter movimento de classe de peça  *
+*  $FC Função: CPC Obter movimento de classe de peça  
 ***********************************************************************/
 
 CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento, int * pMovI, int * pMovJ) {
@@ -190,11 +191,12 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 	if (pClassePeca == NULL) {
 		return CPC_CondRetPonteiroNulo;
 	}
-
+		
 	CPC_ObterNumeroMovimentos(pClassePeca, &numElem);
+		
 
-
-	if (idxMovimento < 0 || idxMovimento > numElem) {
+	if (idxMovimento < 0 || idxMovimento > numElem) 
+	{
 
 		return CPC_CondRetNaoAchou;
 	}
@@ -206,6 +208,7 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 	LIS_ObterNo(pClassePeca->movimentos, (CPC_tpMovimento**)movimento);
 
 	*pMovI = (*movimento)->movI;
+
 	*pMovJ = (*movimento)->movJ;
 
 	return CPC_CondRetOK;

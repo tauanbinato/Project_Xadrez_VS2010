@@ -190,7 +190,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		char id_peca, id_cor;
 
 		numLidos = LER_LerParametros("iiii", &inxMatriz, &movI, &movJ, &CondRetEsp);
-
+		
 		if ((numLidos != 4) || (!ValidarInxMatriz(inxMatriz, VAZIO)))
 		{
 			return TST_CondRetParm;
