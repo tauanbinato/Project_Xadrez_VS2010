@@ -41,12 +41,15 @@ int main(void)
 {
 
 	int opcao;
+	char *nome1, *nome2;
 
 	LIS_CriarLista(&simulacao.pListaClasses, "Classes");
 	PRI_Inicializa();
 	PRI_CarregarArquivoMovimento("./MOVIMENTOS.txt");
 
 	do {
+		printf("Insira o nome dos participantes");
+		scanf("%s%s",nome1,nome2);
         printf("\n(pressione qualquer tecla para exibir o menu)");
         PRI_MenuPrincipal( &opcao );
        /* switch(opcao) {
