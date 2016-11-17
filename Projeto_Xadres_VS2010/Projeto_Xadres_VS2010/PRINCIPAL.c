@@ -13,7 +13,7 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: PRN Descritor da cabeça de uma simulação
+*  $TC Tipo de dados: PRI Descritor da cabeça de uma simulação
 *
 *
 *  $ED Descrição do tipo
@@ -22,7 +22,7 @@
 *
 ***********************************************************************/
 
-typedef struct PRN_tagSimulacao {
+typedef struct PRI_tagSimulacao {
 
 	TAB_ppAncoraTabuleiro pTab;
 	/* Ponteiro para o tabuleiro corrente */
@@ -31,11 +31,11 @@ typedef struct PRN_tagSimulacao {
 	LIS_tppLista pListaClasses;
 	/* Ponteiro para a lista de classes de peças */
 
-} PRN_tpSimulacao;
+} PRI_tpSimulacao;
 
 /*****  Variável global que armazena a simulação corrente  *****/
 
-PRN_tpSimulacao simulacao;
+PRI_tpSimulacao simulacao;
 
 int main(void) {
 
@@ -116,7 +116,7 @@ void PRI_Inicializa(void) {
 		exit(1);
 	}
 }
-int PRN_ChecarMovimentoPulo (int movI, int movJ) 
+int PRI_ChecarMovimentoPulo (int movI, int movJ) 
 {
 	if(movI == movJ || movI == -movJ || movI == 0 || movJ == 0)
 	{
@@ -126,7 +126,7 @@ int PRN_ChecarMovimentoPulo (int movI, int movJ)
     return 1;
 }
 
-int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino) {
+int PRI_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino) {
 	PEC_tppPeca defensor;
 	char jogadorDefensor;
 	PEC_tppPeca obstaculo;
@@ -149,7 +149,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 	}
 
 	//
-	if (PRN_ChecarMovimentoPulo(movI, movJ) == 1) {
+	if (PRI_ChecarMovimentoPulo(movI, movJ) == 1) {
 		// Sendo um movimento de pulo, não há necessidade de checar obstáculos
 
 		return 1;
@@ -267,33 +267,31 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 
 	return 1;
 }
-/*void PRN_ChecarXequeMate( ) {
+void PRI_ChecarXequeMate( ) {
     char reiI; int reiJ;
     PEC_tppPeca rei;
 
     char i, iDest;
     int j, jDest;
     PEC_tppPeca pecaAtual, pPecaComida;
-    //PEC_tpJogador jogadorDaPecaAtual;
+    char jogadorDaPecaAtual;
     CPC_tppClassePeca classeDaPecaAtual;
-	char *cor;
+	char *cor,*nomeclassepeca;
     int nMovs, c, movI, movJ, ameaca, legalidade;
 
     
     // Primeiro, precisamos ter um rei válido
-    rei = PRN_ObterReiBranco(&reiI, &reiJ);
+    rei = PRI_ObterReiBranco(&reiI, &reiJ);
     if(rei == NULL) {
-        printf("Nao foi encontrado uma peca com a classe 'Rei' que pertenca "
-               "ao jogador branco e que esteja posicionado no tabuleiro.\n"
-               "Por favor, ajuste o cenario do tabuleiro e tente novamente.");
+        printf("Nao foi encontrado um Rei do jogador branco no tabuleiro. ");
         return;
     }
 
     // CHECAR XEQUE
     // Um pré-requisito para estar em xeque-mate é estar em xeque. Vamos checar essa condição.
     // O jogador branco está (no mínimo) em xeque caso o rei branco esteja ameaçado e seja a vez do jogador branco.
-    if( PRN_ChecarAmeacaReiBranco() == 0) {
-        printf("O cenario configurado nao eh de xeque-mate (e nem de xeque).");
+    if( PRI_ChecarAmeacaReiBranco() == 0) {
+        printf("Não é xeque-mate nem xeque.");
         return;
     }
 
@@ -310,14 +308,14 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
             TAB_ObterPeca( simulacao.pTab,  i, j ,&pecaAtual,cor);
 
             if( pecaAtual != NULL ) {
-                PEC_ObterJogador( pecaAtual, &jogadorDaPecaAtual );
+                PEC_ObterCorDePeca( pecaAtual, &jogadorDaPecaAtual );
 
-                if( jogadorDaPecaAtual == JOGADOR_BRANCO) {
-                    PEC_ObterClassePeca( pecaAtual, &classeDaPecaAtual );
+                if( jogadorDaPecaAtual == 'B') {
+                    CPC_ObterNome( &classeDaPecaAtual,nomeclassepeca);
 
                     if( classeDaPecaAtual == NULL ){
                         printf("Erro: peca com classe nula.");
-                        PRN_Sair(1);
+                        exit(1);
                     }
 
                     CPC_ObterNumeroMovimentos( classeDaPecaAtual, &nMovs );
@@ -331,17 +329,17 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
                         if(TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetOK) {
 
                             //checar se movimento eh legal
-							legalidade = PRN_ChecarLegalidade( jogadorDaPecaAtual, i, j, iDest, jDest);
+							legalidade = PRI_ChecarLegalidade( jogadorDaPecaAtual, i, j, iDest, jDest);
                             if( legalidade == 1 ) {
 
                                 TAB_MoverPeca( simulacao.pTab, j, i, jDest, iDest,&pPecaComida);
 
-								ameaca = PRN_ChecarAmeacaReiBranco();
+								ameaca = PRI_ChecarAmeacaReiBranco();
 
-								TAB_DesfazerMovimento( simulacao.pTab, j, i, iDest, jDest, (void**)pPecaComida,cor);
+								TAB_DesfazerMovimento( simulacao.pTab, j, i, iDest, jDest, (void**)pPecaComida);
 
                                 if(ameaca == 0){
-                                    printf("O jogador branco esta em xeque, mas nao em xeque-mate.\n"
+                                    printf("O jogador branco esta em xeque.\n"
                                            "Movimento: %c%d para %c%d.", i, j, iDest, jDest);
                                     return;
 								}
@@ -358,20 +356,18 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 
     return;
 }
-/*
 
-/*
-int PRN_ChecarAmeacaReiBranco ( ) {
+int PRI_ChecarAmeacaReiBranco ( ) {
     char reiI; int reiJ;
     PEC_tppPeca rei, pecaAtual;
-	PEC_tpJogador jogadorDaPecaAtual;
+	char jogadorDaPecaAtual;
 	CPC_tppClassePeca classeDaPecaAtual;
-
+	char cor,*nomeclassepeca;
 	char i;
 	int j, movI, movJ, resposta, legalidade;
 	
 	// Primeiro, precisamos ter um rei válido
-    rei = PRN_ObterReiBranco(&reiI, &reiJ);
+    rei = PRI_ObterReiBranco(&reiI, &reiJ);
     if(rei == NULL) {
         printf("Nao foi encontrado uma peca com a classe 'Rei' que pertenca "
                "ao jogador branco e que esteja posicionado no tabuleiro.\n"
@@ -385,17 +381,17 @@ int PRN_ChecarAmeacaReiBranco ( ) {
 	// o rei branco.
 	for(i = 'A'; i <= 'H'; i++) {
         for(j = 1; j <= 8; j++) {
-            TAB_ObterValorDeCasa( simulacao.pTab, &pecaAtual, i, j );
+            TAB_ObterPeca( simulacao.pTab,i, j, &pecaAtual,&cor);
 
             if( pecaAtual != NULL ) {
-                PEC_ObterJogador( pecaAtual, &jogadorDaPecaAtual );
+                PEC_ObterCorDePeca( pecaAtual, &jogadorDaPecaAtual );
 
-                if( jogadorDaPecaAtual == JOGADOR_PRETO) {
-                    PEC_ObterClassePeca( pecaAtual, &classeDaPecaAtual );
+                if( jogadorDaPecaAtual == 'P') {
+                    CPC_ObterNome( &classeDaPecaAtual, nomeclassepeca );
 
                     if( classeDaPecaAtual == NULL ){
                         printf("Erro: peca com classe nula.");
-                        PRN_Sair(1);
+                        exit(1);
                     }
 
 					movI = -(reiI - i);
@@ -404,7 +400,7 @@ int PRN_ChecarAmeacaReiBranco ( ) {
 					CPC_ChecarMovimento(classeDaPecaAtual, movI, movJ, &resposta);
 
 					if(resposta == 1){
-						legalidade = PRN_ChecarLegalidade( jogadorDaPecaAtual, i, j, reiI, reiJ);
+						legalidade = PRI_ChecarLegalidade( jogadorDaPecaAtual, i, j, reiI, reiJ);
 						if(legalidade == 1){
 							return 1;
 						}
@@ -417,4 +413,33 @@ int PRN_ChecarAmeacaReiBranco ( ) {
     return 0;
 }
 
-*/
+PEC_tppPeca PRI_ObterReiBranco ( char * i, int * j ) {
+    PEC_tppPeca pPeca;
+    char jogador;
+    CPC_tppClassePeca pClasse;
+	char ic; int jc;
+	char *nome,cor;
+
+	for( ic = 'A'; ic <= 'H'; ic++) {
+        for( jc = 1; jc <= 8; jc++) {
+            TAB_ObterPeca(simulacao.pTab,ic, jc, &pPeca,&cor );
+            if(pPeca == NULL)
+                continue;
+
+            PEC_ObterCorDePeca(pPeca, &jogador);
+            if(jogador != 'B') 
+				continue;
+			
+            CPC_ObterNome(pClasse, &nome);
+						
+			if(strcmp(nome, "Rei") != 0)
+				continue;
+			
+			*i = ic;
+			*j = jc;
+			return pPeca;
+        }
+    }
+
+	return NULL;
+}
