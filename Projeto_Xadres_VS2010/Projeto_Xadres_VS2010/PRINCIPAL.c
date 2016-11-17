@@ -95,26 +95,31 @@ int PRI_CarregarArquivoMovimento(char* path) {
 void PRI_Inicializa(void) {
 	//int linha = 8;
 	//int coluna = 8;
-	if (TAB_CriaTabuleiro(&simulacao.pTab, 8) != TAB_CondRetOK) {
+	if (TAB_CriaTabuleiro(&simulacao.pTab, 8) != TAB_CondRetOK) 
+	{
 		printf("ERRO DE MEMORIA AO CRIAR TABULEIRO");
 		exit(1);
 	}
 	
-	if (LIS_CriarLista(&simulacao.pListaClasses, "Classes") != 0) {
+	if (LIS_CriarLista(&simulacao.pListaClasses, "Classes") != 0)
+	{
 		TAB_DestruirTabuleiro(&simulacao.pTab);
 		printf("ERRO DE MEMORIA AO CRIAR LISTA DE CLASSES");
 		exit(1);
 	}
 
-	if (LIS_CriarLista(&simulacao.pListaPecas, "Pecas") != 0) {
+	if (LIS_CriarLista(&simulacao.pListaPecas, "Pecas") != 0) 
+	{
 		TAB_DestruirTabuleiro(&simulacao.pTab);
 		LIS_DestroiLista(&simulacao.pListaClasses);
 		printf("ERRO DE MEMORIA AO CRIAR LISTA DE PECAS");
 		exit(1);
 	}
 }
-int PRN_ChecarMovimentoPulo (int movI, int movJ) {
-	if(movI == movJ || movI == -movJ || movI == 0 || movJ == 0){
+int PRN_ChecarMovimentoPulo (int movI, int movJ) 
+{
+	if(movI == movJ || movI == -movJ || movI == 0 || movJ == 0)
+	{
 		return 0;
 	}
 
