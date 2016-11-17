@@ -40,7 +40,7 @@ PRN_tpSimulacao simulacao;
 int main(void) {
 
 
-	//LIS_CriarLista(simulacao.pListaClasses, "Classes");
+	LIS_CriarLista(&simulacao.pListaClasses, "Classes");
 	PRI_Inicializa();
 	PRI_CarregarArquivoMovimento("./MOVIMENTOS.txt");
 
@@ -95,12 +95,10 @@ int PRI_CarregarArquivoMovimento(char* path) {
 void PRI_Inicializa(void) {
 	//int linha = 8;
 	//int coluna = 8;
-
 	if (TAB_CriaTabuleiro(&simulacao.pTab, 8) != TAB_CondRetOK) {
 		printf("ERRO DE MEMORIA AO CRIAR TABULEIRO");
 		exit(1);
 	}
-
 	
 	if (LIS_CriarLista(&simulacao.pListaClasses, "Classes") != 0) {
 		TAB_DestruirTabuleiro(&simulacao.pTab);

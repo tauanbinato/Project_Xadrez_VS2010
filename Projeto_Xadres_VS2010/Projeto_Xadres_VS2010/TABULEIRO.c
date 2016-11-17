@@ -100,7 +100,7 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam) {
 		return TAB_CondRetFaltouMemoria;
 	}
 
-	if (LIS_CriarLista("tab", &pTabuleiro->pCabecaLista) == LIS_CondRetFaltouMemoria) {
+	if (LIS_CriarLista(&pTabuleiro->pCabecaLista,"tab") == LIS_CondRetFaltouMemoria) {
 		free(pTabuleiro);
 		return TAB_CondRetFaltouMemoria;
 	}
