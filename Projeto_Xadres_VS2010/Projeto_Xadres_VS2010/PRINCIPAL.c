@@ -132,11 +132,13 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 	PEC_tppPeca obstaculo;
 	int movI, movJ;
 	char i; int j;
+	char coraux;
 
 	movI = iDestino - iOrigem;
 	movJ = jDestino - jOrigem;
 
-	TAB_ObterPeca(simulacao.pTab, iDestino, jDestino,&defensor,"B");
+	PEC_ObterCorDePeca(&defensor,&jogadorDefensor);
+	TAB_ObterPeca(simulacao.pTab, iDestino, jDestino,&defensor,&jogadorDefensor);
 
 	if (defensor != NULL) 
 	{
@@ -161,7 +163,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 			j = jOrigem; // = jDestino;
 
 			for (i = iOrigem + 1; i < iDestino; i++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -174,7 +176,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 			j = jOrigem; // = jDestino;
 
 			for (i = iOrigem - 1; i > iDestino; i--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");;
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);;
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -190,7 +192,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 			i = iOrigem; // = iDestino;
 
 			for (j = jOrigem + 1; j < jDestino; j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -203,7 +205,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 			i = iOrigem; // = iDestino;
 
 			for (j = jOrigem - 1; j > jDestino; j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -217,7 +219,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 		if (movI > 0) {
 			// movimento de letra e numero crescente
 			for (i = iOrigem + 1, j = jOrigem + 1; i < iDestino && j < jDestino; i++, j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -228,7 +230,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 		else {
 			//movimento de letra crescente e numero decrescente
 			for (i = iOrigem - 1, j = jOrigem + 1; i > iDestino && j < jDestino; i--, j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -242,7 +244,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 		if (movI > 0) {
 			// movimento de letra decrescente e numero crescente
 			for (i = iOrigem + 1, j = jOrigem - 1; i < iDestino && j > jDestino; i++, j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -253,7 +255,7 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 		else {
 			// movimento de letra e numero decrescente
 			for (i = iOrigem - 1, j = jOrigem - 1; i > iDestino && j > jDestino; i--, j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,"B");
+				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
 				if (obstaculo != NULL) {
 					return 0;
 				}
@@ -265,165 +267,98 @@ int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino,
 
 	return 1;
 }
+/*void PRN_ChecarXequeMate( ) {
+    char reiI; int reiJ;
+    PEC_tppPeca rei;
 
-/***********************************************************************
-*
-*  $FC Função: PRN checar legalidade de movimento
-*
-*  $ED Descrição da função
-*     Checa se um movimento é legal, CHECANDO SOMENTE OBSTACULOS NO CAMINHO
-*       E CONFLITOS DE DESTINO COM PEÇAS DO MESMO JOGADOR.
-*     ASSUME-SE QUE O MOVIMENTO PRIMITIVO É UM MOVIMENTO VÁLIDO PARA A
-*       CLASSE DA PEÇA NA ORIGEM.
-*
-*  $FV Valor retornado
-*     1 se o movimento é legal
-*     0 se o movimento é ilegal
-*
-***********************************************************************/
+    char i, iDest;
+    int j, jDest;
+    PEC_tppPeca pecaAtual, pPecaComida;
+    //PEC_tpJogador jogadorDaPecaAtual;
+    CPC_tppClassePeca classeDaPecaAtual;
+	char *cor;
+    int nMovs, c, movI, movJ, ameaca, legalidade;
 
-/*int PRN_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino) {
-	PEC_tppPeca defensor;
-	char jogadorDefensor;
-	PEC_tppPeca obstaculo;
-	int movI, movJ;
-	char i; int j;
+    
+    // Primeiro, precisamos ter um rei válido
+    rei = PRN_ObterReiBranco(&reiI, &reiJ);
+    if(rei == NULL) {
+        printf("Nao foi encontrado uma peca com a classe 'Rei' que pertenca "
+               "ao jogador branco e que esteja posicionado no tabuleiro.\n"
+               "Por favor, ajuste o cenario do tabuleiro e tente novamente.");
+        return;
+    }
 
-	movI = iDestino - iOrigem;
-	movJ = jDestino - jOrigem;
+    // CHECAR XEQUE
+    // Um pré-requisito para estar em xeque-mate é estar em xeque. Vamos checar essa condição.
+    // O jogador branco está (no mínimo) em xeque caso o rei branco esteja ameaçado e seja a vez do jogador branco.
+    if( PRN_ChecarAmeacaReiBranco() == 0) {
+        printf("O cenario configurado nao eh de xeque-mate (e nem de xeque).");
+        return;
+    }
 
-	TAB_ObterValorDeCasa(simulacao.pTab, &defensor, iDestino, jDestino);
+    // Agora, precisamos ver se ha algum movimento que possa ser feito que deixe o rei branco fora de ameaça.
+    // Para cada casa do tabuleiro, vamos ver se contém uma peça branca; se sim, vamos realizar cada um  
+    // de seus movimentos, retornando o tabuleiro para a posição inicial após cada movimento realizado.
+    // Depois de cada movimento, será verificado se a posição ainda configura ameaça para o rei branco. 
+    // Se houver algum movimento possível que deixe o rei branco fora de perigo, o jogador branco não
+    // está em xeque-mate. Caso contrário, ele está em xeque-mate.
+    for(i = 'A'; i <= 'H'; i++) {
+        for(j = 1; j <= 8; j++) {
+			if(PEC_ObterCorDePeca(pecaAtual,cor)==PEC_CondRetOK)
+			{
+            TAB_ObterPeca( simulacao.pTab,  i, j ,&pecaAtual,cor);
 
-	// Se tentar mover uma peça de um jogador para uma casa que está ocupada por
-	// uma peça do mesmo jogador, não é um movimento legal.
-	// (não é permitido comer peças próprias)
-	if (defensor != NULL) {
-		PEC_ObterJogador(defensor, &jogadorDefensor);
-		if (jogadorDefensor == jogador) {
-			return 0;
-		}
-	}
+            if( pecaAtual != NULL ) {
+                PEC_ObterJogador( pecaAtual, &jogadorDaPecaAtual );
 
-	//
-	if (PRN_ChecarMovimentoPulo(movI, movJ) == 1) {
-		// Sendo um movimento de pulo, não há necessidade de checar obstáculos
-		// Logo, o movimento é válido
+                if( jogadorDaPecaAtual == JOGADOR_BRANCO) {
+                    PEC_ObterClassePeca( pecaAtual, &classeDaPecaAtual );
 
-		return 1;
-	}
+                    if( classeDaPecaAtual == NULL ){
+                        printf("Erro: peca com classe nula.");
+                        PRN_Sair(1);
+                    }
 
-	// Não sendo um movimento de pulo, precisamos saber se há obstáculos.
+                    CPC_ObterNumeroMovimentos( classeDaPecaAtual, &nMovs );
 
-	if (movJ == 0) {
-		if (movI > 0) {
-			// movimento de letra crescente
-			j = jOrigem; // = jDestino;
+                    for(c = 0; c < nMovs; c++){
+                        CPC_ObterMovimento( classeDaPecaAtual, c, &movI, &movJ );
 
-			for (i = iOrigem + 1; i < iDestino; i++) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
+                        iDest = i + movI;
+                        jDest = j + movJ;
 
-			return 1;
-		}
-		if (movI < 0) {
-			// movimento de letra decrescente
-			j = jOrigem; // = jDestino;
+                        if(TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetOK) {
 
-			for (i = iOrigem - 1; i > iDestino; i--) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
+                            //checar se movimento eh legal
+							legalidade = PRN_ChecarLegalidade( jogadorDaPecaAtual, i, j, iDest, jDest);
+                            if( legalidade == 1 ) {
 
-			return 1;
-		}
-	}
+                                TAB_MoverPeca( simulacao.pTab, j, i, jDest, iDest,&pPecaComida);
 
-	if (movI == 0) {
-		if (movJ > 0) {
-			// movimento de numero crescente
-			i = iOrigem; // = iDestino;
+								ameaca = PRN_ChecarAmeacaReiBranco();
 
-			for (j = jOrigem + 1; j < jDestino; j++) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
+								TAB_DesfazerMovimento( simulacao.pTab, j, i, iDest, jDest, (void**)pPecaComida,cor);
 
-			return 1;
-		}
-		if (movJ < 0) {
-			// movimento de numero decrescente
-			i = iOrigem; // = iDestino;
+                                if(ameaca == 0){
+                                    printf("O jogador branco esta em xeque, mas nao em xeque-mate.\n"
+                                           "Movimento: %c%d para %c%d.", i, j, iDest, jDest);
+                                    return;
+								}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-			for (j = jOrigem - 1; j > jDestino; j--) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
+    printf("O jogador branco esta em xeque-mate.");
 
-			return 1;
-		}
-	}
-
-	if (movJ > 0) {
-		if (movI > 0) {
-			// movimento de letra e numero crescente
-			for (i = iOrigem + 1, j = jOrigem + 1; i < iDestino && j < jDestino; i++, j++) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
-
-			return 1;
-		}
-		else {
-			//movimento de letra crescente e numero decrescente
-			for (i = iOrigem - 1, j = jOrigem + 1; i > iDestino && j < jDestino; i--, j++) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
-
-			return 1;
-		}
-	}
-
-	else {
-		if (movI > 0) {
-			// movimento de letra decrescente e numero crescente
-			for (i = iOrigem + 1, j = jOrigem - 1; i < iDestino && j > jDestino; i++, j--) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
-
-			return 1;
-		}
-		else {
-			// movimento de letra e numero decrescente
-			for (i = iOrigem - 1, j = jOrigem - 1; i > iDestino && j > jDestino; i--, j--) {
-				TAB_ObterValorDeCasa(simulacao.pTab, &obstaculo, i, j);
-				if (obstaculo != NULL) {
-					return 0;
-				}
-			}
-
-			return 1;
-		}
-	}
-
-	return 1;
-}*/
+    return;
+}
+/*
 
 /*
 int PRN_ChecarAmeacaReiBranco ( ) {
@@ -482,103 +417,4 @@ int PRN_ChecarAmeacaReiBranco ( ) {
     return 0;
 }
 
-/*
-/***********************************************************************
-*
-*  $FC Função: PRN checar xeque-mate
-*
-*  $ED Descrição da função
-*     Verifica se a configuração do tabuleiro configura um xeque-mate.
-*     Dá informacoes para o usuário sobre o xeque-mate.
-*
-***********************************************************************
-
-void PRN_ChecarXequeMate( ) {
-    char reiI; int reiJ;
-    PEC_tppPeca rei;
-
-    char i, iDest;
-    int j, jDest;
-    PEC_tppPeca pecaAtual, pPecaComida;
-    PEC_tpJogador jogadorDaPecaAtual;
-    CPC_tppClassePeca classeDaPecaAtual;
-
-    int nMovs, c, movI, movJ, ameaca, legalidade;
-
-    
-    // Primeiro, precisamos ter um rei válido
-    rei = PRN_ObterReiBranco(&reiI, &reiJ);
-    if(rei == NULL) {
-        printf("Nao foi encontrado uma peca com a classe 'Rei' que pertenca "
-               "ao jogador branco e que esteja posicionado no tabuleiro.\n"
-               "Por favor, ajuste o cenario do tabuleiro e tente novamente.");
-        return;
-    }
-
-    // CHECAR XEQUE
-    // Um pré-requisito para estar em xeque-mate é estar em xeque. Vamos checar essa condição.
-    // O jogador branco está (no mínimo) em xeque caso o rei branco esteja ameaçado e seja a vez do jogador branco.
-    if( PRN_ChecarAmeacaReiBranco() == 0) {
-        printf("O cenario configurado nao eh de xeque-mate (e nem de xeque).");
-        return;
-    }
-
-    // Agora, precisamos ver se ha algum movimento que possa ser feito que deixe o rei branco fora de ameaça.
-    // Para cada casa do tabuleiro, vamos ver se contém uma peça branca; se sim, vamos realizar cada um  
-    // de seus movimentos, retornando o tabuleiro para a posição inicial após cada movimento realizado.
-    // Depois de cada movimento, será verificado se a posição ainda configura ameaça para o rei branco. 
-    // Se houver algum movimento possível que deixe o rei branco fora de perigo, o jogador branco não
-    // está em xeque-mate. Caso contrário, ele está em xeque-mate.
-    for(i = 'A'; i <= 'H'; i++) {
-        for(j = 1; j <= 8; j++) {
-            TAB_ObterValorDeCasa( simulacao.pTab, &pecaAtual, i, j );
-
-            if( pecaAtual != NULL ) {
-                PEC_ObterJogador( pecaAtual, &jogadorDaPecaAtual );
-
-                if( jogadorDaPecaAtual == JOGADOR_BRANCO) {
-                    PEC_ObterClassePeca( pecaAtual, &classeDaPecaAtual );
-
-                    if( classeDaPecaAtual == NULL ){
-                        printf("Erro: peca com classe nula.");
-                        PRN_Sair(1);
-                    }
-
-                    CPC_ObterNumeroMovimentos( classeDaPecaAtual, &nMovs );
-
-                    for(c = 0; c < nMovs; c++){
-                        CPC_ObterMovimento( classeDaPecaAtual, c, &movI, &movJ );
-
-                        iDest = i + movI;
-                        jDest = j + movJ;
-
-                        if(TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetOK) {
-
-                            //checar se movimento eh legal
-							legalidade = PRN_ChecarLegalidade( jogadorDaPecaAtual, i, j, iDest, jDest);
-                            if( legalidade == 1 ) {
-
-                                TAB_MoverValor( simulacao.pTab, i, j, iDest, jDest, &pPecaComida);
-
-								ameaca = PRN_ChecarAmeacaReiBranco();
-
-								TAB_DesMoverValor( simulacao.pTab, i, j, iDest, jDest, pPecaComida);
-
-                                if(ameaca == 0){
-                                    printf("O jogador branco esta em xeque, mas nao em xeque-mate.\n"
-                                           "Movimento: %c%d para %c%d.", i, j, iDest, jDest);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    printf("O jogador branco esta em xeque-mate.");
-
-    return;
-}
 */
