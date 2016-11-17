@@ -94,7 +94,7 @@ int PRI_ChecarAmeacaReiBranco ( );
 *       serão atualizados para conter a posição dessa peça no tabuleiro.
 *
 ***********************************************************************/
-PEC_tppPeca PRN_ObterReiBranco ( char * i, int * j );
+PEC_tppPeca PRI_ObterReiBranco ( char * i, int * j );
 
 /***********************************************************************
 *
@@ -120,4 +120,4 @@ int main( void );
 *
 ***********************************************************************/
 
-void PRN_MenuPrincipal( int * opcao );
+void PRI_MenuPrincipal( int * opcao );

@@ -327,7 +327,7 @@ void PRI_ChecarXequeMate( ) {
     PEC_tppPeca pecaAtual, pPecaComida;
     char jogadorDaPecaAtual;
     CPC_tppClassePeca classeDaPecaAtual;
-	char *cor,*nomeclassepeca;
+	char *cor,*nomeclassepeca,*corpeccomida;
     int nMovs, c, movI, movJ, ameaca, legalidade;
 
     
@@ -382,8 +382,8 @@ void PRI_ChecarXequeMate( ) {
                             //checar se movimento eh legal
 							legalidade = PRI_ChecarLegalidade( jogadorDaPecaAtual, i, j, iDest, jDest);
                             if( legalidade == 1 ) {
-
-                                TAB_MoverPeca( simulacao.pTab, j, i, jDest, iDest,&pPecaComida);
+								PEC_ObterCorDePeca(pPecaComida,corpeccomida);
+                                TAB_MoverPeca( simulacao.pTab, j, i, jDest, iDest,&pPecaComida,corpeccomida);
 
 								ameaca = PRI_ChecarAmeacaReiBranco();
 
