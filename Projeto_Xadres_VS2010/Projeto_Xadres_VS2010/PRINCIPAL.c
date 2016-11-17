@@ -37,21 +37,72 @@ typedef struct PRI_tagSimulacao {
 
 PRI_tpSimulacao simulacao;
 
-int main(void) {
+int main(void) 
+{
 
+	int opcao;
 
 	LIS_CriarLista(&simulacao.pListaClasses, "Classes");
 	PRI_Inicializa();
 	PRI_CarregarArquivoMovimento("./MOVIMENTOS.txt");
 
-	
+	do {
+        printf("\n(pressione qualquer tecla para exibir o menu)");
+        PRI_MenuPrincipal( &opcao );
+       /* switch(opcao) {
+            case 1:
+            PRN_NovoTabuleiro( );
+            break;
+            case 2:
+            PRN_AbrirTabuleiro( );
+            break;
+            case 3:
+            PRN_SalvarTabuleiro( );
+            break;
+            case 9:
+            system("dir");
+            break;
+            case 11:
+            PRN_ListarClasses( );
+            break;
+            case 12:
+            PRN_CriarClasse( );
+            break;
+            case 21:
+            PRN_ListarPecas( );
+            break;
+            case 22:
+            PRN_CriarPeca( );
+            break;
+            case 23:
+            PRN_AlterarPeca( );
+            break;
+            case 24:
+            PRN_ExcluirPeca( );
+            break;
+            case 31:
+            PRN_ExibirTabuleiro( );
+            break;
+            case 32:
+            PRN_ChecarXequeMate( );
+            break;
+        }*/
+    } while( opcao != 99 );
+
 
 	return 0;
-
-
-
-
 }
+void PRI_MenuPrincipal( int * opcao ) {
+    printf("\n=== MENU ===\n\n");
+    printf("01. Novo\n02. Abrir\n");
+    printf("11. Listar classes de peca\n12. Criar classe de peca\n\n");
+    printf("21. Listar pecas\n22. Criar peca\n23. Alterar peca\n24. Excluir peca\n\n");
+    printf("31. Exibir tabuleiro.\n32. Checar Xeque-mate\n\n");
+    printf("99. Sair\n\nDigite o codigo da opcao desejada: \n> ");
+
+    scanf("%d", opcao);
+}
+
 
 int PRI_CarregarArquivoMovimento(char* path) {
 

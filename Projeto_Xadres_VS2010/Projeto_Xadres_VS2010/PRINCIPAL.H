@@ -95,3 +95,29 @@ int PRI_ChecarAmeacaReiBranco ( );
 *
 ***********************************************************************/
 PEC_tppPeca PRN_ObterReiBranco ( char * i, int * j );
+
+/***********************************************************************
+*
+*  $FC Função: PRN main
+*
+*  $ED Descrição da função
+*     Coordena a excecução do programa.
+*
+*  $FV Valor retornado
+*     PRN_CondRetOK
+*     PRN_CondRetFaltouMemoria
+*
+***********************************************************************/
+
+int main( void );
+
+/***********************************************************************
+*
+*  $FC Função: PRN renderizar menu principal
+*
+*  $ED Descrição da função
+*     Mostra o menu principal na tela para o usuário, solicitando a escolha de uma opcao.
+*
+***********************************************************************/
+
+void PRN_MenuPrincipal( int * opcao );
