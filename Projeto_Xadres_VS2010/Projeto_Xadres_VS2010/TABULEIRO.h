@@ -118,7 +118,7 @@ typedef enum {
 *
 ***********************************************************************/
 
-TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void* pPeca, int i, char j, int cor);
+TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void* pPeca, int i, char j, char cor);
 
 /***********************************************************************
 *

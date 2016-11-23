@@ -57,7 +57,6 @@ CPC_tpCondRet CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, c
 	}
 
 	cp->nome = nome;
-
 	LIS_CriarLista(&(cp->movimentos), idEnviado);
 
 	if (cp->movimentos == NULL) {
@@ -122,7 +121,7 @@ CPC_tpCondRet CPC_AdicionarMovimento(CPC_tppClassePeca pClassePeca, int movI, in
 		 return CPC_CondRetFaltouMemoria;
 	}
 
-	//CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
+	CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
 
 	return CPC_CondRetOK;
 }
@@ -145,6 +144,7 @@ CPC_tpCondRet CPC_ChecarMovimento(CPC_tppClassePeca pClassePeca, int movI, int m
 		*resposta = 0;
 		return CPC_CondRetNaoAchou;
 	}
+
 	CPC_ObterNumeroMovimentos(pClassePeca, &numMovimentos);
 	
 	for (i = 0; i < numMovimentos; i++) {	
@@ -203,7 +203,7 @@ CPC_tpCondRet CPC_ObterMovimento(CPC_tppClassePeca pClassePeca, int idxMovimento
 
 	LIS_IrInicioLista(pClassePeca->movimentos);
 
-	LIS_AvancarElementoCorrente(pClassePeca->movimentos, numElem);
+	LIS_AvancarElementoCorrente(pClassePeca->movimentos, idxMovimento);
 
 	LIS_ObterNo(pClassePeca->movimentos, (CPC_tpMovimento**)movimento);
 
