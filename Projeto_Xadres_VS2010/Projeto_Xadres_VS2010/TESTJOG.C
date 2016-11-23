@@ -175,6 +175,8 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	int  movI, movJ, idxMovimento;
 	int* resposta;
 	char nome,j;
+	int iorig,idest;
+	char jorig,jdest;
 
 
 	/*Condicoes de Retorno*/
@@ -193,6 +195,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	char* CharDado_2;
 	char id_corDest;
 	char id_corOrg;
+	char jogador;
 	StringDado[0] = 0;
 
 
@@ -226,17 +229,13 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	//testar preenche tab
 	else if (strcmp(ComandoTeste,PREENCHE_TAB) == 0)
 	{
-		CondRetEsp = CPC_CondRetOK;
-		if(PRI_PreencheTabuleiro() != 1)
+		numLidos = LER_LerParametros("i",&CondRetEsp);
+		if(numLidos != 1)
 		{
-			CondRet_CPC = CPC_CondRetNaoAchou;
-		}	
-		else
-		{
-			CondRet_CPC = CPC_CondRetOK;
+			return TST_CondRetParm;
 		}
 
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
 			"Condicao de retorno errada ao preencher tabuleiro");
 	} /* fim ativa: preenche tab */
 	//Testar procura classe
@@ -272,7 +271,7 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	//Testar insere peca
 	else if (strcmp(ComandoTeste,INSERE_PECA) == 0)
 	{
-		numLidos = LER_LerParametros("iiicci",&inxTab,&inxPeca,i,j,pCharDado, &CondRetEsp);
+		numLidos = LER_LerParametros("iiicci",&inxTab,&inxPeca,&i,&j,pCharDado, &CondRetEsp);
 		
 		if (numLidos != 6)
 		{
@@ -290,22 +289,117 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	//checar mov pulo
 	else if (strcmp(ComandoTeste,CHECAR_MOV_PULO) == 0)
 	{
-		numLidos = LER_LerParametros("iiicci",&inxTab,&inxPeca,i,j,pCharDado, &CondRetEsp);
-		
-		if (numLidos != 6)
+		numLidos = LER_LerParametros("ici",&i,j,&CondRetEsp);
+		if(numLidos != 4)
 		{
 			return TST_CondRetParm;
-		} /* if */
-
-		CondRet_TAB = TAB_InserirPeca(&vtMatrizes[inxTab], &vtPeca[inxPeca], i, j, CharDado);
-		PRI_inserePeca(CharDado, &vtClasse[inxCP],  i , j);
-		
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao inserir peca");
-		
+		}
+		CondRet_TAB = PRI_ChecarMovimentoPulo (i, j);
 	
-	} /* fim ativa: preenche tab */
-
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao checar movimento pulo");
+		
+	} /* fim ativa: mov pulo */
+	//checar legalidade
+	else if (strcmp(ComandoTeste,CHECAR_LEGALIDADE) == 0)
+	{
+		numLidos = LER_LerParametros("ccicii",&jogador,&jorig,&iorig,&jdest,&idest,&CondRetEsp);
+		if(numLidos != 6)
+		{
+			return TST_CondRetParm;
+		}
+		CondRet_TAB = PRI_ChecarLegalidade( jogador, jorig, iorig, jdest, idest);
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao checar legalidade");
+		
+	} /* fim ativa: checar legalidade */
+	//checar ameaca rei
+	else if (strcmp(ComandoTeste,CHECAR_AMEACA_REI) == 0)
+	{
+		numLidos = LER_LerParametros("ci",&jogador,&CondRetEsp);
+		if(numLidos != 2)
+		{
+			return TST_CondRetParm;
+		}
+		CondRet_TAB = PRI_ChecarAmeacaRei(jogador);
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada ao checar ameaca rei");
+		
+	} /* fim ativa: checar ameaca rei */
+	//checar CHEQUE MATE
+	else if (strcmp(ComandoTeste,CHECAR_CHEQUE_MATE) == 0)
+	{
+		numLidos = LER_LerParametros("c",&jogador);
+		if(numLidos != 1)
+		{
+			return TST_CondRetParm;
+		}
+		PRI_ChecarChequeMate(jogador);
+		CondRetEsp = TAB_CondRetOK; 
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
+			"Condicao de retorno errada ao checar cheque mate");
+		
+	} /* fim ativa: checar cheque mate */
+	//checar obter rei
+	else if (strcmp(ComandoTeste,OBTER_REI) == 0)
+	{
+		numLidos = LER_LerParametros("cici",&jorig,&iorig,&jogador,&inxPeca);
+		//PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador) 
+		if(numLidos != 4)
+		{
+			return TST_CondRetParm;
+		}
+		PRI_ObterRei( &jorig, &iorig, jogador); 
+		CondRetEsp = TAB_CondRetOK; 
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
+			"Condicao de retorno errada ao obter rei");
+		
+	} /* fim ativa: obter rei */
+	//checar mover peca
+	else if (strcmp(ComandoTeste,MOVER_PECA) == 0)
+	{
+		PRI_MoverPeca();
+		CondRetEsp = TAB_CondRetOK; 
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
+			"Condicao de retorno errada ao mover peca");
+		
+	} /* fim ativa: mover peca */
+	//checar mov legal
+	else if (strcmp(ComandoTeste,CHECAR_MOV_LEGAL) == 0)
+	{
+		numLidos = LER_LerParametros("icici",&iorig,&jorig,&idest,&jdest,&CondRetEsp);
+		//int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDestino)
+		if(numLidos != 5)
+		{
+			return TST_CondRetParm;
+		}
+		 
+		CondRet_TAB = PRI_ChecarMovimentoLegal(iorig,jorig,idest, jdest);
+		return TST_CompararInt(CondRetEsp, CondRet_TAB,
+			"Condicao de retorno errada checar mov legal");
+		
+	} /* fim ativa: mov legal */
+	//checar lista ameacantes
+	else if (strcmp(ComandoTeste,LISTA_AMEACANTES) == 0)
+	{
+		numLidos = LER_LerParametros("iij",&inxTab,&i,&j);
+		PRI_AtualizarListasAmeacantes( &vtListas[inxTab], i, j );
+		
+		CondRetEsp = TAB_CondRetOK;
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
+			"Condicao de retorno errada atualizar lista ameacantes");
+		
+	} /* fim ativa: lista ameacados */
+	else if (strcmp(ComandoTeste,LISTA_AMEACADOS) == 0)
+	{
+		numLidos = LER_LerParametros("iij",&inxTab,&i,&j);
+		PRI_AtualizarListaAmeacados(&vtListas[inxTab], i, j );
+		
+		CondRetEsp = TAB_CondRetOK;
+		return TST_CompararInt(CondRetEsp, CondRetEsp,
+			"Condicao de retorno errada atualizar lista ameacados");
+		
+	} /* fim ativa: lista ameacadoss */
 	} /* Fim função: TJOG &Testar jogo*/
 
 

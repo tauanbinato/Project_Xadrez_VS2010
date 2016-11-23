@@ -185,6 +185,8 @@ PEC_tpCondRet PEC_DestroiPeca(PEC_tppPeca peca);
 
 PEC_tpCondRet PEC_ObterCorDePeca(PEC_tppPeca pPeca, char * cor_peca);
 
+PEC_tpCondRet PEC_ObterCharClasseDePeca(PEC_tppPeca peca, char* nomeDaClasse);
+
 #undef PECA_EXT
 
 /********** Fim do módulo de definição: TAB  Tabuleiro **********/
