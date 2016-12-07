@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: TJOG Teste do Jogo
+*  $MCI Módulo de implementação: TLIS Teste lista de símbolos
 *
 *  Arquivo gerado:              TestLIS.c
 *  Letras identificadoras:      TLIS
@@ -25,9 +25,6 @@
 #include    <string.h>
 #include    <stdio.h>
 #include    <malloc.h>
-#include	<stdlib.h>
-#include    <windows.h>
-#include	<memory.h>
 
 #include    "TST_Espc.h"
 
@@ -37,48 +34,20 @@
 #include    "Lista.h"
 #include	"Tabuleiro.h"
 #include    "Peca.h"
+#include	"Casa.h"
 #include	"CLASSE_PECA.H"
 
+/**************************COMANDOS SCRIPT**************************/
 
+static const char INICIALIZA_JOGO_CMD[] = "=inicializajogo";
+static const char CARREGA_ARQUIVO_CMD[] = "=carregaarquivo";
+static const char PREENCHE_TABULEIRO_CMD[] = "=preenchetabuleiro";
+static const char IMPRIME_TABULEIRO_CMD[] = "=imprimetabuleiro";
+static const char MOVE_PECA_CMD[] = "=movepeca";
+static const char RESET_LISTA_CMD[] = "=resetteste";
 
-#define MAXNOME 100
-#define MAXNOME_S "100"
-
-/**************************COMANDOS SCRIPT**************************/  
-
-static const char CRIAR_CLASSE[]	                =				"=criarcp" ;
-static const char PREENCHE_TAB[]			        =				"=preenchetab"  ;
-static const char PROCURA_CLASSE[]					=				"=procuraclasse" ;
-static const char INSERE_PECA[]						=               "=inserepeca";
-static const char CHECAR_MOV_PULO[]			        =				"=checarpulo"  ;
-static const char CHECAR_LEGALIDADE[]				=				"=checarlegalidade"	;
-static const char CHECAR_AMEACA_REI[]				=				"=checarameacarei";			 
-static const char CHECAR_CHEQUE_MATE[]				=				"=checarchequemate";
-static const char OBTER_REI[]					    =				"=obterrei";
-static const char MOVER_PECA[]				        =				"=moverpeca" ;
-static const char CHECAR_MOV_LEGAL[]				=				"=checarmovlegal";
-static const char CHECAR_LEG_PEAO[]					=				"=checarlegpeao";
-static const char LISTA_AMEACANTES[]				=				"=listaameacantes";
-static const char LISTA_AMEACADOS[]					=				"=listaameacados";
 /************************FIM COMANDOS SCRIPT************************/
 
-typedef struct PRI_tagSimulacao {
-
-	TAB_ppAncoraTabuleiro pTab;
-	/* Ponteiro para o tabuleiro corrente */
-	LIS_tppLista pListaPecas;
-	/* Ponteiro para a lista de peças */
-	LIS_tppLista pListaClasses;
-	/* Ponteiro para a lista de classes de peças */
-
-} PRI_tpSimulacao;
-
-
-char turno = 'B';
-
-/*****  Variável global que armazena a simulação corrente  *****/
-
-PRI_tpSimulacao simulacao;
 
 #define TRUE  1
 #define FALSE 0
@@ -92,45 +61,63 @@ PRI_tpSimulacao simulacao;
 #define DIM_VT_CPC     10
 #define DIM_VALOR     100
 
-
 LIS_tppLista            vtListas[DIM_VT_LISTA];
 LIS_tppLista            vtListas_2[DIM_VT_LISTA];
 TAB_ppAncoraTabuleiro	vtMatrizes[DIM_VT_TAB];
 CPC_tppClassePeca       vtClasse[DIM_VT_CPC];
-PEC_tppPeca				vtPeca[DIM_VT_PEC];
+CAS_tppCasa				vtCasas[DIM_VT_TAB];
+PEC_tppPeca				vtPecas[DIM_VT_PEC];
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: PRI Descritor da cabeça de uma simulação
+*
+*
+*  $ED Descrição do tipo
+*     Armazena referências para o tabuleiro e para as cabeças das
+*     listas de peças e classes de peças.
+*
+***********************************************************************/
+
+typedef struct PRI_tagSimulacao {
+
+	TAB_ppAncoraTabuleiro pTab;
+	/* Ponteiro para o tabuleiro corrente */
+	LIS_tppLista pListaPecas;
+	/* Ponteiro para a lista de peças */
+	LIS_tppLista pListaClasses;
+	/* Ponteiro para a lista de classes de peças */
+
+} PRI_tpSimulacao;
+
+/*****  Variável global que armazena a simulação corrente  *****/
+
+PRI_tpSimulacao simulacao;
+
+void PRI_MenuPrincipal(int * opcao);
+void PRI_PreencheTabuleiro();
+void PRI_ImprimirTabuleiro();
+int PRI_CarregarArquivoMovimento(char* path);
+void PRI_Inicializa();
+int PRI_ChecarMovimentoPulo(int movI, int movJ);
+int PRI_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino);
+void PRI_ChecarChequeMate(char jogador);
+int PRI_ChecarAmeacaRei(char jogador);
+PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador);
+CPC_tppClassePeca PRI_BuscaClassePeca(char classeProcurada);
+void PRI_insereTorre(char corJogador, int posicao);
+void PRI_insereCavalo(char corJogador, int posicao);
+void PRI_insereBispo(char corJogador, int posicao);
+void PRI_insereRainha(char corJogador, int posicao);
+void PRI_insereRei(char corJogador, int posicao);
+void PRI_MoverPeca(int iOrigem, char jOrigem, int iDestino, char jDestino);
+int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDestino);
+int PRI_ChecarLegalidadePeao(int iOrigem, int movI, int movJ, int iDest, char jDest, PEC_tppPeca pPeca);
 
 /***** Protótipos das funções encapuladas no módulo *****/
 // void DestruirValor( void * pValor );
 static int ValidarInxLista(int inxLista, int Modo);
 static int ValidarInxMatriz(int inxLista, int Modo);
-
-
-int PRI_CarregarArquivoMovimento(char* path);
-void PRI_Inicializa(void);
-
-int PRI_PreencheTabuleiro( );
-void PRI_CriarClasse( );
-void PRI_ListarClasses( void );
-CPC_tppClassePeca PRI_ProcurarClasse (char *nomeProcurado);
-void PRI_inserePeca(char corJogador, char classe, int i , char j);
-
-int PRI_ChecarMovimentoPulo (int movI, int movJ);
-int PRI_ChecarLegalidade(char jogador, char iOrigem, int jOrigem, char iDestino, int jDestino);
-
-int PRI_ChecarAmeacaRei(char jogador);
-void PRI_ChecarChequeMate(char jogador);
-
-PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador);
-CPC_tppClassePeca PRI_BuscaClassePeca(char classeProcurada);
-
-void PRI_MoverPeca();
-int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDestino);
-int PRI_ChecarLegalidadePeao(int iOrigem, int movI, int movJ, int iDest, char jDest, PEC_tppPeca pPeca);
-
-void PRI_AtualizarListasAmeacantes( TAB_ppAncoraTabuleiro *pTabuleiro, int i, char j );
-void PRI_AtualizarListaAmeacados( TAB_ppAncoraTabuleiro *pTabuleiro, int i, char j );
-//void PRI_AtualizarListasTab( TAB_ppAncoraTabuleiro *pTabuleiro );
-
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -157,7 +144,6 @@ void PRI_AtualizarListaAmeacados( TAB_ppAncoraTabuleiro *pTabuleiro, int i, char
 
 TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 {
-
 	/*Inteiros*/
 	int inxLista = -1,
 		inxLista_2 = -1,
@@ -166,17 +152,13 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 		numElem = -1,
 		ValEsp = -1,
 		i,
-		inxMatriz= -1,
+		inxMatriz = -1,
 		inxCasa = -1,
-		inxTab = -1,
-		inxPeca = -1,
-		inxCP = -1;
+		inxPeca = -1;
 
-	int  movI, movJ, idxMovimento;
+	int  movI, movJ, idxMovimento, iOrigem, iDestino;
 	int* resposta;
-	char nome,j;
-	int iorig,idest;
-	char jorig,jdest;
+	char nome, jOrigem, jDestino;
 
 
 	/*Condicoes de Retorno*/
@@ -185,222 +167,91 @@ TST_tpCondRet TST_EfetuarComando(char * ComandoTeste)
 	TAB_tpCondRet CondRet_TAB;
 	PEC_tpCondRet CondRet_PEC;
 	CPC_tpCondRet CondRet_CPC;
-	
+	CAS_tpCondRet CondRet_CAS;
+
 
 	/*Strings*/
-	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR] , CharObtido;
+	char   StringDado[DIM_VALOR], StringDado_2[DIM_VALOR], CharObtido;
 	char* pDado;
-	char  CharDado ;
+	char  CharDado;
 	char* pCharDado;
 	char* CharDado_2;
 	char id_corDest;
 	char id_corOrg;
-	char jogador;
 	StringDado[0] = 0;
 
 
-	/* Efetuar teste de criar classe */
+	/* Efetuar reset de teste de lista */
 
-	if (strcmp(ComandoTeste, CRIAR_CLASSE) == 0)
+	if (strcmp(ComandoTeste, RESET_LISTA_CMD) == 0)
 	{
 
-		numLidos = LER_LerParametros("icsi",&inxCP, &CharDado,pCharDado, &CondRetEsp);
+		for (i = 0; i < DIM_VT_LISTA; i++)
+		{
+			vtListas[i] = NULL;                            
+		} /* for */
 
-		//CPC_CriarClassePeca(CPC_tppClassePeca * ppClassePeca, char nome, char* idEnviado);
-		if (numLidos != 4)
+		return TST_CondRetOK;
+
+	} /* fim ativa: Efetuar reset de teste de lista */
+
+
+	else if (strcmp(ComandoTeste, INICIALIZA_JOGO_CMD) == 0)
+	{
+
+		PRI_Inicializa( );
+
+		return;
+	} /* fim ativa: Efetuar inicializaçao das estruturas da simulacao da partida */
+
+	else if (strcmp(ComandoTeste, CARREGA_ARQUIVO_CMD) == 0)
+	{
+		numLidos = LER_LerParametros("s", &StringDado);
+
+		if ((numLidos != 1))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		CondRet_CPC= CPC_CriarClassePeca(&vtClasse[inxCP], CharDado, pCharDado);
-		//LIS_CriarLista(&vtListas[inxLista], StringDado);
+		if (!PRI_CarregarArquivoMovimento(StringDado))          
+			return TST_CondRetNaoExecutou;
 
+		return TST_CondRetOK;
+	} /* fim ativa: Efetuar carregamento de arquivo contendo movimentos de pecas */
 
-		if (CondRet_LIS == 6) {
-
-			return TST_CondRetMemoria;
-
-		}
-
-		return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao criar classe");
-
-	} /* fim ativa: Testar CriarClasse */
-	//testar preenche tab
-	else if (strcmp(ComandoTeste,PREENCHE_TAB) == 0)
+	else if (strcmp(ComandoTeste, IMPRIME_TABULEIRO_CMD) == 0)
 	{
-		numLidos = LER_LerParametros("i",&CondRetEsp);
-		if(numLidos != 1)
-		{
-			return TST_CondRetParm;
-		}
 
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada ao preencher tabuleiro");
-	} /* fim ativa: preenche tab */
-	//Testar procura classe
-	else if (strcmp(ComandoTeste,PROCURA_CLASSE) == 0)
+		PRI_ImprimirTabuleiro( );
+
+		return TST_CondRetOK;
+	} /* fim ativa: Efetuar impressao do tabuleiro */
+
+	else if (strcmp(ComandoTeste, PREENCHE_TABULEIRO_CMD) == 0)
 	{
-		numLidos = LER_LerParametros("si",pCharDado, &inxCP);
 
-		if (numLidos != 2)
+		PRI_PreencheTabuleiro();
+
+		return TST_CondRetOK;
+	} /* fim ativa: Efetuar preenchimento do tabuleiro */
+
+
+	else if (strcmp(ComandoTeste, MOVE_PECA_CMD) == 0)
+	{
+		numLidos = LER_LerParametros("icic", &iOrigem, &jOrigem, &iDestino, &jDestino);
+
+		if ((numLidos != 4))
 		{
 			return TST_CondRetParm;
 		} /* if */
 
-		 vtClasse[inxCP] = PRI_ProcurarClasse(pCharDado);
-		//LIS_CriarLista(&vtListas[inxLista], StringDado);
+		PRI_MoverPeca(iOrigem, jOrigem, iDestino, jDestino);
 
-		 if(vtClasse[inxCP] != NULL )
-		 { 
-			 CondRetEsp = CPC_CondRetOK;
-			 CondRet_CPC = CPC_CondRetOK;
-			 return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao procurar classe");
-		 }
-		 else
-		 {
-			 CondRetEsp = CPC_CondRetPonteiroNulo;
-			 CondRet_CPC = CPC_CondRetPonteiroNulo;
-			 return TST_CompararInt(CondRetEsp, CondRet_CPC,
-			"Condicao de retorno errada ao procurar classe");
-		 }
-		
-	
-	} /* fim ativa: procura classe */
-	//Testar insere peca
-	else if (strcmp(ComandoTeste,INSERE_PECA) == 0)
-	{
-		numLidos = LER_LerParametros("iiicci",&inxTab,&inxPeca,&i,&j,pCharDado, &CondRetEsp);
-		
-		if (numLidos != 6)
-		{
-			return TST_CondRetParm;
-		} /* if */
+		return TST_CondRetOK;
+	} /* fim ativa: Efetuar movimentacao de uma peca */
 
-		CondRet_TAB = TAB_InserirPeca(&vtMatrizes[inxTab], &vtPeca[inxPeca], i, j, CharDado);
-		PRI_inserePeca(CharDado, &vtClasse[inxCP],  i , j);
-		
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao inserir peca");
-		
-	
-	} /* fim ativa: insere peca */
-	//checar mov pulo
-	else if (strcmp(ComandoTeste,CHECAR_MOV_PULO) == 0)
-	{
-		numLidos = LER_LerParametros("ici",&i,j,&CondRetEsp);
-		if(numLidos != 4)
-		{
-			return TST_CondRetParm;
-		}
-		CondRet_TAB = PRI_ChecarMovimentoPulo (i, j);
-	
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao checar movimento pulo");
-		
-	} /* fim ativa: mov pulo */
-	//checar legalidade
-	else if (strcmp(ComandoTeste,CHECAR_LEGALIDADE) == 0)
-	{
-		numLidos = LER_LerParametros("ccicii",&jogador,&jorig,&iorig,&jdest,&idest,&CondRetEsp);
-		if(numLidos != 6)
-		{
-			return TST_CondRetParm;
-		}
-		CondRet_TAB = PRI_ChecarLegalidade( jogador, jorig, iorig, jdest, idest);
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao checar legalidade");
-		
-	} /* fim ativa: checar legalidade */
-	//checar ameaca rei
-	else if (strcmp(ComandoTeste,CHECAR_AMEACA_REI) == 0)
-	{
-		numLidos = LER_LerParametros("ci",&jogador,&CondRetEsp);
-		if(numLidos != 2)
-		{
-			return TST_CondRetParm;
-		}
-		CondRet_TAB = PRI_ChecarAmeacaRei(jogador);
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada ao checar ameaca rei");
-		
-	} /* fim ativa: checar ameaca rei */
-	//checar CHEQUE MATE
-	else if (strcmp(ComandoTeste,CHECAR_CHEQUE_MATE) == 0)
-	{
-		numLidos = LER_LerParametros("c",&jogador);
-		if(numLidos != 1)
-		{
-			return TST_CondRetParm;
-		}
-		PRI_ChecarChequeMate(jogador);
-		CondRetEsp = TAB_CondRetOK; 
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada ao checar cheque mate");
-		
-	} /* fim ativa: checar cheque mate */
-	//checar obter rei
-	else if (strcmp(ComandoTeste,OBTER_REI) == 0)
-	{
-		numLidos = LER_LerParametros("cici",&jorig,&iorig,&jogador,&inxPeca);
-		//PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador) 
-		if(numLidos != 4)
-		{
-			return TST_CondRetParm;
-		}
-		PRI_ObterRei( &jorig, &iorig, jogador); 
-		CondRetEsp = TAB_CondRetOK; 
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada ao obter rei");
-		
-	} /* fim ativa: obter rei */
-	//checar mover peca
-	else if (strcmp(ComandoTeste,MOVER_PECA) == 0)
-	{
-		PRI_MoverPeca();
-		CondRetEsp = TAB_CondRetOK; 
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada ao mover peca");
-		
-	} /* fim ativa: mover peca */
-	//checar mov legal
-	else if (strcmp(ComandoTeste,CHECAR_MOV_LEGAL) == 0)
-	{
-		numLidos = LER_LerParametros("icici",&iorig,&jorig,&idest,&jdest,&CondRetEsp);
-		//int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDestino)
-		if(numLidos != 5)
-		{
-			return TST_CondRetParm;
-		}
-		 
-		CondRet_TAB = PRI_ChecarMovimentoLegal(iorig,jorig,idest, jdest);
-		return TST_CompararInt(CondRetEsp, CondRet_TAB,
-			"Condicao de retorno errada checar mov legal");
-		
-	} /* fim ativa: mov legal */
-	//checar lista ameacantes
-	else if (strcmp(ComandoTeste,LISTA_AMEACANTES) == 0)
-	{
-		numLidos = LER_LerParametros("iij",&inxTab,&i,&j);
-		PRI_AtualizarListasAmeacantes( &vtListas[inxTab], i, j );
-		
-		CondRetEsp = TAB_CondRetOK;
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada atualizar lista ameacantes");
-		
-	} /* fim ativa: lista ameacados */
-	else if (strcmp(ComandoTeste,LISTA_AMEACADOS) == 0)
-	{
-		numLidos = LER_LerParametros("iij",&inxTab,&i,&j);
-		PRI_AtualizarListaAmeacados(&vtListas[inxTab], i, j );
-		
-		CondRetEsp = TAB_CondRetOK;
-		return TST_CompararInt(CondRetEsp, CondRetEsp,
-			"Condicao de retorno errada atualizar lista ameacados");
-		
-	} /* fim ativa: lista ameacadoss */
-	} /* Fim função: TJOG &Testar jogo*/
+
+} /* Fim função: TJOG &Testar jogo*/
 
 
 
@@ -484,125 +335,58 @@ int ValidarInxMatriz(int inxLista, int Modo)
 
 } /* Fim função: TLIS -Validar indice de lista */
 
-
-
-
-void PRI_MenuPrincipal( int * opcao ) {
-	char c[5];
-	
-    printf("\n=== MENU ===\n\n");
-    printf("01. Mover Peca\n02. Adicionar Peca\n\n");
-    printf("11. Criar classe de peca\n12. Listar classes\n\n");
-    printf("21. Excluir peca\n\n");
-
-    scanf(" %s", c);
-	if( !strcmp(c,"FIM") )
-	{
-		*opcao = 99;
-	}
-	else if( !strcmp(c,"1") )
-	{
-		*opcao = 1;
-	}
-	else if( !strcmp(c,"2") )
-	{
-		*opcao = 2;
-	}
-	else if( !strcmp(c,"11") )
-	{
-		*opcao = 11;
-	}
-	else if( !strcmp(c,"12") )
-	{
-		*opcao = 12;
-	}
-	else if( !strcmp(c,"21") )
-	{
-		*opcao = 21;
-	}
-	else
-	{
-		*opcao = 0;
-	}
-}
-
-void PRI_ImprimirTabuleiro( TAB_ppAncoraTabuleiro * pTabuleiro ) {
+void PRI_ImprimirTabuleiro() {
 	int linha;
 	int coluna;
-	HANDLE  hConsole;
-	
-	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-	WORD saved_attributes;
 
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
-	saved_attributes = consoleInfo.wAttributes;
-
-	printf("TABULEIRO\n\n  ");
-	for( coluna = 0; coluna < 8; coluna ++){
-			printf("  %c  ", coluna + 'A');
+	printf("\n\n");
+	for (coluna = 0; coluna < 8; coluna++) {
+		printf("  %c  ", coluna + 'A');
 	}
 	printf("\n  ");
-	for( coluna = 0; coluna <8; coluna ++){
-			printf(" ___ ");
+	for (coluna = 0; coluna <8; coluna++) {
+		printf(" ___ ");
 	}
 	printf("\n");
-	for( linha = 0; linha< 8; linha ++){
+	for (linha = 0; linha< 8; linha++) {
 		printf("%d ", linha);
-		for( coluna = 0; coluna <8; coluna ++){
+		for (coluna = 0; coluna <8; coluna++) {
 			PEC_tppPeca pPeca;
 			CPC_tppClassePeca ClassePeca;
 			char nome;
 			char cor;
 
-			if(TAB_ObterPeca(*pTabuleiro, linha, (char)(coluna + 'A'), (void*)&pPeca, &cor) == TAB_CondRetCasaVazia){
+			if (TAB_ObterPeca(simulacao.pTab, linha, (char)(coluna + 'A'), (void*)&pPeca, &cor) == TAB_CondRetCasaVazia) {
 				printf("|   |");
-			} else {
+			}
+			else {
 				PEC_ObterCorDePeca(pPeca, &cor);
 				PEC_ObterClasseDePeca(pPeca, &ClassePeca);
 				CPC_ObterNome(ClassePeca, &nome);
-				
-				printf("| ");
-				if (cor == 'P') {
-					SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-				}
-				printf("%c", nome);
-				SetConsoleTextAttribute(hConsole, saved_attributes);
-				printf(" |");
+				printf("| %c |", nome);
 				pPeca = NULL;
 			}
 		}
 		printf("\n  ");
-		for( coluna = 0; coluna <8; coluna ++){
+		for (coluna = 0; coluna <8; coluna++) {
 			printf("|___|");
 		}
 		printf("\n");
 	}
 }
 
-int PRI_PreencheTabuleiro( ) {
+void PRI_PreencheTabuleiro() {
 	int i;
 	PEC_tppPeca pPeca;
-	char nome, cor, j;
+	char nome, cor;
+
 	//inserir peoes brancos
 	CPC_tppClassePeca pClassePeca;
 
-
-
 	pClassePeca = PRI_BuscaClassePeca('P');
-	//reset
-	for(j='A';j<'I';j++){
-		for(i=0; i<8; i++)
-		{
-			PEC_criaPeca(&pPeca, pClassePeca, 'B');
-			PEC_ObterCorDePeca(pPeca, &cor);
-			TAB_InserirPeca(simulacao.pTab, (void**)pPeca, i, j, cor);
-			TAB_RetirarPeca(simulacao.pTab, i, j);
-		}
-	}
 
 	//insere peoes brancos
-	for(i=0; i<8; i++)
+	for (i = 0; i<8; i++)
 	{
 		PEC_criaPeca(&pPeca, pClassePeca, 'B');
 		PEC_ObterCorDePeca(pPeca, &cor);
@@ -616,12 +400,6 @@ int PRI_PreencheTabuleiro( ) {
 		PEC_ObterCorDePeca(pPeca, &cor);
 		TAB_InserirPeca(simulacao.pTab, (void**)pPeca, 1, (char)(i + 'A'), cor);
 	}
-
-	/*pClassePeca = PRI_BuscaClassePeca('H');
-
-	PEC_criaPeca(&pPeca, pClassePeca, 'B');
-	PEC_ObterCorDePeca(pPeca, &cor);
-	TAB_InserirPeca(simulacao.pTab, (void**)pPeca, 2, 'C', cor);*/
 
 	PRI_insereTorre('B', 7);
 	PRI_insereTorre('P', 0);
@@ -637,10 +415,10 @@ int PRI_PreencheTabuleiro( ) {
 
 	PRI_insereRainha('B', 7);
 	PRI_insereRainha('P', 0);
-	
-	return 1;
+
+
 }
-void PRI_insereTorre (char corJogador, int posicao) {
+void PRI_insereTorre(char corJogador, int posicao) {
 	PEC_tppPeca pPeca;
 	char cor;
 	CPC_tppClassePeca pClassePeca;
@@ -709,50 +487,6 @@ void PRI_insereRei(char corJogador, int posicao) {
 	TAB_InserirPeca(simulacao.pTab, (void**)pPeca, posicao, 'D', cor);
 }
 
-void PRI_inserePeca(char corJogador, char classe, int i , char j){
-	PEC_tppPeca pPeca;
-	char cor;
-	CPC_tppClassePeca pClassePeca;
-
-	pClassePeca = PRI_BuscaClassePeca(classe);
-
-	if (pClassePeca == NULL){
-		printf("A classe peca %c não existe, verifique a lista antes de adicionar");
-		return;
-	}
-
-	PEC_criaPeca(&pPeca, pClassePeca, corJogador);
-	PEC_ObterCorDePeca(pPeca, &cor);
-	TAB_InserirPeca(simulacao.pTab, (void**)pPeca, i, j, cor);
-}
-
-void PRI_AdicionarPeca( ){
-	char classe, j, cor;
-	int i;
-	printf("\nQual a classe da peça que deseja colocar?\n>");
-	scanf(" %c", &classe);
-	printf("\nQual a cor da peça que deseja colocar <P, B>?\n>");
-	scanf(" %c", &cor);
-	if(cor != 'P' && cor != 'B'){
-		printf("\nCor de Peca inserida invalida\n");
-		return;
-	}
-	printf("\nQual a coordenada vertical em que deseja inserir a peca <0, 7>?\n>");
-	scanf(" %d", &i);
-	if(i < 0 || i > 7){
-		printf("\nPosição invalida\n");
-		return;
-	}
-	printf("\nQual a coordenada horizontal em que deseja inserir a peca <A, H>?\n>");
-	scanf(" %c", &j);
-	if(j < 'A' || j > 'H'){
-		printf("\nPosição invalida\n");
-		return;
-	}
-	PRI_inserePeca(cor, classe, i , j);
-
-}
-
 int PRI_CarregarArquivoMovimento(char* path) {
 
 	char auxString[200], classe, jogador;
@@ -788,41 +522,43 @@ int PRI_CarregarArquivoMovimento(char* path) {
 		}/*else if*/
 	}/*while*/
 
-		fclose(fp);
-		return 1;
+	fclose(fp);
+	return 1;
 }
 
 
-void PRI_Inicializa(void) {
-	if (TAB_CriaTabuleiro(&simulacao.pTab, 8) != TAB_CondRetOK) 
+void PRI_Inicializa() {
+
+	if (TAB_CriaTabuleiro(&(simulacao.pTab), 8) != TAB_CondRetOK)
 	{
 		printf("ERRO DE MEMORIA AO CRIAR TABULEIRO");
 		exit(1);
 	}
-	
-	if (LIS_CriarLista(&simulacao.pListaClasses, "Classes") != 0)
+
+
+	if (LIS_CriarLista(&(simulacao.pListaClasses), "Classes") != 0)
 	{
-		TAB_DestruirTabuleiro(&simulacao.pTab);
+		TAB_DestruirTabuleiro(simulacao.pTab);
 		printf("ERRO DE MEMORIA AO CRIAR LISTA DE CLASSES");
 		exit(1);
 	}
 
-	if (LIS_CriarLista(&simulacao.pListaPecas, "Pecas") != 0) 
+	if (LIS_CriarLista(&(simulacao.pListaPecas), "Pecas") != 0)
 	{
-		TAB_DestruirTabuleiro(&simulacao.pTab);
-		LIS_DestroiLista(&simulacao.pListaClasses);
+		TAB_DestruirTabuleiro(simulacao.pTab);
+		LIS_DestroiLista(simulacao.pListaClasses);
 		printf("ERRO DE MEMORIA AO CRIAR LISTA DE PECAS");
 		exit(1);
 	}
 }
-int PRI_ChecarMovimentoPulo (int movI, int movJ) 
+int PRI_ChecarMovimentoPulo(int movI, int movJ)
 {
-	if(movI == movJ || movI == -movJ || movI == 0 || movJ == 0)
+	if (movI == movJ || movI == -movJ || movI == 0 || movJ == 0)
 	{
 		return 0;
 	}
 
-    return 1;
+	return 1;
 }
 
 CPC_tppClassePeca PRI_BuscaClassePeca(char classeProcurada) {
@@ -864,13 +600,13 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 	movI = iDestino - iOrigem;
 	movJ = jDestino - jOrigem;
 
-	TAB_ObterPeca(simulacao.pTab, iDestino, jDestino, &defensor, &jogadorDefensor);
+	TAB_ObterPeca(simulacao.pTab, iDestino, jDestino, (void**)&defensor, &jogadorDefensor);
 	//PEC_ObterCorDePeca(defensor, &jogadorDefensor);
 
 	if ((jogador != 'B') && (jogador != 'P'))
 		return 0;
 
-	if (defensor != NULL) 
+	if (defensor != NULL)
 	{
 		PEC_ObterCorDePeca(defensor, &jogadorDefensor); //verifica se a cor da peca que esta ocupando a pos é a mesma (nao e permitido comer pecas do mesmo time)
 		if (jogadorDefensor == jogador) {
@@ -893,8 +629,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 			j = jOrigem; // = jDestino;
 
 			for (i = iOrigem + 1; i < iDestino; i++) {
-				TAB_ObterPeca(simulacao.pTab, i, j, &obstaculo, &coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -906,8 +641,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 			j = jOrigem; // = jDestino;
 
 			for (i = iOrigem - 1; i > iDestino; i--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);;
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -922,8 +656,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 			i = iOrigem; // = iDestino;
 
 			for (j = jOrigem + 1; j < jDestino; j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -935,8 +668,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 			i = iOrigem; // = iDestino;
 
 			for (j = jOrigem - 1; j > jDestino; j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -949,8 +681,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 		if (movI > 0) {
 			// movimento de letra e numero crescente
 			for (i = iOrigem + 1, j = jOrigem + 1; i < iDestino && j < jDestino; i++, j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -960,8 +691,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 		else {
 			//movimento de letra crescente e numero decrescente
 			for (i = iOrigem - 1, j = jOrigem + 1; i > iDestino && j < jDestino; i--, j++) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -974,8 +704,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 		if (movI > 0) {
 			// movimento de letra decrescente e numero crescente
 			for (i = iOrigem + 1, j = jOrigem - 1; i < iDestino && j > jDestino; i++, j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -985,8 +714,7 @@ int PRI_ChecarLegalidade(char jogador, char jOrigem, int iOrigem, char jDestino,
 		else {
 			// movimento de letra e numero decrescente
 			for (i = iOrigem - 1, j = jOrigem - 1; i > iDestino && j > jDestino; i--, j--) {
-				TAB_ObterPeca(simulacao.pTab, i, j,&obstaculo,&coraux);
-				if (obstaculo != NULL) {
+				if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&obstaculo, &coraux) == TAB_CondRetOK) {
 					return 0;
 				}
 			}
@@ -1006,7 +734,7 @@ int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDest
 
 	//Buscar classe na simulação
 	TAB_ObterPeca(simulacao.pTab, iOrigem, jOrigem, &pPeca, &classe);
-	PEC_ObterCharClasseDePeca(pPeca, &classe);
+	//PEC_ObterCharClasseDePeca(pPeca, &classe);
 	pClassePeca = PRI_BuscaClassePeca(classe);
 
 	//Verificar se o movimento consta la (destino - origem)
@@ -1015,7 +743,7 @@ int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDest
 
 	//Checar legalidade movimento de peão
 	if (classe == 'P')
-		return PRI_ChecarLegalidadePeao(iOrigem, movI, movJ, iDestino, jDestino, pPeca) ;	
+		return PRI_ChecarLegalidadePeao(iOrigem, movI, movJ, iDestino, jDestino, pPeca);
 
 	CPC_ChecarMovimento(pClassePeca, movI, movJ, &resposta);
 
@@ -1029,15 +757,15 @@ int PRI_ChecarMovimentoLegal(int iOrigem, char jOrigem, int iDestino, char jDest
 int PRI_ChecarLegalidadePeao(int iOrigem, int movI, int movJ, int iDest, char jDest, PEC_tppPeca pPeca) {
 	char cor;
 	TAB_tppCasa pCasaOrig, pCasaDest;
-	
+
 	//Obter cor da peca
 	PEC_ObterCorDePeca(pPeca, &cor);
 
 	//Checar duplo movimento inicial
 	if (iOrigem == 1 || iOrigem == 6) {
-			if ((movI == -2 && movJ == 0) || (movI == 2 && movJ == 0)) {
-				return 1;
-			}
+		if ((movI == -2 && movJ == 0) || (movI == 2 && movJ == 0)) {
+			return 1;
+		}
 	}
 
 	//Obter casa destino
@@ -1074,54 +802,36 @@ int PRI_ChecarLegalidadePeao(int iOrigem, int movI, int movJ, int iDest, char jD
 
 }
 
-void PRI_MoverPeca() {
-	int iOrigem, iDestino, legalidade = 0, movLegal, pecaObtida;
-	char jOrigem, jDestino, cor, *jogadorComido;
+void PRI_MoverPeca(int iOrigem, char jOrigem, int iDestino, char jDestino) {
+	int legalidade = 0, movLegal, pecaObtida;
+	char cor, *jogadorComido;
 	PEC_tppPeca pPeca, PecaComida;
 
-	//Obter origem da peça a ser movida
-	while (legalidade == 0) {
-		printf("\nInsira a coordenada vertical da peca a ser movida (A - H): ");
-		scanf(" %c", &jOrigem);
-		printf("\nInsira a coordenada horizontal da peca a ser movida (0 - 7): ");
-		scanf(" %d", &iOrigem);
+	pecaObtida = TAB_ObterPeca(simulacao.pTab, iOrigem, jOrigem, &pPeca, &cor);
 
-		pecaObtida = TAB_ObterPeca(simulacao.pTab, iOrigem, jOrigem, &pPeca, &cor);
+	movLegal = PRI_ChecarMovimentoLegal(iOrigem, jOrigem, iDestino, jDestino);
 
-		if( cor != turno )
-		{
-			printf ("\n Agora nao e sua vez.\n ");
-			continue;
-		}
-	//Obter destino da peça a ser movida
-		printf("\nInsira a coordenada vertical do destino da peca (A - H): ");
-		scanf(" %c", &jDestino);
-		printf("\nInsira a coordenada horizontal do destino da peca (0 - 7): ");
-		scanf(" %d", &iDestino);
-
-		movLegal = PRI_ChecarMovimentoLegal(iOrigem, jOrigem, iDestino, jDestino);
-
-		//Checar legalidade do movimento
-		if (movLegal) {
-			if (PRI_ChecarLegalidade(cor, jOrigem, iOrigem, jDestino, iDestino) == 0)
-				printf("\nMovimento ilegal. Insira um movimento valido");
-			else {
-				TAB_MoverPeca(simulacao.pTab, jOrigem, iOrigem, jDestino, iDestino, &PecaComida, &jogadorComido);
-				legalidade = 1;
-			}
-
-		}
+	//Checar legalidade do movimento
+	if (movLegal) {
+		if (PRI_ChecarLegalidade(cor, jOrigem, iOrigem, jDestino, iDestino) == 0)
+			printf("\nMovimento ilegal. Insira um movimento valido");
 		else {
-			if ( pecaObtida == 8)
-				printf("\nCoordenada de ORIGEM invalida.");
-			printf("\nA Peca nao realiza este movimento. Insira um movimento valido\n");
+			TAB_MoverPeca(simulacao.pTab, jOrigem, iOrigem, jDestino, iDestino, (void**)&PecaComida, &jogadorComido);
+			legalidade = 1;
 		}
+
+	}
+	else {
+		if (pecaObtida == 9)
+			printf("\nCoordenada de ORIGEM invalida.");
+		printf("\nA Peca nao realiza este movimento. Insira um movimento valido\n");
 	}
 }
-	//Mover de fato
+//}
+//Mover de fato
 
-void PRI_ChecarChequeMate(char jogador) {
-	char reiJ; 
+/*void PRI_ChecarChequeMate(char jogador) {
+	char reiJ;
 	int reiI;
 	PEC_tppPeca rei;
 
@@ -1146,7 +856,7 @@ void PRI_ChecarChequeMate(char jogador) {
 
 	for (i = 0; i <= 7; i++) {
 		for (j = 'A'; j <= 'H'; j++) {
-			TAB_ObterPeca(simulacao.pTab, i, j, &pecaAtual, &jogadorPecaAtual);
+			TAB_ObterPeca(simulacao.pTab, i, j, (void**)&pecaAtual, &jogadorPecaAtual);
 
 			if (pecaAtual != NULL) {
 
@@ -1167,13 +877,15 @@ void PRI_ChecarChequeMate(char jogador) {
 						jDest = j + movJ;
 
 						if (TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetOK) {
+
 							legalidade = PRI_ChecarLegalidade(jogadorPecaAtual, j, i, jDest, iDest);
 							if (legalidade == 1) {
 
 								TAB_MoverPeca(simulacao.pTab, j, i, jDest, iDest, &pPecaComida, &jogadorComido);
+
 								ameaca = PRI_ChecarAmeacaRei(jogador);
 
-								TAB_DesfazerMovimento(simulacao.pTab, i, j, iDest, jDest, (void**)pPecaComida);
+								TAB_DesfazerMovimento(simulacao.pTab, i, j, iDest, jDest, pPecaComida);
 
 								if (ameaca == 0) {
 									printf("O jogador %c esta em cheque, mas nao em cheque-mate.\n"
@@ -1188,7 +900,7 @@ void PRI_ChecarChequeMate(char jogador) {
 		}
 	}
 
-	printf("O jogador %c esta em cheque-mate.",jogador);
+	printf("O jogador branco esta em cheque-mate.");
 
 	return;
 }
@@ -1212,30 +924,24 @@ int PRI_ChecarAmeacaRei(char jogador) {
 
 	for (i = 0; i <= 7; i++) {
 		for (j = 'A'; j <= 'H'; j++) {
-			char pecaz, corz;
-			TAB_ObterPeca(simulacao.pTab, i, j, (void*)&pecaAtual, &jogadorPecaAtual);
-			
-			if (pecaAtual != NULL) {
-				
+			if (TAB_ObterPeca(simulacao.pTab, i, j, (void**)&pecaAtual, &jogadorPecaAtual) == TAB_CondRetOK) {
+
 				if (jogadorPecaAtual != jogador) {
 					PEC_ObterClasseDePeca(pecaAtual, &classePecaAtual);
-					PEC_ObterCorDePeca(pecaAtual, &corz);
-					PEC_ObterCharClasseDePeca(pecaAtual, &pecaz);
-					//printf("Peca atual: %c - %c : nas coords: i:%d j:%c\n", pecaz, corz, i, j );
+
 					if (classePecaAtual == NULL) {
 						printf("Erro: peca com classe nula.");
 						exit(1);
 					}
 
-					movI = -(reiI - i);
-					movJ = -(reiJ - j);
+					movI = (reiI - i);
+					movJ = (reiJ - j);
 
 					CPC_ChecarMovimento(classePecaAtual, movI, movJ, &resposta);
 
 					if (resposta == 1) {
 						legalidade = PRI_ChecarLegalidade(jogadorPecaAtual, j, i, reiJ, reiI);
 						if (legalidade == 1) {
-							printf("A LEGALIDADE EH !");
 							return 1;
 						}
 					}
@@ -1246,6 +952,7 @@ int PRI_ChecarAmeacaRei(char jogador) {
 
 	return 0;
 }
+
 
 PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador) {
 	PEC_tppPeca pPeca;
@@ -1279,198 +986,5 @@ PEC_tppPeca PRI_ObterRei(char* j, int* i, char jogador) {
 	}
 
 	return NULL;
-}
-void PRI_AtualizarListasAmeacantes( TAB_ppAncoraTabuleiro *pTabuleiro, int i, char j )
-{
-	int linha,movLegal, numelem;
-	char jogador,coluna;
-	PEC_tppPeca pPeca;
-	LIS_tppLista pListaAmeacantes;
-
-	TAB_ObterPeca(*pTabuleiro, i, j, (void*)&pPeca, &jogador);
-
-	LIS_CriarLista(&pListaAmeacantes, "Ameacantes");
-
-	
-	
-	for (linha=0;linha<8;linha++)
-	{
-		for (coluna='A';coluna<'I';coluna++)
-		{
-			movLegal = PRI_ChecarMovimentoLegal(linha, coluna, i, j);
-			if(movLegal)
-			{
-				if(PRI_ChecarLegalidade(jogador, coluna, linha, j, i)!=0)
-				{
-					//TAB_AdicionarListaAmeacantesAmeacados(*pTabuleiro, linha, coluna, i, j);
-					//LIS_InserirNo( pListaAmeacantes , void * pValor        );
-				}
-					
-			} 
-		}
-	}
-
-}
-void PRI_AtualizarListaAmeacados( TAB_ppAncoraTabuleiro *pTabuleiro, int i, char j )
-{
-	int linha,movLegal;
-	char jogador,coluna;
-	PEC_tppPeca pPeca;
-	LIS_tppLista *pListaAmeacados;
-
-	TAB_ObterPeca(*pTabuleiro, i, j, (void*)&pPeca, &jogador);
-
-	TAB_ObterListaAmeacantes(*pTabuleiro, i, j, pListaAmeacados);
-	//LIS_EsvaziarLista( *pListaAmeacados );
-	//LIS_DestroiLista( pListaAmeacados ) ;
-	LIS_CriarLista(&pListaAmeacados, "ameacados");
-
-
-	for (linha=0;linha<8;linha++)
-	{
-		for (coluna='A';coluna<'I';coluna++)
-		{
-			movLegal = PRI_ChecarMovimentoLegal(i,j,linha, coluna);
-			if(movLegal)
-			{
-				if(PRI_ChecarLegalidade(jogador, j,i, coluna, linha)!=0)
-				{
-					TAB_AdicionarListaAmeacantesAmeacados(*pTabuleiro, i, j, linha, coluna);
-				}
-					
-			} 
-		}
-	}
-
-}
-void PRI_AtualizarListasTab( TAB_ppAncoraTabuleiro *pTabuleiro )
-{
-	int linha;
-	char coluna;
-
-	for( linha = 0; linha < 8; linha++ )
-	{
-		for( coluna = 'A'; coluna < 'I'; coluna++ )
-		{
-			PRI_AtualizarListasAmeacantes( pTabuleiro, linha, coluna );
-			//PRI_AtualizarListaAmeacados( pTabuleiro, linha, coluna );
-		}
-	}
-}
-void PRI_CriarClasse( )
-{
-	char nomeClasse,idClasse;
-    int movI, movJ;
-    CPC_tppClassePeca pClassePeca;
-
-
-    printf("Criacao de Classe de Peca\n");
-    printf("Digite a sigla da nova classe de peca. (Um unico caracter para representa-la)\n> ");
-
-    scanf(" %c", &nomeClasse);
-
-    if(PRI_ProcurarClasse(nomeClasse) != NULL) { 
-        printf("Classe com esse nome ja existe\n");
-        return;
-    }
-	idClasse = nomeClasse;
-
-    CPC_CriarClassePeca(&pClassePeca,idClasse,&nomeClasse);
-
-    if(pClassePeca == NULL) {
-        printf("Erro de memoria ao alocar nova classe de peca.");
-        exit(1);
-    }
-
-    printf("Agora serao cadastrados os movimentos dessa classe criada.\n"
-           "Um movimento contem uma componente vertical e um horizontal.\n"
-           "Um conjunto de movimentos indicam a totalidade das jogadas possiveis de uma peca.\n"
-           "Por exemplo, uma peca que so se move uma casa para a frente tera somente um movimento: {0,1}.\n"
-           "Ja uma peca que se move qualquer numero de casas para a direita ou para tras tera os movimentos:\n"
-           "{0,1}, {0,2} ... {0,7} e {-1,0}, {-2,0} ... {-7,0}.\n"
-           "Vale lembrar que, ja que o tabuleiro de xadrez tem dimensao 8x8, os componentes de movimentos devem ser inteiros entre -7 e 7.\n");
-
-    while(1) {
-        printf("\nNovo movimento. Digite as componentes do movimento (ou 0 e 0 para acabar).\n");
-        printf("Digite a componente vertical do movimento (entre -7 e 7).\n> ");
-        scanf(" %d", &movI);
-        printf("Digite a componente horizontal do movimento (entre -7 e 7).\n> ");
-        scanf(" %d", &movJ);
-
-        if(movI == 0 && movJ == 0) {
-            break;
-        }
-        if(movI > 7 || movI < -7 || movJ > 7 || movJ < -7) {
-            break;
-        }
-
-        if( CPC_AdicionarMovimento(pClassePeca, movI, movJ) == CPC_CondRetFaltouMemoria) {
-            printf("Erro de memoria ao adicionar movimento.");
-            exit(1);
-        }
-    };
-
-    LIS_IrFinalLista(simulacao.pListaClasses);
-    //LIS_InserirElementoApos(simulacao.pListaClasses, pClassePeca);
-	LIS_InserirNo( simulacao.pListaClasses ,  pClassePeca);
-}
-void PRI_ListarClasses( void )
-{
-    CPC_tppClassePeca pClasse;
-    char  nome;
-    int count, nMovs;
-    int movI, movJ;
-
-    printf("Lista de classes criadas:\n");
-
-    LIS_IrInicioLista( simulacao.pListaClasses );
-    while (LIS_ObterNo( simulacao.pListaClasses, (void*)&pClasse ) == LIS_CondRetOK ) {
-        //pClasse = (CPC_tppClassePeca) LIS_ObterNo( simulacao.pListaClasses,&pClasse );
-
-        CPC_ObterNome(pClasse, &nome);
-        printf("* %c ",nome);
-
-        CPC_ObterNumeroMovimentos(pClasse, &nMovs);
-        for(count = 0; count < nMovs; count++) {
-            CPC_ObterMovimento( pClasse, count, &movI, &movJ);
-            printf("{%d,%d} ", movI, movJ);
-        }
-
-        printf("\n");
-
-        if( LIS_AvancarElementoCorrente( simulacao.pListaClasses, 1 ) != LIS_CondRetOK )
-            break;
-    }
-
-    printf("<fim>");
-}
-CPC_tppClassePeca PRI_ProcurarClasse (char nomeProcurado) {
-    LIS_tpCondRet lisCondRet;
-    CPC_tppClassePeca pClassePeca;
-    char nomeObtido;
-
-    if(nomeProcurado == NULL) {
-        return NULL;
-    }
-
-    LIS_IrInicioLista(simulacao.pListaClasses);
-
-    do {
-        //pClassePeca = (CPC_tppClassePeca) LIS_ObterValor(simulacao.pListaClasses);
-		LIS_ObterNo( simulacao.pListaClasses, (void*)&pClassePeca );
-        if(pClassePeca != NULL) {
-            CPC_ObterNome(pClassePeca, &nomeObtido);
-
-            if(nomeObtido == nomeProcurado) {
-                return pClassePeca;
-            }
-        }
-
-        lisCondRet = LIS_AvancarElementoCorrente(simulacao.pListaClasses, 1);
-    } while(lisCondRet != LIS_CondRetFimLista && lisCondRet != LIS_CondRetListaVazia);
-
-    return NULL;
-}
-
-  /********** Fim do módulo de implementação: TLIS Teste lista de símbolos **********/
+}*/
 
