@@ -101,10 +101,16 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 
 	if (tam <= 0) {
 		return TAB_CondRetInvalido;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_CriarTabuleiro-inv" ) ;
+   		#endif
 	}
 
 	if (ppTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   		CNT_CONTAR( "TAB_CriarTabuleiro-pnulo" ) ;
+		#endif
 	}
 
 	pTabuleiro = (TAB_ancoraTabuleiro*)malloc(sizeof(TAB_ancoraTabuleiro));
@@ -131,18 +137,25 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 			}
 		}
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_CriarTabuleiro-2" ) ;
+   	#endif
 	LIS_IrInicioLista(pTabuleiro->pCabecaLista);
 
 	pTabuleiro->i = 0;
 	pTabuleiro->j = 'A';
 
-	*ppTabuleiro = pTabuleiro;
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_CriarTabuleiro-3" ) ;
+   	#endif
+	
 	#ifdef _DEBUG
 	   CED_MarcarEspacoAtivo(ppTabuleiro);
 	   pTabuleiro->tam = 0;
 	   pTabuleiro->tamValores = 0;
 	#endif
+	
+	*ppTabuleiro = pTabuleiro;
 	return TAB_CondRetOK;
 
 }
@@ -152,8 +165,13 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 TAB_tpCondRet TAB_ChecarPosicaoValida(int i, char j) {
 	if (j < 'A' || j > 'H' || i < 0 || i > 7) {
 		return TAB_CondRetNaoAchou;
+		#ifdef _DEBUG
+   			CNT_CONTAR( "TAB_ChecarPosicaoValida-nao" ) ;
+   		#endif
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ChecarPosicaoValida" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
