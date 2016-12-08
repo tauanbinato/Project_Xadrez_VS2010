@@ -48,6 +48,13 @@
 
          struct tagElemLista * pProx ;
                /* Ponteiro para o elemento sucessor */
+		#ifdef _debug 
+		LIS_tpLista *pCab;
+				/*Ponteiro para a cabeca da lista*/
+		int tamanho;
+				/*Tamaho ocupado pela estrutura que a lista aponta*/
+		#endif
+		
 
    } tpElemLista ;
 

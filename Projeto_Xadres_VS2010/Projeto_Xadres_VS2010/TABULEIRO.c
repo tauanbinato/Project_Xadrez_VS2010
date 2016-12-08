@@ -24,13 +24,21 @@
 #include   <malloc.h>
 #include   <assert.h>
 
-//Include de outros modulos
 #include   "lista.h"
-#include   "Casa.h"
 
 #define LISTA_OWN
 #include "Tabuleiro.h"
 #undef LISTA_OWN
+
+#define _DEBUG
+
+#ifdef _DEBUG
+#include   "CESPDIN.H"
+#include   "CONTA.H"
+#endif
+
+
+
 
 
 /***********************************************************************
@@ -42,7 +50,7 @@
 typedef struct TAB_tagTabuleiro {
 
 	LIS_tppLista pCabecaLista;
-	/* Ponteiro para um ponteiro de uma cabeça da lista que representa o caminho das linhas */
+	/* Ponteiro para um ponteiro de uma cabeça da lista */
 
 	int i;
 	/*Coordenada i do corrente*/
@@ -53,13 +61,16 @@ typedef struct TAB_tagTabuleiro {
 	int tam;
 	/*Tamanho do tabuleiro*/
 
+	#ifdef _DEBUG
+	int tamValores; /*tamanho total dos elementos da lista do tab*/
+	#endif
 
 } TAB_ancoraTabuleiro;
 
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: TAB Descritor da cabeca (ancora) de uma casa
+*  $TC Tipo de dados: TAB Descritor de uma casa no tabuleiro
 *
 ***********************************************************************/
 
@@ -69,6 +80,11 @@ typedef struct TAB_tagCasa {
 	char	 cor; /* Cor da peca, que define o jogador */
 	LIS_tppLista pAmeacantes; /* Lista de pecas ameacantes na dada casa */
 	LIS_tppLista pAmeacados; /* Lista de pecas ameacadas na dada casa */
+	#ifdef _DEBUG
+	TAB_ancoraTabuleiro *cabeça; /*ponteiro para cabeça do tabuleiro*/
+	int tamCasa; /*tamanho da estrutura em cada no do tabuleiro*/
+	int idTipo; /*tipo de estrutura aceita pela casa*/
+	#endif 
 
 } TAB_tpCasa;
 
@@ -78,7 +94,7 @@ typedef struct TAB_tagCasa {
 *
 *  **************************************************************************/
 
-TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam) {
+TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 	TAB_ppAncoraTabuleiro pTabuleiro;
 	int linhaCorrente;
 	int colunaCorrente;
@@ -95,13 +111,17 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam) {
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetFaltouMemoria;
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_CriarTabuleiro" ) ;
+   	#endif
 	if (LIS_CriarLista(&pTabuleiro->pCabecaLista, "tab") == LIS_CondRetFaltouMemoria) {
 		free(pTabuleiro);
 		return TAB_CondRetFaltouMemoria;
 	}
 	pTabuleiro->tam = tam;
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_CriarTabuleiro-1" ) ;
+   	#endif
 	for (linhaCorrente = 0; linhaCorrente < tam; linhaCorrente++) {
 		for (colunaCorrente = 0; colunaCorrente < tam; colunaCorrente++) {
 			if (LIS_InserirNo(pTabuleiro->pCabecaLista, NULL) != LIS_CondRetOK) {
@@ -118,7 +138,11 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro* ppTabuleiro, int tam) {
 	pTabuleiro->j = 'A';
 
 	*ppTabuleiro = pTabuleiro;
-
+	#ifdef _DEBUG
+	   CED_MarcarEspacoAtivo(ppTabuleiro);
+	   pTabuleiro->tam = 0;
+	   pTabuleiro->tamValores = 0;
+	#endif
 	return TAB_CondRetOK;
 
 }

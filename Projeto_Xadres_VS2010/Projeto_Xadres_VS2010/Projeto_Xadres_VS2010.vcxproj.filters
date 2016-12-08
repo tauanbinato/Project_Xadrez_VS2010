@@ -39,6 +39,12 @@
     <ClInclude Include="CLASSE_PECA.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CESPDIN.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CONTA.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LISTA.C">

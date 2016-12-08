@@ -78,7 +78,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CASA.H" />
+    <ClInclude Include="CESPDIN.H" />
     <ClInclude Include="CLASSE_PECA.H" />
+    <ClInclude Include="CONTA.H" />
     <ClInclude Include="GENERICO.H" />
     <ClInclude Include="LERPARM.H" />
     <ClInclude Include="LISTA.H" />
