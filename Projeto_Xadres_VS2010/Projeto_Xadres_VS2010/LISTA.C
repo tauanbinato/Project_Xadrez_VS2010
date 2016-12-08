@@ -31,6 +31,7 @@
 #include "LISTA.h"
 #undef LISTA_OWN
 
+#define DEBUG
 /***********************************************************************
 *
 *  $TC Tipo de dados: LIS Elemento da lista
@@ -48,7 +49,7 @@
 
          struct tagElemLista * pProx ;
                /* Ponteiro para o elemento sucessor */
-		#ifdef _debug 
+		#ifdef _DEBUG  
 		LIS_tpLista *pCab;
 				/*Ponteiro para a cabeca da lista*/
 		int tamanho;

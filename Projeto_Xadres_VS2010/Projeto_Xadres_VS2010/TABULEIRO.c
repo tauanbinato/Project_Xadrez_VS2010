@@ -38,9 +38,6 @@
 #endif
 
 
-
-
-
 /***********************************************************************
 *
 *  $TC Tipo de dados: TAB Descritor da cabeca (ancora) da matriz
@@ -87,6 +84,10 @@ typedef struct TAB_tagCasa {
 	#endif 
 
 } TAB_tpCasa;
+
+#ifdef _DEBUG
+CED_InicializarControlador() ;
+#endif
 
 /***************************************************************************
 *
@@ -166,7 +167,7 @@ TAB_tpCondRet TAB_ChecarPosicaoValida(int i, char j) {
 	if (j < 'A' || j > 'H' || i < 0 || i > 7) {
 		return TAB_CondRetNaoAchou;
 		#ifdef _DEBUG
-   			CNT_CONTAR( "TAB_ChecarPosicaoValida-nao" ) ;
+   			CNT_CONTAR( "TAB_ChecarPosicaoValida-naoachou" ) ;
    		#endif
 	}
 	#ifdef _DEBUG
@@ -188,25 +189,39 @@ TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, ch
 
 	if (i < 0 || i > (pTabuleiro->tam - 1) || j < 'A' || j > 'A' + (pTabuleiro->tam - 1)) {
 		return TAB_CondRetInvalido;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DefinirPosCorrente-invalido" ) ;
+   	#endif
 	}
 	
 	if (pTabuleiro == NULL) {
 		TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DefinirPosCorrente-pnulo" ) ;
+   	#endif
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) == TAB_CondRetNaoAchou ) {
 		return TAB_CondRetNaoAchou;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DefinirPosCorrente-naoachou" ) ;
+   	#endif
 	}
 
 	LIS_IrInicioLista(pTabuleiro->pCabecaLista);
 
 	if (LIS_AvancarElementoCorrente(pTabuleiro->pCabecaLista, qtdParaAndar) == LIS_CondRetFimLista) {
 		return TAB_CondRetInvalido;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DefinirPosCorrente-fimlista" ) ;
+   	#endif
 	}
 
 	pTabuleiro->i = i;
 	pTabuleiro->j = j;
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DefinirPosCorrente" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
@@ -216,11 +231,16 @@ TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, ch
 TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, char* j) {
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPosCorrente-pnulo" ) ;
+   	#endif
 	}
 
 	*i = (int)pTabuleiro->i;
 	*j = (char)pTabuleiro->j;
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPosCorrente" ) ;
+   	#endif
 	return TAB_CondRetOK;
 
 }
@@ -231,10 +251,15 @@ TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, cha
 TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa pCasa) {
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_AtribuirValorCorrente-pnulo" ) ;
+   	#endif
 	}
 
 	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, (void*)pCasa);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_AtribuirValorCorrente" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
@@ -250,13 +275,18 @@ TAB_tpCondRet TAB_ObterPecaCorrente(TAB_ppAncoraTabuleiro pTabuleiro, void** pPe
 	}
 
 	TAB_ObterValorCorrente(pTabuleiro, &pCasa);
-
+	
 	if (pCasa != NULL) {
 		*pPeca = pCasa->pPeca;
 		*cor = pCasa->cor;
 		return TAB_CondRetOK;
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPecaCorrente" ) ;
+   	#endif
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPecaCorrente-casavazia" ) ;
+   	#endif
 	return TAB_CondRetCasaVazia;
 }
 
@@ -273,10 +303,16 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void** pPeca, in
 
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_InserirPeca-pnulo" ) ;
+   	#endif
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_InserirPeca-naoachou" ) ;
+   	#endif
 	}
 
 	pCasa = (TAB_tpCasa*)malloc(sizeof(TAB_tpCasa));
@@ -292,7 +328,9 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void** pPeca, in
 	pCasa->pAmeacantes = NULL;
 
 	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, (void*)pCasa);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_InserirPeca" ) ;
+   	#endif
 	return TAB_CondRetOK;
 
 }/*Fim funcao: TAB &Inserir Peça*/
@@ -310,11 +348,17 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iO
 
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_MoverPeca-pnulo" ) ;
+   	#endif
 	}
 
 	// Checa se a posicao de origem e destino dadas sao validas.
 	if (TAB_ChecarPosicaoValida(iOrig, jOrig) == TAB_CondRetNaoAchou ||
 		TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetNaoAchou) {
+			#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_MoverPeca-naoachou" ) ;
+   	#endif
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -342,6 +386,9 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iO
 		jogador2 = pCasaDest->cor;
 
 		if (jogador1 != jogador2) {
+		#ifdef _DEBUG
+   			CNT_CONTAR( "TAB_MoverPeca-jogadoresdifs" ) ;
+		#endif
 			TAB_ObterPeca(pTabuleiro, iDest, jDest, PecaComida, &jogadorComido);
 			
 			TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
@@ -351,9 +398,13 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iO
 			TAB_DefinirPosCorrente(pTabuleiro, iDest, jDest);
 		
 			TAB_AtribuirValorCorrente(pTabuleiro, pCasaOrig);
+			
 		}
 	}
 	else {
+		#ifdef _DEBUG
+   			CNT_CONTAR( "TAB_MoverPeca-jogadoresig" ) ;
+		#endif
 		TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
 	
 		TAB_ObterValorCorrente(pTabuleiro, &pCasaOrig);
@@ -364,7 +415,9 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iO
 	
 		TAB_RetirarPeca(pTabuleiro, iOrig, jOrig);
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_MoverPeca" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
@@ -380,10 +433,16 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
 
 	if (pTabuleiro == NULL) {
 		return TAB_CondRetPonteiroNulo;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_RetirarPeca-pnulo" ) ;
+   	#endif
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
 		return TAB_CondRetNaoAchou;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_RetirarPeca-naoachou" ) ;
+   	#endif
 	}
 
 	ppCasa = (TAB_tppCasa*)malloc(sizeof(TAB_tppCasa));
@@ -396,11 +455,16 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
 
 	if (ppCasa == NULL) {
 		return TAB_CondRetCasaVazia;
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_RetirarPeca-casavazia" ) ;
+   	#endif
 	}
 
 	//LIS_InserirNo( LIS_tppLista pLista , void * pValor);
 	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, NULL);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_RetirarPeca" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
