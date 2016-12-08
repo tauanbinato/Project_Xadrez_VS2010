@@ -636,10 +636,16 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int i, c
 	TAB_tppCasa pCasa;
 
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacados-pnulo" ) ;
+   		#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacados-naoachou" ) ;
+   		#endif
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -655,13 +661,17 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int i, c
 		if (LIS_CriarLista(&pCasa->pAmeacados,"ameacados") == LIS_CondRetFaltouMemoria) {
 			return TAB_CondRetFaltouMemoria;
 		}
-
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacados-casanaonula" ) ;
+   		#endif
 		pLista = pCasa->pAmeacados;
 	}
 	else {
 		return TAB_CondRetPonteiroNulo;
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacados" ) ;
+   		#endif
 	return TAB_CondRetOK;
 }
 /*Fim funcao: &TAB obter Lista Ameacados*/
@@ -673,12 +683,17 @@ TAB_tpCondRet TAB_ObterListaAmeacados(TAB_ppAncoraTabuleiro pTabuleiro, int i, c
 *  **************************************************************************/
 TAB_tpCondRet TAB_DestruirTabuleiro(TAB_ppAncoraTabuleiro pTabuleiro){
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DestruirTabuleiro-pnulo" ) ;
+   		#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	LIS_DestroiLista(pTabuleiro->pCabecaLista);
 	free(pTabuleiro);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DestruirTabuleiro" ) ;
+   		#endif
 	return TAB_CondRetOK;
 }
 /*Fim funcao: &TAB Destruir Tabuleiro*/
