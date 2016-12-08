@@ -86,7 +86,7 @@ typedef struct TAB_tagCasa {
 } TAB_tpCasa;
 
 #ifdef _DEBUG
-CED_InicializarControlador() ;
+void CED_InicializarControlador() ;
 #endif
 
 /***************************************************************************
@@ -101,17 +101,17 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 	int colunaCorrente;
 
 	if (tam <= 0) {
-		return TAB_CondRetInvalido;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_CriarTabuleiro-inv" ) ;
    		#endif
+	   return TAB_CondRetInvalido;
 	}
 
 	if (ppTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
 		#ifdef _DEBUG
    		CNT_CONTAR( "TAB_CriarTabuleiro-pnulo" ) ;
 		#endif
+		return TAB_CondRetPonteiroNulo;
 	}
 
 	pTabuleiro = (TAB_ancoraTabuleiro*)malloc(sizeof(TAB_ancoraTabuleiro));
@@ -165,10 +165,10 @@ TAB_tpCondRet TAB_CriaTabuleiro(TAB_ppAncoraTabuleiro * ppTabuleiro, int tam) {
 ***********************************************************************/
 TAB_tpCondRet TAB_ChecarPosicaoValida(int i, char j) {
 	if (j < 'A' || j > 'H' || i < 0 || i > 7) {
-		return TAB_CondRetNaoAchou;
 		#ifdef _DEBUG
    			CNT_CONTAR( "TAB_ChecarPosicaoValida-naoachou" ) ;
    		#endif
+			return TAB_CondRetNaoAchou;
 	}
 	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_ChecarPosicaoValida" ) ;
@@ -188,33 +188,33 @@ TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, ch
 	qtdParaAndar = i*(pTabuleiro->tam) + (j - 'A');
 
 	if (i < 0 || i > (pTabuleiro->tam - 1) || j < 'A' || j > 'A' + (pTabuleiro->tam - 1)) {
-		return TAB_CondRetInvalido;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_DefinirPosCorrente-invalido" ) ;
-   	#endif
+   		#endif
+	   return TAB_CondRetInvalido;
 	}
 	
 	if (pTabuleiro == NULL) {
-		TAB_CondRetPonteiroNulo;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_DefinirPosCorrente-pnulo" ) ;
    	#endif
+	   TAB_CondRetPonteiroNulo;	
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) == TAB_CondRetNaoAchou ) {
-		return TAB_CondRetNaoAchou;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_DefinirPosCorrente-naoachou" ) ;
-   	#endif
+   		#endif
+	   return TAB_CondRetNaoAchou;
 	}
 
 	LIS_IrInicioLista(pTabuleiro->pCabecaLista);
 
 	if (LIS_AvancarElementoCorrente(pTabuleiro->pCabecaLista, qtdParaAndar) == LIS_CondRetFimLista) {
-		return TAB_CondRetInvalido;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_DefinirPosCorrente-fimlista" ) ;
    	#endif
+	   return TAB_CondRetInvalido;
 	}
 
 	pTabuleiro->i = i;
@@ -230,10 +230,10 @@ TAB_tpCondRet TAB_DefinirPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int i, ch
 ***********************************************************************/
 TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, char* j) {
 	if (pTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
-	#ifdef _DEBUG
+		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_ObterPosCorrente-pnulo" ) ;
-   	#endif
+   		#endif
+	   return TAB_CondRetPonteiroNulo;
 	}
 
 	*i = (int)pTabuleiro->i;
@@ -250,10 +250,10 @@ TAB_tpCondRet TAB_ObterPosCorrente(TAB_ppAncoraTabuleiro pTabuleiro, int* i, cha
 ***********************************************************************/
 TAB_tpCondRet TAB_AtribuirValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa pCasa) {
 	if (pTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_AtribuirValorCorrente-pnulo" ) ;
-   	#endif
+		#endif
+	   return TAB_CondRetPonteiroNulo;
 	}
 
 	LIS_AlterarElementoCorrente(pTabuleiro->pCabecaLista, (void*)pCasa);
@@ -279,10 +279,10 @@ TAB_tpCondRet TAB_ObterPecaCorrente(TAB_ppAncoraTabuleiro pTabuleiro, void** pPe
 	if (pCasa != NULL) {
 		*pPeca = pCasa->pPeca;
 		*cor = pCasa->cor;
-		return TAB_CondRetOK;
 	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_ObterPecaCorrente" ) ;
    	#endif
+		return TAB_CondRetOK;
 	}
 	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_ObterPecaCorrente-casavazia" ) ;
@@ -302,17 +302,17 @@ TAB_tpCondRet TAB_InserirPeca(TAB_ppAncoraTabuleiro pTabuleiro, void** pPeca, in
 	TAB_tpCasa* pCasa;
 
 	if (pTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_InserirPeca-pnulo" ) ;
-   	#endif
+		#endif
+	   return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
-		return TAB_CondRetNaoAchou;
-		#ifdef _DEBUG
+	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_InserirPeca-naoachou" ) ;
    	#endif
+		return TAB_CondRetNaoAchou;
 	}
 
 	pCasa = (TAB_tpCasa*)malloc(sizeof(TAB_tpCasa));
@@ -347,18 +347,18 @@ TAB_tpCondRet TAB_MoverPeca(TAB_ppAncoraTabuleiro pTabuleiro, char jOrig, int iO
 	TAB_tpCasa *pCasaOrig, *pCasaDest;
 
 	if (pTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
-		#ifdef _DEBUG
+	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_MoverPeca-pnulo" ) ;
    	#endif
+	return TAB_CondRetPonteiroNulo;
 	}
 
 	// Checa se a posicao de origem e destino dadas sao validas.
 	if (TAB_ChecarPosicaoValida(iOrig, jOrig) == TAB_CondRetNaoAchou ||
 		TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetNaoAchou) {
-			#ifdef _DEBUG
+		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_MoverPeca-naoachou" ) ;
-   	#endif
+   		#endif
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -432,17 +432,17 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
 	TAB_tppCasa* ppCasa;
 
 	if (pTabuleiro == NULL) {
-		return TAB_CondRetPonteiroNulo;
-		#ifdef _DEBUG
+	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_RetirarPeca-pnulo" ) ;
    	#endif
+		return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
-		return TAB_CondRetNaoAchou;
 		#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_RetirarPeca-naoachou" ) ;
-   	#endif
+		#endif
+	   return TAB_CondRetNaoAchou;
 	}
 
 	ppCasa = (TAB_tppCasa*)malloc(sizeof(TAB_tppCasa));
@@ -454,10 +454,10 @@ TAB_tpCondRet TAB_RetirarPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j) {
 	TAB_ObterValorCorrente(pTabuleiro, ppCasa);
 
 	if (ppCasa == NULL) {
-		return TAB_CondRetCasaVazia;
-		#ifdef _DEBUG
+	#ifdef _DEBUG
    	   CNT_CONTAR( "TAB_RetirarPeca-casavazia" ) ;
    	#endif
+		return TAB_CondRetCasaVazia;
 	}
 
 	//LIS_InserirNo( LIS_tppLista pLista , void * pValor);
@@ -475,11 +475,17 @@ TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig,
 	void** pPeca;
 	char cor, cor2;
 	if (pTabuleiro == NULL) {
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DesfazerMovimento-pnulo" ) ;
+   	#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(iOrig, jOrig) == TAB_CondRetNaoAchou
 		|| TAB_ChecarPosicaoValida(iDest, jDest) == TAB_CondRetNaoAchou) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DesfazerMovimento-naoachou" ) ;
+   	#endif	
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -488,9 +494,15 @@ TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig,
 	TAB_ObterPeca(pTabuleiro, iDest, jDest, &pPeca, &cor);
 	if(cor == 'P'){
 		cor2 = 'B';
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DesfazerMovimento-corP" ) ;
+   		#endif
 	}
 	else{
 		cor2 = 'P';
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DesfazerMovimento-corB" ) ;
+   		#endif
 	}
 	TAB_ObterValorCorrente(pTabuleiro, &pPeca);
 	TAB_AtribuirValorCorrente(pTabuleiro, pPecaComida);
@@ -499,7 +511,9 @@ TAB_tpCondRet TAB_DesfazerMovimento(TAB_ppAncoraTabuleiro pTabuleiro, int iOrig,
 	//TAB_InserirPeca(pTabuleiro, &pPecaComida, iDest, jDest,  cor2);
 	//TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
 	//TAB_InserirPeca(pTabuleiro, &pPeca, iOrig, jOrig,  cor);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_DesfazerMovimento" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
@@ -513,10 +527,16 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, voi
 	TAB_tppCasa pCasa;
 
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPeca-pnulo" ) ;
+   	#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPeca-posinv" ) ;
+   	#endif
 		return TAB_CondRetInvalido;
 	}
 
@@ -531,6 +551,9 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, voi
 	TAB_DefinirPosCorrente(pTabuleiro, iOrig, jOrig);
 
 	if ((pCasa) == NULL) {
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPeca-casavazia" ) ;
+   	#endif
 		*pPeca = NULL;
 		return TAB_CondRetCasaVazia;
 	}
@@ -540,7 +563,9 @@ TAB_tpCondRet TAB_ObterPeca(TAB_ppAncoraTabuleiro pTabuleiro, int i, char j, voi
 		//*cor = (*ppCasa)->cor;
 		return TAB_CondRetOK;
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterPeca" ) ;
+   	#endif
 	*pPeca = (pCasa)->pPeca;
 	*cor = (pCasa)->cor;
 	return TAB_CondRetOK;
@@ -556,10 +581,16 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro pTabuleiro, int i, 
 	TAB_tppCasa pCasa;
 
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacantes-pnulo" ) ;
+   	#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	if (TAB_ChecarPosicaoValida(i, j) != TAB_CondRetOK) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacantes-naoachou" ) ;
+   	#endif
 		return TAB_CondRetNaoAchou;
 	}
 
@@ -573,8 +604,14 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro pTabuleiro, int i, 
 	
 
 	if (pCasa != NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacantes-casannula" ) ;
+   		#endif
 		//pCasa->pAmeacantes = (LIS_tppLista)malloc(sizeof(LIS_tppLista));
 		if (pCasa->pAmeacantes == NULL) {
+			#ifdef _DEBUG
+   				 CNT_CONTAR( "TAB_ObterListaAmeacantes-listanula" ) ;
+   			#endif
 			pCasa->pAmeacantes = (LIS_tppLista)malloc(sizeof(LIS_tppLista));
 			//return TAB_CondRetPonteiroNulo;
 		}
@@ -584,7 +621,9 @@ TAB_tpCondRet TAB_ObterListaAmeacantes(TAB_ppAncoraTabuleiro pTabuleiro, int i, 
 	else {
 		return TAB_CondRetPonteiroNulo;
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterListaAmeacantes" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
