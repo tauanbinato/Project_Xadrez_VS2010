@@ -709,6 +709,9 @@ TAB_tpCondRet TAB_AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabul
 	TAB_tppCasa pCasaAmeacante, pCasaAmeacada;
 
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_AdicionarListaAmeacantesAmeacados-pnulo" ) ;
+   		#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
@@ -729,7 +732,9 @@ TAB_tpCondRet TAB_AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabul
 	if (condRet1 == LIS_CondRetListaNaoExiste || condRet2 == LIS_CondRetListaNaoExiste) {
 		return TAB_CondRetPonteiroNulo;
 	}
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_AdicionarListaAmeacantesAmeacados" ) ;
+   	#endif
 	return TAB_CondRetOK;
 }
 
@@ -741,11 +746,16 @@ TAB_tpCondRet TAB_AdicionarListaAmeacantesAmeacados(TAB_ppAncoraTabuleiro pTabul
 ***********************************************************************/
 TAB_tpCondRet TAB_ObterValorCorrente(TAB_ppAncoraTabuleiro pTabuleiro, TAB_tppCasa* ppCasa) {
 	if (pTabuleiro == NULL) {
+		#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterValorCorrente -pnulo" ) ;
+   		#endif
 		return TAB_CondRetPonteiroNulo;
 	}
 
 	LIS_ObterNo(pTabuleiro->pCabecaLista, (void**)ppCasa);
-
+	#ifdef _DEBUG
+   	   CNT_CONTAR( "TAB_ObterValorCorrente" ) ;
+   		#endif
 	return TAB_CondRetOK;
 }
 
